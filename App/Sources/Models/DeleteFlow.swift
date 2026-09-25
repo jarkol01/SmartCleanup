@@ -67,7 +67,7 @@ final class DeleteFlow {
                 // the delete-review UI — proceedAfterModelUpdate() continues once the user has read it.
                 stage = .modelUpdated
             } catch {
-                errorMessage = "Nie udało się zaktualizować modelu: \(error.localizedDescription)"
+                errorMessage = String(localized: "Nie udało się zaktualizować modelu: \(error.localizedDescription)")
                 await runClassification()
             }
         }
@@ -85,7 +85,7 @@ final class DeleteFlow {
             }
             stage = .results
         } catch {
-            errorMessage = "Nie udało się sklasyfikować zdjęć: \(error.localizedDescription)"
+            errorMessage = String(localized: "Nie udało się sklasyfikować zdjęć: \(error.localizedDescription)")
             stage = .results
         }
     }

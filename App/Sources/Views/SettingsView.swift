@@ -4,6 +4,9 @@ struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var marginPercent = SettingsStore.uncertaintyMarginPercent
     @AppStorage(SettingsStore.colorSchemeKey) private var colorSchemeRaw = AppColorScheme.system.rawValue
+    @AppStorage(SettingsStore.languageKey) private var languageRaw = AppLanguage.system.rawValue
+
+    private var thresholdPercentText: String { "\(Int(100 - marginPercent))%" }
 
     var body: some View {
         NavigationStack {
@@ -11,12 +14,22 @@ struct SettingsView: View {
                 Section {
                     Picker("Wygląd", selection: $colorSchemeRaw) {
                         ForEach(AppColorScheme.allCases) { option in
-                            Text(option.label).tag(option.rawValue)
+                            Text(LocalizedStringKey(option.label)).tag(option.rawValue)
                         }
                     }
                     .pickerStyle(.segmented)
                 } header: {
                     Text("Wygląd")
+                }
+
+                Section {
+                    Picker("Język", selection: $languageRaw) {
+                        ForEach(AppLanguage.allCases) { option in
+                            Text(LocalizedStringKey(option.label)).tag(option.rawValue)
+                        }
+                    }
+                } header: {
+                    Text("Język")
                 }
 
                 Section {
@@ -28,11 +41,11 @@ struct SettingsView: View {
                     }
 
                     HStack {
-                        Text("Poniżej \(Int(100 - marginPercent))% pewności uznajemy za niepewne")
+                        Text("Poniżej \(thresholdPercentText) pewności uznajemy za niepewne")
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
                         Spacer()
-                        Text("\(Int(marginPercent))")
+                        Text(Int(marginPercent), format: .number)
                             .font(.headline.monospacedDigit())
                     }
                 } header: {

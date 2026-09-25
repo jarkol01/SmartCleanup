@@ -19,7 +19,7 @@ struct HomeView: View {
                     .font(.system(size: 64))
                     .foregroundStyle(.tint)
 
-                Text("SmartCleanup")
+                Text(verbatim: "SmartCleanup")
                     .font(.largeTitle.bold())
 
                 Text(modelTrained ? "Model wytrenowany ✅" : "Model nie jest jeszcze wytrenowany")
@@ -91,8 +91,7 @@ private struct StatsRow: View {
     let savedBytes: Int64
 
     private var savedSpaceText: String {
-        guard savedBytes > 0 else { return "0 B" }
-        return ByteCountFormatter.string(fromByteCount: savedBytes, countStyle: .file)
+        ByteCountFormatter.string(fromByteCount: savedBytes, countStyle: .file)
     }
 
     var body: some View {
@@ -106,7 +105,7 @@ private struct StatsRow: View {
 
 private struct StatTile: View {
     let value: String
-    let label: String
+    let label: LocalizedStringKey
     let systemImage: String
 
     var body: some View {
@@ -126,8 +125,8 @@ private struct StatTile: View {
 }
 
 private struct MenuButtonLabel: View {
-    let title: String
-    let subtitle: String
+    let title: LocalizedStringKey
+    let subtitle: LocalizedStringKey
     let systemImage: String
 
     var body: some View {

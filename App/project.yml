@@ -3,6 +3,7 @@ options:
   bundleIdPrefix: com.jkoldun
   deploymentTarget:
     iOS: "17.0"
+  developmentLanguage: pl
 targets:
   SmartCleanup:
     type: application
@@ -14,6 +15,8 @@ targets:
       properties:
         NSPhotoLibraryUsageDescription: "Aplikacja potrzebuje dostępu do zdjęć, żeby nauczyć się, które chcesz zachować, a które usunąć."
         UILaunchScreen: {}
+        CFBundleLocalizations: [pl, en, de, fr, es]
+        CFBundleDevelopmentRegion: pl
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.jkoldun.smartcleanup

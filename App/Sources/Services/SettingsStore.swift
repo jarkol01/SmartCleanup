@@ -24,9 +24,35 @@ enum AppColorScheme: String, CaseIterable, Identifiable {
     }
 }
 
+enum AppLanguage: String, CaseIterable, Identifiable {
+    case system, pl, en, de, fr, es
+
+    var id: String { rawValue }
+
+    /// nil lets SwiftUI fall back to the system's preferred language order, same as not
+    /// applying the .environment(\.locale) override at all.
+    var locale: Locale? {
+        self == .system ? nil : Locale(identifier: rawValue)
+    }
+
+    /// Each language's own name for itself — like Apple's own language picker, these are never
+    /// translated (an autonym is always shown the same way regardless of the app's language).
+    var label: String {
+        switch self {
+        case .system: "Systemowy"
+        case .pl: "Polski"
+        case .en: "English"
+        case .de: "Deutsch"
+        case .fr: "Français"
+        case .es: "Español"
+        }
+    }
+}
+
 enum SettingsStore {
     /// Shared with @AppStorage in SmartCleanupApp/SettingsView so both read/write the same key.
     static let colorSchemeKey = "settings.colorScheme"
+    static let languageKey = "settings.language"
 
     private static let marginKey = "settings.uncertaintyMarginPercent"
     static let defaultMarginPercent: Double = 25
