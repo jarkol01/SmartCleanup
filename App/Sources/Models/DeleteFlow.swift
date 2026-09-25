@@ -16,7 +16,8 @@ enum DeleteStage: Equatable {
 @Observable
 final class DeleteFlow {
     /// Delete predictions below this confidence are surfaced in the "review uncertain" shortcut.
-    static let uncertaintyThreshold = 0.75
+    /// User-adjustable in Settings.
+    static var uncertaintyThreshold: Double { SettingsStore.uncertaintyThreshold }
 
     var stage: DeleteStage = .checkingModel
     var classified: [ClassifiedAsset] = []
@@ -88,6 +89,9 @@ final class DeleteFlow {
             AssetDecisionStore.markHandled(classified.map(\.id))
 
             let success = await PhotoLibraryService.delete(toDelete)
+            if success {
+                StatsStore.recordDeletion(of: toDelete)
+            }
             stage = .done(deletedCount: success ? toDelete.count : 0)
         }
     }

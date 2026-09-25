@@ -120,6 +120,9 @@ private struct ThumbnailCell: View {
                 .foregroundStyle(.white, .black.opacity(0.6))
                 .padding(4)
         }
+        .overlay(alignment: .bottom) {
+            ConfidenceBar(confidence: item.confidence, label: item.label)
+        }
         .onTapGesture(perform: onTapMove)
         .contextMenu {
             if item.label == .delete {
@@ -141,5 +144,25 @@ private struct ThumbnailCell: View {
                 for: item.asset, targetSize: CGSize(width: 200, height: 200)
             )
         }
+    }
+}
+
+/// A thin, unobtrusive fill along the bottom edge — width and shade both track confidence
+/// so it reads at a glance without a number competing with the photo.
+private struct ConfidenceBar: View {
+    let confidence: Double
+    let label: TrainingDataStore.Label
+
+    var body: some View {
+        GeometryReader { geo in
+            ZStack(alignment: .leading) {
+                Rectangle().fill(.black.opacity(0.15))
+                Rectangle()
+                    .fill(label == .delete ? Color.red : Color.green)
+                    .opacity(0.35 + confidence * 0.45)
+                    .frame(width: geo.size.width * confidence)
+            }
+        }
+        .frame(height: 3)
     }
 }

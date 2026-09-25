@@ -3,6 +3,7 @@ import SwiftUI
 struct HomeView: View {
     @State private var showTrain = false
     @State private var showDelete = false
+    @State private var showSettings = false
 
     var body: some View {
         NavigationStack {
@@ -19,6 +20,8 @@ struct HomeView: View {
                 Text(ClassifierTrainer.hasSavedModel() ? "Model wytrenowany ✅" : "Model nie jest jeszcze wytrenowany")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
+
+                StatsRow()
 
                 Spacer()
 
@@ -48,9 +51,70 @@ struct HomeView: View {
                 Spacer()
             }
             .padding()
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        showSettings = true
+                    } label: {
+                        Image(systemName: "gearshape")
+                    }
+                }
+            }
             .fullScreenCover(isPresented: $showTrain) { TrainView() }
             .fullScreenCover(isPresented: $showDelete) { DeleteView() }
+            .sheet(isPresented: $showSettings) { SettingsView() }
         }
+    }
+}
+
+private struct StatsRow: View {
+    private var trainingCounts: (keep: Int, delete: Int) { TrainingDataStore.sampleCounts() }
+
+    private var savedSpaceText: String {
+        let bytes = StatsStore.totalBytesFreedEstimate
+        guard bytes > 0 else { return "0 B" }
+        return ByteCountFormatter.string(fromByteCount: bytes, countStyle: .file)
+    }
+
+    var body: some View {
+        HStack(spacing: 12) {
+            StatTile(
+                value: "\(trainingCounts.keep + trainingCounts.delete)",
+                label: "do treningu",
+                systemImage: "photo.stack"
+            )
+            StatTile(
+                value: "\(StatsStore.totalDeleted)",
+                label: "usuniętych",
+                systemImage: "trash"
+            )
+            StatTile(
+                value: "~\(savedSpaceText)",
+                label: "oszczędzone",
+                systemImage: "internaldrive"
+            )
+        }
+    }
+}
+
+private struct StatTile: View {
+    let value: String
+    let label: String
+    let systemImage: String
+
+    var body: some View {
+        VStack(spacing: 4) {
+            Image(systemName: systemImage)
+                .foregroundStyle(.secondary)
+            Text(value)
+                .font(.headline.monospacedDigit())
+            Text(label)
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 10)
+        .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 12))
     }
 }
 
