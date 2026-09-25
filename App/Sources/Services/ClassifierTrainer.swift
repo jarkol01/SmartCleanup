@@ -34,29 +34,24 @@ enum ClassifierTrainer {
         set { UserDefaults.standard.set(newValue, forKey: trainedDataVersionKey) }
     }
 
-    private static var hasUnsyncedTrainingData: Bool {
-        trainedDataVersion != TrainingDataStore.dataVersion
-    }
-
-    /// A saved model whose training data has since changed — used before classifying, where a
-    /// model is already guaranteed to exist.
-    static var needsRetrain: Bool {
-        hasSavedModel() && hasUnsyncedTrainingData
-    }
-
-    /// Whether calling trainAndSave() right now would do anything useful — no model yet, or new
-    /// labels since the last train. Used in "Ucz model" to skip a pointless retrain when the user
-    /// finishes without labeling anything new.
+    /// Whether calling trainAndSave() right now would do anything useful: no model yet, or new
+    /// labels since the last train — regardless of whether those came from "Ucz model" swiping
+    /// or from confirming a "Usuń zdjęcia" batch. This is the single retrain trigger, always
+    /// checked right before a classification run, never eagerly.
     static var shouldTrain: Bool {
-        !hasSavedModel() || hasUnsyncedTrainingData
+        !hasSavedModel() || trainedDataVersion != TrainingDataStore.dataVersion
+    }
+
+    static var hasEnoughTrainingData: Bool {
+        let (keep, delete) = TrainingDataStore.sampleCounts()
+        return keep >= 3 && delete >= 3
     }
 
     /// Trains on TrainingDataStore's Keep/Delete folders and persists the raw model to disk.
     /// Compilation happens on demand in ClassifierRunner: compileModel's output only lives in a
     /// system temp location the framework can delete at any time, so we never try to relocate it.
     static func trainAndSave() async throws -> TrainingResult {
-        let (keep, delete) = TrainingDataStore.sampleCounts()
-        guard keep >= 3, delete >= 3 else { throw TrainerError.notEnoughData }
+        guard hasEnoughTrainingData else { throw TrainerError.notEnoughData }
 
         let destination = savedModelURL
         let dataVersionAtStart = TrainingDataStore.dataVersion

@@ -11,11 +11,18 @@ struct DeleteView: View {
                 case .checkingModel:
                     ProgressView().task { await flow.start() }
 
-                case .noModel:
+                case .notEnoughData:
                     ContentUnavailableView(
-                        "Brak wytrenowanego modelu",
+                        "Za mało oznaczonych zdjęć",
                         systemImage: "brain.head.profile",
-                        description: Text("Najpierw naucz model w sekcji \"Ucz model\" na ekranie głównym.")
+                        description: Text("Oznacz jeszcze kilka zdjęć w sekcji \"Ucz model\" na ekranie głównym — potrzeba co najmniej 3 z każdej kategorii.")
+                    )
+
+                case .accessDenied:
+                    ContentUnavailableView(
+                        "Brak dostępu do zdjęć",
+                        systemImage: "photo.badge.exclamationmark",
+                        description: Text("Włącz dostęp do zdjęć w Ustawieniach, aby korzystać z aplikacji.")
                     )
 
                 case .noMorePhotos:
@@ -41,6 +48,11 @@ struct DeleteView: View {
                         Text(total > 0 ? "Klasyfikuję zdjęcia \(done)/\(total)" : "Przygotowuję klasyfikację…")
                             .font(.footnote)
                             .foregroundStyle(.secondary)
+                        if let result = flow.lastTrainingResult {
+                            Text("Model zaktualizowany · dokładność: \(percent(result.trainingAccuracy))")
+                                .font(.caption2)
+                                .foregroundStyle(.tertiary)
+                        }
                     }
 
                 case .results:
@@ -81,6 +93,10 @@ struct DeleteView: View {
                 Text(flow.errorMessage ?? "")
             }
         }
+    }
+
+    private func percent(_ value: Double) -> String {
+        "\(Int((value * 100).rounded()))%"
     }
 }
 

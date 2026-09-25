@@ -22,14 +22,11 @@ struct TrainView: View {
                 case .swiping:
                     SwipeView(assets: flow.pool, onFinished: flow.finishSwiping)
 
-                case .training:
-                    ProgressView("Trenuję model na urządzeniu…")
-
                 case .done:
                     ContentUnavailableView(
-                        flow.trainingWasSkipped ? "Bez zmian" : "Model zaktualizowany",
+                        "Zapisano",
                         systemImage: "checkmark.circle",
-                        description: Text(accuracyDescription)
+                        description: Text("Model zaktualizuje się automatycznie, gdy następnym razem zaczniesz sprzątać zdjęcia.")
                     )
                     .safeAreaInset(edge: .bottom) {
                         Button("Wróć do menu") { dismiss() }
@@ -45,33 +42,6 @@ struct TrainView: View {
                     Button("Zamknij") { dismiss() }
                 }
             }
-            .alert("Błąd", isPresented: Binding(
-                get: { flow.errorMessage != nil },
-                set: { if !$0 { flow.errorMessage = nil } }
-            )) {
-                Button("OK") { flow.errorMessage = nil }
-            } message: {
-                Text(flow.errorMessage ?? "")
-            }
         }
-    }
-
-    private var accuracyDescription: String {
-        if flow.trainingWasSkipped {
-            return "Nie oznaczyłeś nic nowego, więc model został bez zmian."
-        }
-        guard let result = flow.lastResult else { return "Model nauczył się Twoich preferencji." }
-        var lines = ["Dokładność treningowa: \(percent(result.trainingAccuracy))"]
-        if let validation = result.validationAccuracy {
-            lines.append("Dokładność walidacyjna: \(percent(validation))")
-        }
-        if let test = result.testAccuracy {
-            lines.append("Dokładność testowa: \(percent(test))")
-        }
-        return lines.joined(separator: "\n")
-    }
-
-    private func percent(_ value: Double) -> String {
-        "\(Int((value * 100).rounded()))%"
     }
 }

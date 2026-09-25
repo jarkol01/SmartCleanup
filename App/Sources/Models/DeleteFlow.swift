@@ -3,7 +3,8 @@ import SwiftUI
 
 enum DeleteStage: Equatable {
     case checkingModel
-    case noModel
+    case notEnoughData
+    case accessDenied
     case pickingBatchSize
     case noMorePhotos
     case updatingModel
@@ -23,17 +24,19 @@ final class DeleteFlow {
     var stage: DeleteStage = .checkingModel
     var classified: [ClassifiedAsset] = []
     var errorMessage: String?
+    /// Set when classifyBatch retrained the model, so the results screen can show it briefly.
+    var lastTrainingResult: ClassifierTrainer.TrainingResult?
 
     /// Assets not yet resolved in a previous batch — computed once access is granted.
     private var unhandledPool: [PHAsset] = []
 
     func start() async {
-        guard ClassifierTrainer.hasSavedModel() else {
-            stage = .noModel
+        guard ClassifierTrainer.hasEnoughTrainingData else {
+            stage = .notEnoughData
             return
         }
         guard await PhotoLibraryService.requestAuthorization() else {
-            stage = .noModel
+            stage = .accessDenied
             return
         }
         unhandledPool = PhotoLibraryService.fetchAllImageAssets()
@@ -48,10 +51,11 @@ final class DeleteFlow {
         Task {
             // New Keep/Delete examples (from a previous batch, or from "Ucz model") sit unused
             // until we retrain — do that first so every batch is classified with the latest model.
-            if ClassifierTrainer.needsRetrain {
+            // This is the one and only place training happens, regardless of where the data came from.
+            if ClassifierTrainer.shouldTrain {
                 stage = .updatingModel
                 do {
-                    _ = try await ClassifierTrainer.trainAndSave()
+                    lastTrainingResult = try await ClassifierTrainer.trainAndSave()
                 } catch {
                     errorMessage = "Nie udało się zaktualizować modelu: \(error.localizedDescription)"
                 }

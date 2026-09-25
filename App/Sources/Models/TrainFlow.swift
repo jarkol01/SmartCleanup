@@ -5,7 +5,6 @@ enum TrainStage: Equatable {
     case requestingAccess
     case accessDenied
     case swiping
-    case training
     case done
 }
 
@@ -14,10 +13,6 @@ enum TrainStage: Equatable {
 final class TrainFlow {
     var stage: TrainStage = .requestingAccess
     var pool: [PHAsset] = []
-    var errorMessage: String?
-    var lastResult: ClassifierTrainer.TrainingResult?
-    /// True when "Zakończ" skipped training because nothing new was labeled this session.
-    var trainingWasSkipped = false
 
     func start() async {
         let granted = await PhotoLibraryService.requestAuthorization()
@@ -30,24 +25,10 @@ final class TrainFlow {
     }
 
     /// Called when the user taps "Zakończ" — no fixed sample size, they decide when they're done.
+    /// Labels are already persisted to TrainingDataStore as each swipe happens; actual training
+    /// is deferred to right before the next classification run in DeleteFlow, wherever the new
+    /// data ends up being needed first.
     func finishSwiping() {
-        Task { await train() }
-    }
-
-    private func train() async {
-        guard ClassifierTrainer.shouldTrain else {
-            trainingWasSkipped = true
-            stage = .done
-            return
-        }
-        trainingWasSkipped = false
-        stage = .training
-        do {
-            lastResult = try await ClassifierTrainer.trainAndSave()
-            stage = .done
-        } catch {
-            errorMessage = "Nie udało się wytrenować modelu: \(error.localizedDescription)"
-            stage = .swiping
-        }
+        stage = .done
     }
 }
