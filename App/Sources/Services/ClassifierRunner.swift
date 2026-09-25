@@ -10,6 +10,9 @@ struct ClassifiedAsset: Identifiable {
     /// User-confirmed outlier: not saved as training data, and permanently excluded from
     /// future batches so it never has to be reviewed again.
     var isException = false
+    /// True once the user has moved this item away from the model's original prediction —
+    /// `confidence` was measured for that original label and is meaningless for the new one.
+    var isUserOverridden = false
     var id: String { asset.localIdentifier }
 }
 

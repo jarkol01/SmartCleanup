@@ -62,6 +62,7 @@ final class DeleteFlow {
         guard let idx = classified.firstIndex(where: { $0.id == item.id }) else { return }
         classified[idx].label = label
         classified[idx].isException = false
+        classified[idx].isUserOverridden = true
     }
 
     /// An exception is a user override that stays out of training data and, once resolved,
@@ -69,6 +70,7 @@ final class DeleteFlow {
     func markException(_ item: ClassifiedAsset, as label: TrainingDataStore.Label) {
         guard let idx = classified.firstIndex(where: { $0.id == item.id }) else { return }
         classified[idx].label = label
+        classified[idx].isUserOverridden = true
         classified[idx].isException = true
     }
 

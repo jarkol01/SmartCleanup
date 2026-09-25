@@ -7,11 +7,17 @@ struct ResultsView: View {
     @State private var showConfirm = false
     @State private var showUncertainReview = false
 
-    private var deleteItems: [ClassifiedAsset] { flow.classified.filter { $0.label == .delete } }
-    private var keepItems: [ClassifiedAsset] { flow.classified.filter { $0.label == .keep } }
+    /// User-overridden items have a stale confidence (measured for their old label), so they're
+    /// pushed to the end instead of being sorted in among the model's own predictions.
+    private func sorted(_ items: [ClassifiedAsset]) -> [ClassifiedAsset] {
+        items.sorted { !$0.isUserOverridden && $1.isUserOverridden }
+    }
+
+    private var deleteItems: [ClassifiedAsset] { sorted(flow.classified.filter { $0.label == .delete }) }
+    private var keepItems: [ClassifiedAsset] { sorted(flow.classified.filter { $0.label == .keep }) }
     private var uncertainDeleteItems: [ClassifiedAsset] {
         deleteItems
-            .filter { $0.confidence < DeleteFlow.uncertaintyThreshold }
+            .filter { !$0.isUserOverridden && $0.confidence < DeleteFlow.uncertaintyThreshold }
             .sorted { $0.confidence < $1.confidence }
     }
 
@@ -43,7 +49,8 @@ struct ResultsView: View {
                     ForEach(selectedTab == .delete ? deleteItems : keepItems) { item in
                         ThumbnailCell(
                             item: item,
-                            isUncertain: selectedTab == .delete && item.confidence < DeleteFlow.uncertaintyThreshold,
+                            isUncertain: selectedTab == .delete && !item.isUserOverridden
+                                && item.confidence < DeleteFlow.uncertaintyThreshold,
                             onTapMove: {
                                 flow.moveAsset(item, to: selectedTab == .delete ? .keep : .delete)
                             },
@@ -121,7 +128,9 @@ private struct ThumbnailCell: View {
                 .padding(4)
         }
         .overlay(alignment: .bottom) {
-            ConfidenceBar(confidence: item.confidence, label: item.label)
+            if !item.isUserOverridden {
+                ConfidenceBar(confidence: item.confidence, label: item.label)
+            }
         }
         .onTapGesture(perform: onTapMove)
         .contextMenu {
