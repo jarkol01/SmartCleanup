@@ -48,6 +48,7 @@ final class DeleteFlow {
 
     func classifyBatch(size: Int) {
         let batch = Array(unhandledPool.prefix(size))
+        lastTrainingResult = nil // clear any stale result from a previous batch that did retrain
         Task {
             // New Keep/Delete examples (from a previous batch, or from "Ucz model") sit unused
             // until we retrain — do that first so every batch is classified with the latest model.

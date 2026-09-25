@@ -48,11 +48,6 @@ struct DeleteView: View {
                         Text(total > 0 ? "Klasyfikuję zdjęcia \(done)/\(total)" : "Przygotowuję klasyfikację…")
                             .font(.footnote)
                             .foregroundStyle(.secondary)
-                        if let result = flow.lastTrainingResult {
-                            Text("Model zaktualizowany · dokładność: \(percent(result.trainingAccuracy))")
-                                .font(.caption2)
-                                .foregroundStyle(.tertiary)
-                        }
                     }
 
                 case .results:
@@ -93,10 +88,6 @@ struct DeleteView: View {
                 Text(flow.errorMessage ?? "")
             }
         }
-    }
-
-    private func percent(_ value: Double) -> String {
-        "\(Int((value * 100).rounded()))%"
     }
 }
 
