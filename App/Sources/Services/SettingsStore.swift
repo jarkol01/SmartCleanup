@@ -1,6 +1,33 @@
 import Foundation
+import SwiftUI
+
+enum AppColorScheme: String, CaseIterable, Identifiable {
+    case system, light, dark
+
+    var id: String { rawValue }
+
+    /// nil lets SwiftUI fall back to the system setting, same as not applying the modifier at all.
+    var colorScheme: ColorScheme? {
+        switch self {
+        case .system: nil
+        case .light: .light
+        case .dark: .dark
+        }
+    }
+
+    var label: String {
+        switch self {
+        case .system: "Systemowy"
+        case .light: "Jasny"
+        case .dark: "Ciemny"
+        }
+    }
+}
 
 enum SettingsStore {
+    /// Shared with @AppStorage in SmartCleanupApp/SettingsView so both read/write the same key.
+    static let colorSchemeKey = "settings.colorScheme"
+
     private static let marginKey = "settings.uncertaintyMarginPercent"
     static let defaultMarginPercent: Double = 25
 

@@ -3,10 +3,22 @@ import SwiftUI
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var marginPercent = SettingsStore.uncertaintyMarginPercent
+    @AppStorage(SettingsStore.colorSchemeKey) private var colorSchemeRaw = AppColorScheme.system.rawValue
 
     var body: some View {
         NavigationStack {
             Form {
+                Section {
+                    Picker("Wygląd", selection: $colorSchemeRaw) {
+                        ForEach(AppColorScheme.allCases) { option in
+                            Text(option.label).tag(option.rawValue)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                } header: {
+                    Text("Wygląd")
+                }
+
                 Section {
                     Slider(value: $marginPercent, in: 0...50, step: 1) {
                         Text("Margines niepewności")
