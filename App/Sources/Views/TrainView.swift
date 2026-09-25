@@ -27,7 +27,7 @@ struct TrainView: View {
 
                 case .done:
                     ContentUnavailableView(
-                        "Model zaktualizowany",
+                        flow.trainingWasSkipped ? "Bez zmian" : "Model zaktualizowany",
                         systemImage: "checkmark.circle",
                         description: Text(accuracyDescription)
                     )
@@ -57,6 +57,9 @@ struct TrainView: View {
     }
 
     private var accuracyDescription: String {
+        if flow.trainingWasSkipped {
+            return "Nie oznaczyłeś nic nowego, więc model został bez zmian."
+        }
         guard let result = flow.lastResult else { return "Model nauczył się Twoich preferencji." }
         var lines = ["Dokładność treningowa: \(percent(result.trainingAccuracy))"]
         if let validation = result.validationAccuracy {

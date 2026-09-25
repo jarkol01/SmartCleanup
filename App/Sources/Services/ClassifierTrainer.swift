@@ -34,8 +34,21 @@ enum ClassifierTrainer {
         set { UserDefaults.standard.set(newValue, forKey: trainedDataVersionKey) }
     }
 
+    private static var hasUnsyncedTrainingData: Bool {
+        trainedDataVersion != TrainingDataStore.dataVersion
+    }
+
+    /// A saved model whose training data has since changed — used before classifying, where a
+    /// model is already guaranteed to exist.
     static var needsRetrain: Bool {
-        hasSavedModel() && trainedDataVersion != TrainingDataStore.dataVersion
+        hasSavedModel() && hasUnsyncedTrainingData
+    }
+
+    /// Whether calling trainAndSave() right now would do anything useful — no model yet, or new
+    /// labels since the last train. Used in "Ucz model" to skip a pointless retrain when the user
+    /// finishes without labeling anything new.
+    static var shouldTrain: Bool {
+        !hasSavedModel() || hasUnsyncedTrainingData
     }
 
     /// Trains on TrainingDataStore's Keep/Delete folders and persists the raw model to disk.

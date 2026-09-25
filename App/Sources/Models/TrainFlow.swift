@@ -16,6 +16,8 @@ final class TrainFlow {
     var pool: [PHAsset] = []
     var errorMessage: String?
     var lastResult: ClassifierTrainer.TrainingResult?
+    /// True when "Zakończ" skipped training because nothing new was labeled this session.
+    var trainingWasSkipped = false
 
     func start() async {
         let granted = await PhotoLibraryService.requestAuthorization()
@@ -33,6 +35,12 @@ final class TrainFlow {
     }
 
     private func train() async {
+        guard ClassifierTrainer.shouldTrain else {
+            trainingWasSkipped = true
+            stage = .done
+            return
+        }
+        trainingWasSkipped = false
         stage = .training
         do {
             lastResult = try await ClassifierTrainer.trainAndSave()
