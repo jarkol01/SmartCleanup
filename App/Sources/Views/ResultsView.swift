@@ -6,6 +6,7 @@ struct ResultsView: View {
     @State private var selectedTab: TrainingDataStore.Label = .delete
     @State private var showConfirm = false
     @State private var showUncertainReview = false
+    @State private var uncertainReviewItems: [ClassifiedAsset] = []
 
     /// User-overridden items have a stale confidence (measured for their old label), so they're
     /// pushed to the end instead of being sorted in among the model's own predictions.
@@ -32,6 +33,9 @@ struct ResultsView: View {
 
             if selectedTab == .delete, !uncertainDeleteItems.isEmpty {
                 Button {
+                    // Freeze the list for this review session — it must not reactively shrink
+                    // as flow.classified mutates while the user is mid-swipe (see fullScreenCover below).
+                    uncertainReviewItems = uncertainDeleteItems
                     showUncertainReview = true
                 } label: {
                     Label("Przejrzyj niepewne (\(uncertainDeleteItems.count))", systemImage: "questionmark.circle.fill")
@@ -84,7 +88,7 @@ struct ResultsView: View {
             Button("Anuluj", role: .cancel) {}
         }
         .fullScreenCover(isPresented: $showUncertainReview) {
-            UncertainReviewView(flow: flow, items: uncertainDeleteItems)
+            UncertainReviewView(flow: flow, items: uncertainReviewItems)
         }
     }
 }
