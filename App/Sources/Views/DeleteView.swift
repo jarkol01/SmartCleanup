@@ -41,6 +41,12 @@ struct DeleteView: View {
                 case .updatingModel:
                     ProgressView("Aktualizuję model o nowe dane…")
 
+                case .modelUpdated:
+                    ModelUpdatedView(
+                        result: flow.lastTrainingResult,
+                        onContinue: { flow.proceedAfterModelUpdate() }
+                    )
+
                 case .classifying(let done, let total):
                     VStack(spacing: 12) {
                         ProgressView(value: total > 0 ? Double(done) / Double(total) : 0)
@@ -88,6 +94,49 @@ struct DeleteView: View {
                 Text(flow.errorMessage ?? "")
             }
         }
+    }
+}
+
+/// A dedicated checkpoint after a retrain, separate from the delete-review UI so accuracy
+/// numbers don't compete for attention with the actual keep/delete decisions.
+private struct ModelUpdatedView: View {
+    let result: ClassifierTrainer.TrainingResult?
+    let onContinue: () -> Void
+
+    var body: some View {
+        VStack(spacing: 16) {
+            Spacer()
+            Image(systemName: "checkmark.seal.fill")
+                .font(.system(size: 48))
+                .foregroundStyle(.tint)
+            Text("Model zaktualizowany")
+                .font(.title2.bold())
+
+            if let result {
+                VStack(spacing: 4) {
+                    Text("Dokładność treningowa: \(percent(result.trainingAccuracy))")
+                    if let validation = result.validationAccuracy {
+                        Text("Dokładność walidacyjna: \(percent(validation))")
+                    }
+                    if let test = result.testAccuracy {
+                        Text("Dokładność testowa: \(percent(test))")
+                    }
+                }
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+            }
+
+            Spacer()
+
+            Button("Kontynuuj", action: onContinue)
+                .buttonStyle(.borderedProminent)
+                .padding(.bottom, 24)
+        }
+        .padding()
+    }
+
+    private func percent(_ value: Double) -> String {
+        "\(Int((value * 100).rounded()))%"
     }
 }
 

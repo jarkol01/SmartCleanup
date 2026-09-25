@@ -28,13 +28,6 @@ struct ResultsView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            if let result = flow.lastTrainingResult {
-                Text("Model przetrenowany na nowych danych · dokładność: \(percent(result.trainingAccuracy))")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .padding(.top, 8)
-            }
-
             Picker("Zakładka", selection: $selectedTab) {
                 Text("Do usunięcia (\(deleteItems.count))").tag(TrainingDataStore.Label.delete)
                 Text("Do zachowania (\(keepItems.count))").tag(TrainingDataStore.Label.keep)
@@ -106,10 +99,6 @@ struct ResultsView: View {
         .fullScreenCover(item: $uncertainReviewPayload) { payload in
             UncertainReviewView(flow: flow, items: payload.items)
         }
-    }
-
-    private func percent(_ value: Double) -> String {
-        "\(Int((value * 100).rounded()))%"
     }
 }
 

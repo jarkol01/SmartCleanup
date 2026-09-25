@@ -8,6 +8,7 @@ enum DeleteStage: Equatable {
     case pickingBatchSize
     case noMorePhotos
     case updatingModel
+    case modelUpdated
     case classifying(done: Int, total: Int)
     case results
     case deleting
@@ -24,11 +25,13 @@ final class DeleteFlow {
     var stage: DeleteStage = .checkingModel
     var classified: [ClassifiedAsset] = []
     var errorMessage: String?
-    /// Set when classifyBatch retrained the model, so the results screen can show it briefly.
+    /// Set when classifyBatch retrained the model — shown on the standalone .modelUpdated
+    /// checkpoint screen, kept separate from the delete-review UI on purpose.
     var lastTrainingResult: ClassifierTrainer.TrainingResult?
 
     /// Assets not yet resolved in a previous batch — computed once access is granted.
     private var unhandledPool: [PHAsset] = []
+    private var pendingBatch: [PHAsset] = []
 
     func start() async {
         guard ClassifierTrainer.hasEnoughTrainingData else {
@@ -47,31 +50,43 @@ final class DeleteFlow {
     var unhandledCount: Int { unhandledPool.count }
 
     func classifyBatch(size: Int) {
-        let batch = Array(unhandledPool.prefix(size))
-        lastTrainingResult = nil // clear any stale result from a previous batch that did retrain
+        pendingBatch = Array(unhandledPool.prefix(size))
+        lastTrainingResult = nil
         Task {
             // New Keep/Delete examples (from a previous batch, or from "Ucz model") sit unused
             // until we retrain — do that first so every batch is classified with the latest model.
             // This is the one and only place training happens, regardless of where the data came from.
-            if ClassifierTrainer.shouldTrain {
-                stage = .updatingModel
-                do {
-                    lastTrainingResult = try await ClassifierTrainer.trainAndSave()
-                } catch {
-                    errorMessage = "Nie udało się zaktualizować modelu: \(error.localizedDescription)"
-                }
+            guard ClassifierTrainer.shouldTrain else {
+                await runClassification()
+                return
             }
-
-            stage = .classifying(done: 0, total: 0)
+            stage = .updatingModel
             do {
-                classified = try await ClassifierRunner.classifyAll(assets: batch) { done, total in
-                    Task { @MainActor in self.stage = .classifying(done: done, total: total) }
-                }
-                stage = .results
+                lastTrainingResult = try await ClassifierTrainer.trainAndSave()
+                // Pause here on a dedicated checkpoint screen instead of folding the result into
+                // the delete-review UI — proceedAfterModelUpdate() continues once the user has read it.
+                stage = .modelUpdated
             } catch {
-                errorMessage = "Nie udało się sklasyfikować zdjęć: \(error.localizedDescription)"
-                stage = .results
+                errorMessage = "Nie udało się zaktualizować modelu: \(error.localizedDescription)"
+                await runClassification()
             }
+        }
+    }
+
+    func proceedAfterModelUpdate() {
+        Task { await runClassification() }
+    }
+
+    private func runClassification() async {
+        stage = .classifying(done: 0, total: 0)
+        do {
+            classified = try await ClassifierRunner.classifyAll(assets: pendingBatch) { done, total in
+                Task { @MainActor in self.stage = .classifying(done: done, total: total) }
+            }
+            stage = .results
+        } catch {
+            errorMessage = "Nie udało się sklasyfikować zdjęć: \(error.localizedDescription)"
+            stage = .results
         }
     }
 
