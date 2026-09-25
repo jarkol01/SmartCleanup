@@ -1,0 +1,22 @@
+name: SmartCleanup
+options:
+  bundleIdPrefix: com.jkoldun
+  deploymentTarget:
+    iOS: "17.0"
+targets:
+  SmartCleanup:
+    type: application
+    platform: iOS
+    sources:
+      - path: Sources
+    info:
+      path: Sources/Info.plist
+      properties:
+        NSPhotoLibraryUsageDescription: "Aplikacja potrzebuje dostępu do zdjęć, żeby nauczyć się, które chcesz zachować, a które usunąć."
+        UILaunchScreen: {}
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.jkoldun.smartcleanup
+        SWIFT_VERSION: "5.0"
+        TARGETED_DEVICE_FAMILY: "1"
+        ENABLE_PREVIEWS: "YES"

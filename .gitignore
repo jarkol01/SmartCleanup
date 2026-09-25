@@ -1,0 +1,12 @@
+.DS_Store
+
+# Personal training photos — large and private, not meant for the repo
+Data/
+Testing Data/
+
+# Xcode
+App/*.xcodeproj/xcuserdata/
+App/*.xcodeproj/project.xcworkspace/xcuserdata/
+App/*.xcodeproj/project.xcworkspace/xcshareddata/
+DerivedData/
+*.xcuserstate
