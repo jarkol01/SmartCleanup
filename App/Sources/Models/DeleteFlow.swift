@@ -6,6 +6,7 @@ enum DeleteStage: Equatable {
     case noModel
     case pickingBatchSize
     case noMorePhotos
+    case updatingModel
     case classifying(done: Int, total: Int)
     case results
     case deleting
@@ -45,6 +46,17 @@ final class DeleteFlow {
     func classifyBatch(size: Int) {
         let batch = Array(unhandledPool.prefix(size))
         Task {
+            // New Keep/Delete examples (from a previous batch, or from "Ucz model") sit unused
+            // until we retrain — do that first so every batch is classified with the latest model.
+            if ClassifierTrainer.needsRetrain {
+                stage = .updatingModel
+                do {
+                    _ = try await ClassifierTrainer.trainAndSave()
+                } catch {
+                    errorMessage = "Nie udało się zaktualizować modelu: \(error.localizedDescription)"
+                }
+            }
+
             stage = .classifying(done: 0, total: 0)
             do {
                 classified = try await ClassifierRunner.classifyAll(assets: batch) { done, total in

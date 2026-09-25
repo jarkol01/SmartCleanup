@@ -25,6 +25,19 @@ enum ClassifierTrainer {
             .appendingPathComponent("DeleteClassifier.mlmodel")
     }
 
+    /// The TrainingDataStore.dataVersion the saved model was last trained on — lets callers
+    /// detect a stale model (new Keep/Delete examples since the last train) without retraining
+    /// unconditionally every time.
+    private static let trainedDataVersionKey = "trainedModel.dataVersion"
+    private static var trainedDataVersion: Int {
+        get { UserDefaults.standard.integer(forKey: trainedDataVersionKey) }
+        set { UserDefaults.standard.set(newValue, forKey: trainedDataVersionKey) }
+    }
+
+    static var needsRetrain: Bool {
+        hasSavedModel() && trainedDataVersion != TrainingDataStore.dataVersion
+    }
+
     /// Trains on TrainingDataStore's Keep/Delete folders and persists the raw model to disk.
     /// Compilation happens on demand in ClassifierRunner: compileModel's output only lives in a
     /// system temp location the framework can delete at any time, so we never try to relocate it.
@@ -33,6 +46,7 @@ enum ClassifierTrainer {
         guard keep >= 3, delete >= 3 else { throw TrainerError.notEnoughData }
 
         let destination = savedModelURL
+        let dataVersionAtStart = TrainingDataStore.dataVersion
 
         return try await Task.detached(priority: .userInitiated) {
             let split = try makeHoldoutSplit()
@@ -47,6 +61,7 @@ enum ClassifierTrainer {
 
             try? FileManager.default.removeItem(at: destination)
             try classifier.write(to: destination)
+            trainedDataVersion = dataVersionAtStart
 
             let trainingAccuracy = 1 - classifier.trainingMetrics.classificationError
             let validationAccuracy = classifier.validationMetrics.isValid

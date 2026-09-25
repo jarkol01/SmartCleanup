@@ -31,6 +31,9 @@ struct DeleteView: View {
                         onPick: { flow.classifyBatch(size: $0) }
                     )
 
+                case .updatingModel:
+                    ProgressView("Aktualizuję model o nowe dane…")
+
                 case .classifying(let done, let total):
                     VStack(spacing: 12) {
                         ProgressView(value: total > 0 ? Double(done) / Double(total) : 0)

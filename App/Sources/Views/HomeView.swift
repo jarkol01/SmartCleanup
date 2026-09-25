@@ -5,6 +5,11 @@ struct HomeView: View {
     @State private var showDelete = false
     @State private var showSettings = false
 
+    @State private var modelTrained = false
+    @State private var trainingSetCount = 0
+    @State private var totalDeleted = 0
+    @State private var savedBytes: Int64 = 0
+
     var body: some View {
         NavigationStack {
             VStack(spacing: 24) {
@@ -17,11 +22,11 @@ struct HomeView: View {
                 Text("SmartCleanup")
                     .font(.largeTitle.bold())
 
-                Text(ClassifierTrainer.hasSavedModel() ? "Model wytrenowany ✅" : "Model nie jest jeszcze wytrenowany")
+                Text(modelTrained ? "Model wytrenowany ✅" : "Model nie jest jeszcze wytrenowany")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
 
-                StatsRow()
+                StatsRow(trainingSetCount: trainingSetCount, totalDeleted: totalDeleted, savedBytes: savedBytes)
 
                 Spacer()
 
@@ -64,35 +69,37 @@ struct HomeView: View {
             .fullScreenCover(isPresented: $showDelete) { DeleteView() }
             .sheet(isPresented: $showSettings) { SettingsView() }
         }
+        // Refresh whenever this screen (re)appears — including right after a fullScreenCover
+        // dismisses — rather than trusting SwiftUI to re-run computed properties on its own.
+        .onAppear(perform: refreshStats)
+        .onChange(of: showTrain) { _, isShowing in if !isShowing { refreshStats() } }
+        .onChange(of: showDelete) { _, isShowing in if !isShowing { refreshStats() } }
+    }
+
+    private func refreshStats() {
+        modelTrained = ClassifierTrainer.hasSavedModel()
+        let counts = TrainingDataStore.sampleCounts()
+        trainingSetCount = counts.keep + counts.delete
+        totalDeleted = StatsStore.totalDeleted
+        savedBytes = StatsStore.totalBytesFreedEstimate
     }
 }
 
 private struct StatsRow: View {
-    private var trainingCounts: (keep: Int, delete: Int) { TrainingDataStore.sampleCounts() }
+    let trainingSetCount: Int
+    let totalDeleted: Int
+    let savedBytes: Int64
 
     private var savedSpaceText: String {
-        let bytes = StatsStore.totalBytesFreedEstimate
-        guard bytes > 0 else { return "0 B" }
-        return ByteCountFormatter.string(fromByteCount: bytes, countStyle: .file)
+        guard savedBytes > 0 else { return "0 B" }
+        return ByteCountFormatter.string(fromByteCount: savedBytes, countStyle: .file)
     }
 
     var body: some View {
         HStack(spacing: 12) {
-            StatTile(
-                value: "\(trainingCounts.keep + trainingCounts.delete)",
-                label: "do treningu",
-                systemImage: "photo.stack"
-            )
-            StatTile(
-                value: "\(StatsStore.totalDeleted)",
-                label: "usuniętych",
-                systemImage: "trash"
-            )
-            StatTile(
-                value: "~\(savedSpaceText)",
-                label: "oszczędzone",
-                systemImage: "internaldrive"
-            )
+            StatTile(value: "\(trainingSetCount)", label: "do treningu", systemImage: "photo.stack")
+            StatTile(value: "\(totalDeleted)", label: "usuniętych", systemImage: "trash")
+            StatTile(value: "~\(savedSpaceText)", label: "oszczędzone", systemImage: "internaldrive")
         }
     }
 }
