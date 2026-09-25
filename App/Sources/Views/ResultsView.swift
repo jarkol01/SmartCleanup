@@ -43,10 +43,14 @@ struct ResultsView: View {
                     ForEach(selectedTab == .delete ? deleteItems : keepItems) { item in
                         ThumbnailCell(
                             item: item,
-                            isUncertain: selectedTab == .delete && item.confidence < DeleteFlow.uncertaintyThreshold
-                        ) {
-                            flow.moveAsset(item, to: selectedTab == .delete ? .keep : .delete)
-                        }
+                            isUncertain: selectedTab == .delete && item.confidence < DeleteFlow.uncertaintyThreshold,
+                            onTapMove: {
+                                flow.moveAsset(item, to: selectedTab == .delete ? .keep : .delete)
+                            },
+                            onMarkException: {
+                                flow.markException(item, as: selectedTab == .delete ? .keep : .delete)
+                            }
+                        )
                     }
                 }
                 .padding(.horizontal, 4)
@@ -82,6 +86,7 @@ private struct ThumbnailCell: View {
     let item: ClassifiedAsset
     let isUncertain: Bool
     let onTapMove: () -> Void
+    let onMarkException: () -> Void
 
     @State private var image: UIImage?
 
@@ -96,12 +101,18 @@ private struct ThumbnailCell: View {
         .frame(width: 100, height: 100)
         .clipped()
         .overlay(alignment: .topLeading) {
-            if isUncertain {
-                Image(systemName: "questionmark.circle.fill")
-                    .font(.caption)
-                    .foregroundStyle(.white, .orange)
-                    .padding(4)
+            HStack(spacing: 2) {
+                if isUncertain {
+                    Image(systemName: "questionmark.circle.fill")
+                        .foregroundStyle(.white, .orange)
+                }
+                if item.isException {
+                    Image(systemName: "star.circle.fill")
+                        .foregroundStyle(.white, .yellow)
+                }
             }
+            .font(.caption)
+            .padding(4)
         }
         .overlay(alignment: .bottomTrailing) {
             Image(systemName: item.label == .delete ? "arrow.uturn.backward.circle.fill" : "trash.circle.fill")
@@ -110,6 +121,21 @@ private struct ThumbnailCell: View {
                 .padding(4)
         }
         .onTapGesture(perform: onTapMove)
+        .contextMenu {
+            if item.label == .delete {
+                Button {
+                    onMarkException()
+                } label: {
+                    Label("Zachowaj na zawsze (wyjątek)", systemImage: "star.fill")
+                }
+            } else {
+                Button {
+                    onMarkException()
+                } label: {
+                    Label("Usuń jako wyjątek", systemImage: "star.fill")
+                }
+            }
+        }
         .task {
             image = await PhotoLibraryService.requestImage(
                 for: item.asset, targetSize: CGSize(width: 200, height: 200)

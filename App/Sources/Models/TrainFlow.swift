@@ -15,6 +15,7 @@ final class TrainFlow {
     var stage: TrainStage = .requestingAccess
     var pool: [PHAsset] = []
     var errorMessage: String?
+    var lastResult: ClassifierTrainer.TrainingResult?
 
     func start() async {
         let granted = await PhotoLibraryService.requestAuthorization()
@@ -34,7 +35,7 @@ final class TrainFlow {
     private func train() async {
         stage = .training
         do {
-            _ = try await ClassifierTrainer.trainAndSave()
+            lastResult = try await ClassifierTrainer.trainAndSave()
             stage = .done
         } catch {
             errorMessage = "Nie udało się wytrenować modelu: \(error.localizedDescription)"

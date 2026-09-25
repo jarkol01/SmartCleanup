@@ -29,7 +29,7 @@ struct TrainView: View {
                     ContentUnavailableView(
                         "Model zaktualizowany",
                         systemImage: "checkmark.circle",
-                        description: Text("Model nauczył się Twoich preferencji.")
+                        description: Text(accuracyDescription)
                     )
                     .safeAreaInset(edge: .bottom) {
                         Button("Wróć do menu") { dismiss() }
@@ -54,5 +54,21 @@ struct TrainView: View {
                 Text(flow.errorMessage ?? "")
             }
         }
+    }
+
+    private var accuracyDescription: String {
+        guard let result = flow.lastResult else { return "Model nauczył się Twoich preferencji." }
+        var lines = ["Dokładność treningowa: \(percent(result.trainingAccuracy))"]
+        if let validation = result.validationAccuracy {
+            lines.append("Dokładność walidacyjna: \(percent(validation))")
+        }
+        if let test = result.testAccuracy {
+            lines.append("Dokładność testowa: \(percent(test))")
+        }
+        return lines.joined(separator: "\n")
+    }
+
+    private func percent(_ value: Double) -> String {
+        "\(Int((value * 100).rounded()))%"
     }
 }

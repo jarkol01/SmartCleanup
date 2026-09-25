@@ -7,6 +7,9 @@ struct ClassifiedAsset: Identifiable {
     let asset: PHAsset
     var label: TrainingDataStore.Label
     var confidence: Double
+    /// User-confirmed outlier: not saved as training data, and permanently excluded from
+    /// future batches so it never has to be reviewed again.
+    var isException = false
     var id: String { asset.localIdentifier }
 }
 
@@ -19,10 +22,11 @@ enum ClassifierRunner {
     /// directly avoids Vision upscaling a smaller thumbnail and losing detail.
     private static let modelInputSide: CGFloat = 360
 
-    /// Classifies every asset, reporting progress as (done, total) via `onProgress`.
-    /// ponytail: sequential requests keep memory bounded; if libraries in the tens of
-    /// thousands become slow, batch with a small TaskGroup concurrency limit instead.
+    /// Classifies the given batch of assets, reporting progress as (done, total) via `onProgress`.
+    /// ponytail: sequential requests keep memory bounded; if a batch grows into the thousands,
+    /// batch with a small TaskGroup concurrency limit instead.
     static func classifyAll(
+        assets: [PHAsset],
         onProgress: @escaping (Int, Int) -> Void
     ) async throws -> [ClassifiedAsset] {
         guard FileManager.default.fileExists(atPath: ClassifierTrainer.savedModelURL.path) else {
@@ -32,7 +36,6 @@ enum ClassifierRunner {
         let mlModel = try MLModel(contentsOf: compiledURL)
         let visionModel = try VNCoreMLModel(for: mlModel)
 
-        let assets = PhotoLibraryService.fetchAllImageAssets()
         var results: [ClassifiedAsset] = []
         results.reserveCapacity(assets.count)
 

@@ -16,6 +16,7 @@
 		9615D343F104B09EF9D1D58D /* PhotoLibraryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A51B787297DAD2441C9B6A5 /* PhotoLibraryService.swift */; };
 		975CC18EED88EB5D3BE9FC8A /* UncertainReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C1130C739A99225A23DA4C /* UncertainReviewView.swift */; };
 		AF70F3D12FBE468892614A9E /* TrainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A682F43133C6662A15F5E808 /* TrainView.swift */; };
+		B5FBA5E365931D0C72FBE2D7 /* AssetDecisionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCC6C4A1930B8F5BF126268 /* AssetDecisionStore.swift */; };
 		C2C8254815D4120F2029734B /* TrainingDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5A2C3F93359129D863E1FF /* TrainingDataStore.swift */; };
 		D18DBF66C5F32A6BCC88579E /* ResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792DD92311A7D2ACD0FC7D2B /* ResultsView.swift */; };
 		EA983B8F291D5F3F917173D1 /* SmartCleanupApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0376C12D3C2103A3D698713E /* SmartCleanupApp.swift */; };
@@ -37,7 +38,8 @@
 		A1C1130C739A99225A23DA4C /* UncertainReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UncertainReviewView.swift; sourceTree = "<group>"; };
 		A38666620A45508E0C5014B3 /* DeleteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteView.swift; sourceTree = "<group>"; };
 		A682F43133C6662A15F5E808 /* TrainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainView.swift; sourceTree = "<group>"; };
-		A814B8837AA91729F5F655F7 /* SmartCleanup.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartCleanup.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A814B8837AA91729F5F655F7 /* SmartCleanup.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SmartCleanup.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		ACCC6C4A1930B8F5BF126268 /* AssetDecisionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetDecisionStore.swift; sourceTree = "<group>"; };
 		CB63F3D2AAAFB48F040E09ED /* TrainFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainFlow.swift; sourceTree = "<group>"; };
 		F19A0B746659CF813B09B505 /* SwipeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -46,6 +48,7 @@
 		0AB51A671FF98928752FCF06 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				ACCC6C4A1930B8F5BF126268 /* AssetDecisionStore.swift */,
 				6DBE28ADD125B71B9A9A2410 /* ClassifierRunner.swift */,
 				368E186EE8A643CAB740BCC1 /* ClassifierTrainer.swift */,
 				5A51B787297DAD2441C9B6A5 /* PhotoLibraryService.swift */,
@@ -133,6 +136,8 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+				};
 			};
 			buildConfigurationList = 9AD912A016E1987371D6FB67 /* Build configuration list for PBXProject "SmartCleanup" */;
 			developmentRegion = en;
@@ -158,6 +163,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5FBA5E365931D0C72FBE2D7 /* AssetDecisionStore.swift in Sources */,
 				717C8F30D351C69EC950FBAC /* ClassifierRunner.swift in Sources */,
 				8007128090E29F4ED65E6B51 /* ClassifierTrainer.swift in Sources */,
 				15B0C23C88318C0159550AF9 /* DeleteFlow.swift in Sources */,
@@ -183,7 +189,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = 4PNQYUCGMP;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Sources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -265,7 +270,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = 4PNQYUCGMP;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Sources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

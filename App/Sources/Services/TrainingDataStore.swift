@@ -42,10 +42,11 @@ enum TrainingDataStore {
     }
 
     static func sampleCounts() -> (keep: Int, delete: Int) {
-        func count(_ label: Label) -> Int {
-            (try? FileManager.default.contentsOfDirectory(atPath: directory(for: label).path).count) ?? 0
-        }
-        return (count(.keep), count(.delete))
+        (files(for: .keep).count, files(for: .delete).count)
+    }
+
+    static func files(for label: Label) -> [URL] {
+        (try? FileManager.default.contentsOfDirectory(at: directory(for: label), includingPropertiesForKeys: nil)) ?? []
     }
 
     private static func resize(_ image: UIImage, maxSide: CGFloat) -> UIImage? {

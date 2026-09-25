@@ -7,14 +7,23 @@ struct SwipeView: View {
     let assets: [PHAsset]
     let onFinished: () -> Void
 
+    private enum Decision {
+        case labeled(TrainingDataStore.Label)
+        case skipped
+    }
+
     @State private var index = 0
     @State private var imageCache: [String: UIImage] = [:]
     @State private var dragOffset: CGSize = .zero
-    @State private var history: [(asset: PHAsset, label: TrainingDataStore.Label)] = []
+    @State private var history: [(asset: PHAsset, decision: Decision)] = []
 
     private var currentImage: UIImage? {
         guard index < assets.count else { return nil }
         return imageCache[assets[index].localIdentifier]
+    }
+
+    private var labeledCount: Int {
+        history.filter { if case .labeled = $0.decision { true } else { false } }.count
     }
 
     var body: some View {
@@ -29,7 +38,7 @@ struct SwipeView: View {
 
                 Spacer()
 
-                Text("Oznaczono: \(history.count)")
+                Text("Oznaczono: \(labeledCount)")
                     .font(.headline)
                     .foregroundStyle(.secondary)
 
@@ -66,6 +75,10 @@ struct SwipeView: View {
             Text("Przeciągnij w prawo, żeby zachować, w lewo, żeby usunąć")
                 .font(.caption)
                 .foregroundStyle(.secondary)
+
+            Button("Pomiń — trudno ocenić") { skip() }
+                .font(.footnote)
+                .disabled(index >= assets.count)
                 .padding(.bottom, 8)
         }
         .padding()
@@ -87,7 +100,7 @@ struct SwipeView: View {
         guard index < assets.count, let currentImage else { return }
         let asset = assets[index]
         TrainingDataStore.save(currentImage, assetIdentifier: asset.localIdentifier, as: label)
-        history.append((asset, label))
+        history.append((asset, .labeled(label)))
 
         withAnimation(.easeOut(duration: 0.2)) {
             dragOffset = CGSize(width: label == .keep ? 500 : -500, height: 0)
@@ -98,9 +111,17 @@ struct SwipeView: View {
         }
     }
 
+    private func skip() {
+        guard index < assets.count else { return }
+        history.append((assets[index], .skipped))
+        index += 1
+    }
+
     private func undo() {
         guard let last = history.popLast() else { return }
-        TrainingDataStore.remove(assetIdentifier: last.asset.localIdentifier, label: last.label)
+        if case .labeled(let label) = last.decision {
+            TrainingDataStore.remove(assetIdentifier: last.asset.localIdentifier, label: label)
+        }
         dragOffset = .zero
         index -= 1
     }
