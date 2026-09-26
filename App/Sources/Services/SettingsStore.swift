@@ -70,7 +70,7 @@ enum SettingsStore {
     static var uncertaintyThreshold: Double { 1 - uncertaintyMarginPercent / 100 }
 
     private static let blurThresholdKey = "settings.blurThresholdPercent"
-    static let defaultBlurThresholdPercent: Double = 50
+    static let defaultBlurThresholdPercent: Double = 85
 
     /// Blur-confidence percent (0...100) at or above which a photo is proposed for deletion —
     /// user-adjustable in Settings, separate from the ML flow's uncertaintyMarginPercent.

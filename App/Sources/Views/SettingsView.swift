@@ -63,7 +63,7 @@ struct SettingsView: View {
                 }
 
                 Section {
-                    Slider(value: $blurThresholdPercent, in: 10...90, step: 5) {
+                    Slider(value: $blurThresholdPercent, in: 75...95, step: 5) {
                         Text("Próg rozmycia")
                     }
                     .onChange(of: blurThresholdPercent) { _, newValue in
@@ -79,7 +79,7 @@ struct SettingsView: View {
                             .font(.headline.monospacedDigit())
                     }
 
-                    Button("Przywróć domyślne (50)") {
+                    Button("Przywróć domyślne (85)") {
                         blurThresholdPercent = SettingsStore.defaultBlurThresholdPercent
                         SettingsStore.blurThresholdPercent = blurThresholdPercent
                     }
