@@ -33,24 +33,12 @@ enum TrainingDataStore {
         let filename = assetIdentifier.replacingOccurrences(of: "/", with: "_") + ".jpg"
         let url = directory(for: label).appendingPathComponent(filename)
         try? data.write(to: url, options: .atomic)
-        bumpDataVersion()
         return url
     }
 
     static func remove(assetIdentifier: String, label: Label) {
         let filename = assetIdentifier.replacingOccurrences(of: "/", with: "_") + ".jpg"
         try? FileManager.default.removeItem(at: directory(for: label).appendingPathComponent(filename))
-        bumpDataVersion()
-    }
-
-    /// Bumped on every save/remove so ClassifierTrainer can tell whether the currently saved
-    /// model was trained on the data as it exists now, or is stale and needs a retrain.
-    private static let dataVersionKey = "trainingData.version"
-    static var dataVersion: Int {
-        UserDefaults.standard.integer(forKey: dataVersionKey)
-    }
-    private static func bumpDataVersion() {
-        UserDefaults.standard.set(dataVersion + 1, forKey: dataVersionKey)
     }
 
     static func sampleCounts() -> (keep: Int, delete: Int) {
