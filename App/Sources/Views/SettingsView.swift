@@ -91,15 +91,15 @@ struct SettingsView: View {
                 }
 
                 Section {
-                    Slider(value: $duplicateHammingThreshold, in: 2...20, step: 1) {
-                        Text("Próg podobieństwa duplikatów")
+                    Slider(value: $duplicateHammingThreshold, in: 10...40, step: 2) {
+                        Text("Czułość dopasowania duplikatów")
                     }
                     .onChange(of: duplicateHammingThreshold) { _, newValue in
                         SettingsStore.duplicateHammingThreshold = Int(newValue)
                     }
 
                     HStack {
-                        Text("Różnica do \(Int(duplicateHammingThreshold)) bitów na 64 uznajemy za duplikat")
+                        Text("Czułość dopasowania")
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
                         Spacer()
@@ -107,14 +107,14 @@ struct SettingsView: View {
                             .font(.headline.monospacedDigit())
                     }
 
-                    Button("Przywróć domyślne (10)") {
+                    Button("Przywróć domyślne (20)") {
                         duplicateHammingThreshold = Double(SettingsStore.defaultDuplicateHammingThreshold)
                         SettingsStore.duplicateHammingThreshold = Int(duplicateHammingThreshold)
                     }
                 } header: {
-                    Text("Próg podobieństwa duplikatów")
+                    Text("Czułość dopasowania duplikatów")
                 } footer: {
-                    Text("Wyższa wartość oznacza więcej zdjęć uznanych za duplikaty w „Usuń duplikaty”.")
+                    Text("Wyższa wartość oznacza więcej zdjęć uznanych za duplikaty w „Usuń duplikaty” — nawet takich, które różnią się nieco bardziej.")
                 }
             }
             .navigationTitle("Ustawienia")
