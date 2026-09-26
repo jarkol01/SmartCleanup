@@ -99,9 +99,37 @@ private struct DuplicateThumbnailCell: View {
             Haptics.selection()
             onTap()
         }
+        .contextMenu {
+        } preview: {
+            // Same native long-press preview as ResultsView's ThumbnailCell.
+            DuplicateThumbnailPreview(asset: asset)
+        }
         .task {
             image = await PhotoLibraryService.requestImage(
                 for: asset, targetSize: CGSize(width: 200, height: 200)
+            )
+        }
+    }
+}
+
+/// Full-size long-press preview, duplicated locally per ResultsView's ThumbnailPreview —
+/// this screen doesn't reach into ResultsView's private types.
+private struct DuplicateThumbnailPreview: View {
+    let asset: PHAsset
+
+    @State private var image: UIImage?
+
+    var body: some View {
+        Group {
+            if let image {
+                Image(uiImage: image).resizable().scaledToFit()
+            } else {
+                ProgressView().frame(width: 200, height: 200)
+            }
+        }
+        .task {
+            image = await PhotoLibraryService.requestImage(
+                for: asset, targetSize: PHImageManagerMaximumSize
             )
         }
     }
