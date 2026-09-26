@@ -81,6 +81,7 @@ struct UncertainReviewView: View {
     private func decide(_ label: TrainingDataStore.Label) {
         guard let currentItem else { return }
         flow.moveAsset(currentItem, to: label)
+        Haptics.impact(label == .keep ? .light : .medium)
 
         withAnimation(.easeOut(duration: 0.2)) {
             dragOffset = CGSize(width: label == .keep ? 500 : -500, height: 0)

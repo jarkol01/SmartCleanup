@@ -162,13 +162,19 @@ private struct BatchSizePickerView: View {
 
             VStack(spacing: 12) {
                 ForEach(options, id: \.self) { count in
-                    Button("\(count) zdjęć") { onPick(count) }
-                        .buttonStyle(.bordered)
-                        .frame(maxWidth: .infinity)
-                }
-                Button("Wszystkie (\(availableCount))") { onPick(availableCount) }
-                    .buttonStyle(.borderedProminent)
+                    Button("\(count) zdjęć") {
+                        Haptics.selection()
+                        onPick(count)
+                    }
+                    .buttonStyle(.bordered)
                     .frame(maxWidth: .infinity)
+                }
+                Button("Wszystkie (\(availableCount))") {
+                    Haptics.selection()
+                    onPick(availableCount)
+                }
+                .buttonStyle(.borderedProminent)
+                .frame(maxWidth: .infinity)
             }
             .padding(.horizontal, 32)
 
