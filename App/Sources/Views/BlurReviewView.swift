@@ -106,13 +106,19 @@ private struct BlurBatchSizePickerView: View {
 
             VStack(spacing: 12) {
                 ForEach(options, id: \.self) { count in
-                    Button("\(count) zdjęć") { onPick(count) }
-                        .buttonStyle(.bordered)
-                        .frame(maxWidth: .infinity)
-                }
-                Button("Wszystkie (\(availableCount))") { onPick(availableCount) }
-                    .buttonStyle(.borderedProminent)
+                    Button("\(count) zdjęć") {
+                        Haptics.selection()
+                        onPick(count)
+                    }
+                    .buttonStyle(.bordered)
                     .frame(maxWidth: .infinity)
+                }
+                Button("Wszystkie (\(availableCount))") {
+                    Haptics.selection()
+                    onPick(availableCount)
+                }
+                .buttonStyle(.borderedProminent)
+                .frame(maxWidth: .infinity)
             }
             .padding(.horizontal, 32)
 
@@ -124,7 +130,6 @@ private struct BlurBatchSizePickerView: View {
 private struct BlurResultsView: View {
     @Bindable var flow: BlurFlow
     @State private var selectedTab: BlurLabel = .blurry
-    @State private var showConfirm = false
 
     /// Non-overridden items sorted by "how blurry"/"how sharp" they are, overrides pushed to
     /// the end since their score was measured for the label they no longer have.
@@ -149,6 +154,7 @@ private struct BlurResultsView: View {
             }
             .pickerStyle(.segmented)
             .padding()
+            .onChange(of: selectedTab) { _, _ in Haptics.selection() }
 
             ScrollView {
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 100), spacing: 4)], spacing: 4) {
@@ -166,29 +172,33 @@ private struct BlurResultsView: View {
                 .padding(.horizontal, 4)
             }
 
-            Button(role: blurryItems.isEmpty ? nil : .destructive) {
-                if blurryItems.isEmpty {
+            if blurryItems.isEmpty {
+                // Nothing to confirm-delete, same non-destructive path as ResultsView.
+                Button {
+                    Haptics.selection()
                     flow.confirmDeletion()
-                } else {
-                    showConfirm = true
+                } label: {
+                    Text("Zakończ partię (wszystko zachowane)")
+                        .frame(maxWidth: .infinity)
+                        .padding()
                 }
-            } label: {
-                Text(blurryItems.isEmpty ? "Zakończ partię (wszystko zachowane)" : "Usuń \(blurryItems.count) zdjęć")
-                    .frame(maxWidth: .infinity)
-                    .padding()
+                .buttonStyle(.borderedProminent)
+                .disabled(flow.scored.isEmpty)
+                .padding()
+            } else {
+                // Same hold-to-confirm as ResultsView's destructive delete button.
+                HoldToConfirmButton(
+                    duration: 0.7,
+                    tint: .red,
+                    isDisabled: flow.scored.isEmpty,
+                    action: { flow.confirmDeletion() }
+                ) {
+                    Text("Usuń \(blurryItems.count) zdjęć")
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                }
+                .padding()
             }
-            .buttonStyle(.borderedProminent)
-            .tint(blurryItems.isEmpty ? .accentColor : .red)
-            .disabled(flow.scored.isEmpty)
-            .padding()
-        }
-        .confirmationDialog(
-            "Usunąć \(blurryItems.count) zdjęć?",
-            isPresented: $showConfirm,
-            titleVisibility: .visible
-        ) {
-            Button("Usuń", role: .destructive) { flow.confirmDeletion() }
-            Button("Anuluj", role: .cancel) {}
         }
     }
 }
@@ -229,7 +239,10 @@ private struct BlurThumbnailCell: View {
                 BlurScoreBar(score: item.blurScore, label: item.label)
             }
         }
-        .onTapGesture(perform: onTapMove)
+        .onTapGesture {
+            Haptics.selection()
+            onTapMove()
+        }
         .task {
             image = await PhotoLibraryService.requestImage(
                 for: item.asset, targetSize: CGSize(width: 200, height: 200)
