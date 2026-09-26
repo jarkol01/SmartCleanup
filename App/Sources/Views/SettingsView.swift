@@ -69,5 +69,9 @@ struct SettingsView: View {
                 }
             }
         }
+        // Re-applied here (not just at the app root) because a presented .sheet gets its own
+        // UIHostingController whose interface style is fixed at presentation time — the app-level
+        // .preferredColorScheme doesn't propagate live to it while already open.
+        .preferredColorScheme((AppColorScheme(rawValue: colorSchemeRaw) ?? .system).colorScheme)
     }
 }

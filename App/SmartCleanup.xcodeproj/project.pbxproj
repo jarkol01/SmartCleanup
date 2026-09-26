@@ -49,7 +49,7 @@
 		A1C1130C739A99225A23DA4C /* UncertainReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UncertainReviewView.swift; sourceTree = "<group>"; };
 		A38666620A45508E0C5014B3 /* DeleteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteView.swift; sourceTree = "<group>"; };
 		A682F43133C6662A15F5E808 /* TrainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainView.swift; sourceTree = "<group>"; };
-		A814B8837AA91729F5F655F7 /* SmartCleanup.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SmartCleanup.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A814B8837AA91729F5F655F7 /* SmartCleanup.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartCleanup.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACCC6C4A1930B8F5BF126268 /* AssetDecisionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetDecisionStore.swift; sourceTree = "<group>"; };
 		AD997C4AEBF0469719DBEB93 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		BD6B909C25034DA142A38F2C /* SettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStore.swift; sourceTree = "<group>"; };
@@ -156,8 +156,6 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
-				TargetAttributes = {
-				};
 			};
 			buildConfigurationList = 9AD912A016E1987371D6FB67 /* Build configuration list for PBXProject "SmartCleanup" */;
 			developmentRegion = pl;
@@ -243,6 +241,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = 4PNQYUCGMP;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Sources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -324,6 +323,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = 4PNQYUCGMP;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Sources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
