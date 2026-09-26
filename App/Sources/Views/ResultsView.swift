@@ -169,10 +169,37 @@ private struct ThumbnailCell: View {
                     Label("Usuń jako wyjątek", systemImage: "star.fill")
                 }
             }
+        } preview: {
+            // Native contextMenu preview: long-press already drives this, so it coexists with
+            // onTapGesture (tap) and the menu items above without a second gesture recognizer.
+            ThumbnailPreview(asset: item.asset)
         }
         .task {
             image = await PhotoLibraryService.requestImage(
                 for: item.asset, targetSize: CGSize(width: 200, height: 200)
+            )
+        }
+    }
+}
+
+/// Full-size image shown by the context menu's long-press preview — fetched separately from
+/// the 200x200 grid thumbnail since "zobaczyć szczegóły" needs real resolution.
+private struct ThumbnailPreview: View {
+    let asset: PHAsset
+
+    @State private var image: UIImage?
+
+    var body: some View {
+        Group {
+            if let image {
+                Image(uiImage: image).resizable().scaledToFit()
+            } else {
+                ProgressView().frame(width: 200, height: 200)
+            }
+        }
+        .task {
+            image = await PhotoLibraryService.requestImage(
+                for: asset, targetSize: PHImageManagerMaximumSize
             )
         }
     }
