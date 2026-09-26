@@ -74,7 +74,10 @@ struct DuplicateReviewView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Zamknij") { dismiss() }
+                    Button("Zamknij") {
+                        Haptics.selection()
+                        dismiss()
+                    }
                 }
                 if canRescan {
                     ToolbarItem(placement: .topBarTrailing) {

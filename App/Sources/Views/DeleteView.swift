@@ -70,9 +70,15 @@ struct DeleteView: View {
                     )
                     .safeAreaInset(edge: .bottom) {
                         VStack(spacing: 12) {
-                            Button("Przetwórz kolejną partię") { flow.reset() }
-                                .buttonStyle(.borderedProminent)
-                            Button("Wróć do menu") { dismiss() }
+                            Button("Przetwórz kolejną partię") {
+                                Haptics.selection()
+                                flow.reset()
+                            }
+                            .buttonStyle(.borderedProminent)
+                            Button("Wróć do menu") {
+                                Haptics.selection()
+                                dismiss()
+                            }
                         }
                         .padding()
                     }
@@ -82,7 +88,10 @@ struct DeleteView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Zamknij") { dismiss() }
+                    Button("Zamknij") {
+                        Haptics.selection()
+                        dismiss()
+                    }
                 }
             }
             .alert("Błąd", isPresented: Binding(
@@ -128,9 +137,12 @@ private struct ModelUpdatedView: View {
 
             Spacer()
 
-            Button("Kontynuuj", action: onContinue)
-                .buttonStyle(.borderedProminent)
-                .padding(.bottom, 24)
+            Button("Kontynuuj") {
+                Haptics.selection()
+                onContinue()
+            }
+            .buttonStyle(.borderedProminent)
+            .padding(.bottom, 24)
         }
         .padding()
     }

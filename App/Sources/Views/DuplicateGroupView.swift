@@ -11,8 +11,6 @@ struct DuplicateGroupView: View {
     let groupNumber: Int
     let totalGroups: Int
 
-    @State private var showConfirm = false
-
     var body: some View {
         VStack(spacing: 0) {
             Text("Grupa \(groupNumber)/\(totalGroups) · \(group.assets.count) zdjęć")
@@ -34,33 +32,30 @@ struct DuplicateGroupView: View {
                 .padding(.top, 8)
             }
 
-            Button {
-                if flow.deleteCount > 0 {
-                    Haptics.selection()
-                    showConfirm = true
-                } else {
+            if flow.deleteCount > 0 {
+                // Same hold-to-confirm as ResultsView's and BlurReviewView's destructive delete.
+                HoldToConfirmButton(
+                    duration: 0.7,
+                    tint: .red,
+                    action: { flow.confirmCurrentGroup() }
+                ) {
+                    Text("Usuń \(flow.deleteCount), zostaw \(flow.keepCount)")
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                }
+                .padding()
+            } else {
+                Button {
                     Haptics.selection()
                     flow.confirmCurrentGroup()
+                } label: {
+                    Text("Usuń \(flow.deleteCount), zostaw \(flow.keepCount)")
+                        .frame(maxWidth: .infinity)
+                        .padding()
                 }
-            } label: {
-                Text("Usuń \(flow.deleteCount), zostaw \(flow.keepCount)")
-                    .frame(maxWidth: .infinity)
-                    .padding()
+                .buttonStyle(.borderedProminent)
+                .padding()
             }
-            .buttonStyle(.borderedProminent)
-            .tint(flow.deleteCount > 0 ? .red : .accentColor)
-            .padding()
-        }
-        .confirmationDialog(
-            "Usunąć \(flow.deleteCount) zdjęć z tej grupy?",
-            isPresented: $showConfirm,
-            titleVisibility: .visible
-        ) {
-            Button("Usuń", role: .destructive) {
-                Haptics.notification(.success)
-                flow.confirmCurrentGroup()
-            }
-            Button("Anuluj", role: .cancel) {}
         }
     }
 }
@@ -113,34 +108,11 @@ private struct DuplicateThumbnailCell: View {
             }
         } preview: {
             // Same native long-press preview as ResultsView's ThumbnailCell.
-            DuplicateThumbnailPreview(asset: asset)
+            AssetPreview(asset: asset)
         }
         .task {
             image = await PhotoLibraryService.requestImage(
                 for: asset, targetSize: CGSize(width: 200, height: 200)
-            )
-        }
-    }
-}
-
-/// Full-size long-press preview, duplicated locally per ResultsView's ThumbnailPreview —
-/// this screen doesn't reach into ResultsView's private types.
-private struct DuplicateThumbnailPreview: View {
-    let asset: PHAsset
-
-    @State private var image: UIImage?
-
-    var body: some View {
-        Group {
-            if let image {
-                Image(uiImage: image).resizable().scaledToFit()
-            } else {
-                ProgressView().frame(width: 200, height: 200)
-            }
-        }
-        .task {
-            image = await PhotoLibraryService.requestImage(
-                for: asset, targetSize: PHImageManagerMaximumSize
             )
         }
     }

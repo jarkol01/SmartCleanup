@@ -30,6 +30,7 @@ struct SwipeView: View {
         VStack(spacing: 12) {
             HStack {
                 Button {
+                    Haptics.selection()
                     undo()
                 } label: {
                     Label("Cofnij", systemImage: "arrow.uturn.backward.circle.fill")
@@ -44,7 +45,10 @@ struct SwipeView: View {
 
                 Spacer()
 
-                Button("Zakończ") { onFinished() }
+                Button("Zakończ") {
+                    Haptics.selection()
+                    onFinished()
+                }
             }
 
             GeometryReader { geo in
@@ -76,7 +80,10 @@ struct SwipeView: View {
                 .font(.caption)
                 .foregroundStyle(.secondary)
 
-            Button("Pomiń — trudno ocenić") { skip() }
+            Button("Pomiń — trudno ocenić") {
+                Haptics.selection()
+                skip()
+            }
                 .font(.footnote)
                 .disabled(index >= assets.count)
                 .padding(.bottom, 8)

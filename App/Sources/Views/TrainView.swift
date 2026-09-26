@@ -29,9 +29,12 @@ struct TrainView: View {
                         description: Text("Model zaktualizuje się automatycznie, gdy następnym razem zaczniesz sprzątać zdjęcia.")
                     )
                     .safeAreaInset(edge: .bottom) {
-                        Button("Wróć do menu") { dismiss() }
-                            .buttonStyle(.borderedProminent)
-                            .padding()
+                        Button("Wróć do menu") {
+                            Haptics.selection()
+                            dismiss()
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .padding()
                     }
                 }
             }
@@ -39,7 +42,10 @@ struct TrainView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Zamknij") { dismiss() }
+                    Button("Zamknij") {
+                        Haptics.selection()
+                        dismiss()
+                    }
                 }
             }
         }

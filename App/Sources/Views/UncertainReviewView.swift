@@ -61,7 +61,10 @@ struct UncertainReviewView: View {
             .task(id: index) { await loadCurrentAndPreloadAhead() }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Zamknij") { dismiss() }
+                    Button("Zamknij") {
+                        Haptics.selection()
+                        dismiss()
+                    }
                 }
             }
         }

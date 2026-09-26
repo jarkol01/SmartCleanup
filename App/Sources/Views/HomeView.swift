@@ -34,6 +34,7 @@ struct HomeView: View {
 
                 VStack(spacing: 16) {
                     Button {
+                        Haptics.selection()
                         showTrain = true
                     } label: {
                         MenuButtonLabel(
@@ -44,6 +45,7 @@ struct HomeView: View {
                     }
 
                     Button {
+                        Haptics.selection()
                         showDelete = true
                     } label: {
                         MenuButtonLabel(
@@ -54,6 +56,7 @@ struct HomeView: View {
                     }
 
                     Button {
+                        Haptics.selection()
                         showBlur = true
                     } label: {
                         MenuButtonLabel(
@@ -64,6 +67,7 @@ struct HomeView: View {
                     }
 
                     Button {
+                        Haptics.selection()
                         showDuplicates = true
                     } label: {
                         MenuButtonLabel(
@@ -81,6 +85,7 @@ struct HomeView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
+                        Haptics.selection()
                         showSettings = true
                     } label: {
                         Image(systemName: "gearshape")

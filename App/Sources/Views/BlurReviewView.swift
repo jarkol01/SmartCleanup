@@ -57,9 +57,15 @@ struct BlurReviewView: View {
                     )
                     .safeAreaInset(edge: .bottom) {
                         VStack(spacing: 12) {
-                            Button("Przetwórz kolejną partię") { flow.reset() }
-                                .buttonStyle(.borderedProminent)
-                            Button("Wróć do menu") { dismiss() }
+                            Button("Przetwórz kolejną partię") {
+                                Haptics.selection()
+                                flow.reset()
+                            }
+                            .buttonStyle(.borderedProminent)
+                            Button("Wróć do menu") {
+                                Haptics.selection()
+                                dismiss()
+                            }
                         }
                         .padding()
                     }
@@ -69,7 +75,10 @@ struct BlurReviewView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Zamknij") { dismiss() }
+                    Button("Zamknij") {
+                        Haptics.selection()
+                        dismiss()
+                    }
                 }
             }
             .alert("Błąd", isPresented: Binding(
@@ -238,7 +247,7 @@ private struct BlurThumbnailCell: View {
         }
         .overlay(alignment: .bottom) {
             if !item.isUserOverridden {
-                BlurScoreBar(score: item.blurScore, label: item.label)
+                ScoreBar(value: item.blurScore, tint: item.label == .blurry ? .red : .green)
             }
         }
         .onTapGesture {
@@ -259,55 +268,12 @@ private struct BlurThumbnailCell: View {
             }
         } preview: {
             // Same native long-press preview as ResultsView's ThumbnailCell.
-            BlurThumbnailPreview(asset: item.asset)
+            AssetPreview(asset: item.asset)
         }
         .task {
             image = await PhotoLibraryService.requestImage(
                 for: item.asset, targetSize: CGSize(width: 200, height: 200)
             )
         }
-    }
-}
-
-/// Full-size long-press preview, duplicated locally per ResultsView's ThumbnailPreview —
-/// this screen doesn't reach into ResultsView's private types.
-private struct BlurThumbnailPreview: View {
-    let asset: PHAsset
-
-    @State private var image: UIImage?
-
-    var body: some View {
-        Group {
-            if let image {
-                Image(uiImage: image).resizable().scaledToFit()
-            } else {
-                ProgressView().frame(width: 200, height: 200)
-            }
-        }
-        .task {
-            image = await PhotoLibraryService.requestImage(
-                for: asset, targetSize: PHImageManagerMaximumSize
-            )
-        }
-    }
-}
-
-/// Same thin bottom-edge fill as ResultsView's ConfidenceBar, duplicated locally so this
-/// screen doesn't reach into ResultsView's private types.
-private struct BlurScoreBar: View {
-    let score: Double
-    let label: BlurLabel
-
-    var body: some View {
-        GeometryReader { geo in
-            ZStack(alignment: .leading) {
-                Rectangle().fill(.black.opacity(0.15))
-                Rectangle()
-                    .fill(label == .blurry ? Color.red : Color.green)
-                    .opacity(0.35 + score * 0.45)
-                    .frame(width: geo.size.width * score)
-            }
-        }
-        .frame(height: 3)
     }
 }

@@ -146,7 +146,7 @@ private struct ThumbnailCell: View {
         }
         .overlay(alignment: .bottom) {
             if !item.isUserOverridden {
-                ConfidenceBar(confidence: item.confidence, label: item.label)
+                ScoreBar(value: item.confidence, tint: item.label == .delete ? .red : .green)
             }
         }
         .onTapGesture {
@@ -172,55 +172,12 @@ private struct ThumbnailCell: View {
         } preview: {
             // Native contextMenu preview: long-press already drives this, so it coexists with
             // onTapGesture (tap) and the menu items above without a second gesture recognizer.
-            ThumbnailPreview(asset: item.asset)
+            AssetPreview(asset: item.asset)
         }
         .task {
             image = await PhotoLibraryService.requestImage(
                 for: item.asset, targetSize: CGSize(width: 200, height: 200)
             )
         }
-    }
-}
-
-/// Full-size image shown by the context menu's long-press preview — fetched separately from
-/// the 200x200 grid thumbnail since "zobaczyć szczegóły" needs real resolution.
-private struct ThumbnailPreview: View {
-    let asset: PHAsset
-
-    @State private var image: UIImage?
-
-    var body: some View {
-        Group {
-            if let image {
-                Image(uiImage: image).resizable().scaledToFit()
-            } else {
-                ProgressView().frame(width: 200, height: 200)
-            }
-        }
-        .task {
-            image = await PhotoLibraryService.requestImage(
-                for: asset, targetSize: PHImageManagerMaximumSize
-            )
-        }
-    }
-}
-
-/// A thin, unobtrusive fill along the bottom edge — width and shade both track confidence
-/// so it reads at a glance without a number competing with the photo.
-private struct ConfidenceBar: View {
-    let confidence: Double
-    let label: TrainingDataStore.Label
-
-    var body: some View {
-        GeometryReader { geo in
-            ZStack(alignment: .leading) {
-                Rectangle().fill(.black.opacity(0.15))
-                Rectangle()
-                    .fill(label == .delete ? Color.red : Color.green)
-                    .opacity(0.35 + confidence * 0.45)
-                    .frame(width: geo.size.width * confidence)
-            }
-        }
-        .frame(height: 3)
     }
 }

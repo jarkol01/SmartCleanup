@@ -58,6 +58,7 @@ struct SettingsView: View {
 
                 Section {
                     Button("Przywróć domyślne (25)") {
+                        Haptics.selection()
                         marginPercent = SettingsStore.defaultMarginPercent
                         SettingsStore.uncertaintyMarginPercent = marginPercent
                     }
@@ -81,6 +82,7 @@ struct SettingsView: View {
                     }
 
                     Button("Przywróć domyślne (85)") {
+                        Haptics.selection()
                         blurThresholdPercent = SettingsStore.defaultBlurThresholdPercent
                         SettingsStore.blurThresholdPercent = blurThresholdPercent
                     }
@@ -108,6 +110,7 @@ struct SettingsView: View {
                     }
 
                     Button("Przywróć domyślne (20)") {
+                        Haptics.selection()
                         duplicateHammingThreshold = Double(SettingsStore.defaultDuplicateHammingThreshold)
                         SettingsStore.duplicateHammingThreshold = Int(duplicateHammingThreshold)
                     }
@@ -121,7 +124,10 @@ struct SettingsView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Gotowe") { dismiss() }
+                    Button("Gotowe") {
+                        Haptics.selection()
+                        dismiss()
+                    }
                 }
             }
         }
