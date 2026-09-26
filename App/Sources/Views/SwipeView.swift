@@ -101,6 +101,7 @@ struct SwipeView: View {
         let asset = assets[index]
         TrainingDataStore.save(currentImage, assetIdentifier: asset.localIdentifier, as: label)
         history.append((asset, .labeled(label)))
+        Haptics.impact(label == .keep ? .light : .medium)
 
         withAnimation(.easeOut(duration: 0.2)) {
             dragOffset = CGSize(width: label == .keep ? 500 : -500, height: 0)

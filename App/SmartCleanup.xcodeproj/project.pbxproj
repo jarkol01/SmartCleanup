@@ -11,6 +11,8 @@
 		15B0C23C88318C0159550AF9 /* DeleteFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780EB6DD2222744D29A962A8 /* DeleteFlow.swift */; };
 		37018E212E2E3C20A530C5E1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7FB83A964388269671620D82 /* InfoPlist.strings */; };
 		5746EDC31BE4CD1C42EABC10 /* SwipeCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4142D86181FF05869D447F /* SwipeCard.swift */; };
+		1A2B3C4D5E6F708192A3B4C5 /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2B3C4D5E6F708192A3B4C5 /* Haptics.swift */; };
+		1A2B3C4D5E6F708192A3B4C6 /* HoldToConfirmButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2B3C4D5E6F708192A3B4C6 /* HoldToConfirmButton.swift */; };
 		619C3D23A9B0298C0D05647F /* SettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6B909C25034DA142A38F2C /* SettingsStore.swift */; };
 		70B1F75944F23149CFF2C7B8 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDBC2037F2A72FFC7EC5C3F /* SettingsView.swift */; };
 		717C8F30D351C69EC950FBAC /* ClassifierRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DBE28ADD125B71B9A9A2410 /* ClassifierRunner.swift */; };
@@ -37,6 +39,8 @@
 		5A51B787297DAD2441C9B6A5 /* PhotoLibraryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibraryService.swift; sourceTree = "<group>"; };
 		69C6F186227447650E06722F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6A4142D86181FF05869D447F /* SwipeCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeCard.swift; sourceTree = "<group>"; };
+		2A2B3C4D5E6F708192A3B4C5 /* Haptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptics.swift; sourceTree = "<group>"; };
+		2A2B3C4D5E6F708192A3B4C6 /* HoldToConfirmButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoldToConfirmButton.swift; sourceTree = "<group>"; };
 		6A5957AFC57738FF88EA6DA0 /* StatsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsStore.swift; sourceTree = "<group>"; };
 		6DBE28ADD125B71B9A9A2410 /* ClassifierRunner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassifierRunner.swift; sourceTree = "<group>"; };
 		6EBDCC5306F4488A4A96C7EF /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
@@ -69,6 +73,7 @@
 				BD6B909C25034DA142A38F2C /* SettingsStore.swift */,
 				6A5957AFC57738FF88EA6DA0 /* StatsStore.swift */,
 				8F5A2C3F93359129D863E1FF /* TrainingDataStore.swift */,
+				2A2B3C4D5E6F708192A3B4C5 /* Haptics.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -116,6 +121,7 @@
 			isa = PBXGroup;
 			children = (
 				A38666620A45508E0C5014B3 /* DeleteView.swift */,
+				2A2B3C4D5E6F708192A3B4C6 /* HoldToConfirmButton.swift */,
 				3B0FF75BEA8A864959557DE2 /* HomeView.swift */,
 				792DD92311A7D2ACD0FC7D2B /* ResultsView.swift */,
 				BFDBC2037F2A72FFC7EC5C3F /* SettingsView.swift */,
@@ -215,6 +221,8 @@
 				AF70F3D12FBE468892614A9E /* TrainView.swift in Sources */,
 				C2C8254815D4120F2029734B /* TrainingDataStore.swift in Sources */,
 				975CC18EED88EB5D3BE9FC8A /* UncertainReviewView.swift in Sources */,
+				1A2B3C4D5E6F708192A3B4C5 /* Haptics.swift in Sources */,
+				1A2B3C4D5E6F708192A3B4C6 /* HoldToConfirmButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

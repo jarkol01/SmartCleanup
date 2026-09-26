@@ -9,7 +9,6 @@ private struct UncertainReviewPayload: Identifiable {
 struct ResultsView: View {
     @Bindable var flow: DeleteFlow
     @State private var selectedTab: TrainingDataStore.Label = .delete
-    @State private var showConfirm = false
     @State private var uncertainReviewPayload: UncertainReviewPayload?
 
     /// User-overridden items have a stale confidence (measured for their old label), so they're
@@ -34,6 +33,7 @@ struct ResultsView: View {
             }
             .pickerStyle(.segmented)
             .padding()
+            .onChange(of: selectedTab) { _, _ in Haptics.selection() }
 
             if selectedTab == .delete, !uncertainDeleteItems.isEmpty {
                 Button {
@@ -70,31 +70,35 @@ struct ResultsView: View {
                 .padding(.horizontal, 4)
             }
 
-            Button(role: deleteItems.isEmpty ? nil : .destructive) {
-                if deleteItems.isEmpty {
-                    // Nothing to confirm-delete, but the batch's Keep decisions still need to be
-                    // saved as training data and marked handled so they don't resurface next batch.
+            if deleteItems.isEmpty {
+                // Nothing to confirm-delete, but the batch's Keep decisions still need to be
+                // saved as training data and marked handled so they don't resurface next batch.
+                Button {
+                    Haptics.selection()
                     flow.confirmDeletion()
-                } else {
-                    showConfirm = true
+                } label: {
+                    Text("Zakończ partię (wszystko zachowane)")
+                        .frame(maxWidth: .infinity)
+                        .padding()
                 }
-            } label: {
-                Text(deleteItems.isEmpty ? "Zakończ partię (wszystko zachowane)" : "Usuń \(deleteItems.count) zdjęć")
-                    .frame(maxWidth: .infinity)
-                    .padding()
+                .buttonStyle(.borderedProminent)
+                .disabled(flow.classified.isEmpty)
+                .padding()
+            } else {
+                // Hold-to-confirm instead of a tap + dialog: a deliberate ~0.7s hold is at
+                // least as hard to trigger by accident, with no second UI to maintain.
+                HoldToConfirmButton(
+                    duration: 0.7,
+                    tint: .red,
+                    isDisabled: flow.classified.isEmpty,
+                    action: { flow.confirmDeletion() }
+                ) {
+                    Text("Usuń \(deleteItems.count) zdjęć")
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                }
+                .padding()
             }
-            .buttonStyle(.borderedProminent)
-            .tint(deleteItems.isEmpty ? .accentColor : .red)
-            .disabled(flow.classified.isEmpty)
-            .padding()
-        }
-        .confirmationDialog(
-            "Usunąć \(deleteItems.count) zdjęć?",
-            isPresented: $showConfirm,
-            titleVisibility: .visible
-        ) {
-            Button("Usuń", role: .destructive) { flow.confirmDeletion() }
-            Button("Anuluj", role: .cancel) {}
         }
         .fullScreenCover(item: $uncertainReviewPayload) { payload in
             UncertainReviewView(flow: flow, items: payload.items)
@@ -145,16 +149,21 @@ private struct ThumbnailCell: View {
                 ConfidenceBar(confidence: item.confidence, label: item.label)
             }
         }
-        .onTapGesture(perform: onTapMove)
+        .onTapGesture {
+            Haptics.selection()
+            onTapMove()
+        }
         .contextMenu {
             if item.label == .delete {
                 Button {
+                    Haptics.notification(.success)
                     onMarkException()
                 } label: {
                     Label("Zachowaj na zawsze (wyjątek)", systemImage: "star.fill")
                 }
             } else {
                 Button {
+                    Haptics.notification(.success)
                     onMarkException()
                 } label: {
                     Label("Usuń jako wyjątek", systemImage: "star.fill")
