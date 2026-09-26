@@ -4,6 +4,7 @@ struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var marginPercent = SettingsStore.uncertaintyMarginPercent
     @State private var blurThresholdPercent = SettingsStore.blurThresholdPercent
+    @State private var duplicateHammingThreshold = Double(SettingsStore.duplicateHammingThreshold)
     @AppStorage(SettingsStore.colorSchemeKey) private var colorSchemeRaw = AppColorScheme.system.rawValue
     @AppStorage(SettingsStore.languageKey) private var languageRaw = AppLanguage.system.rawValue
 
@@ -87,6 +88,33 @@ struct SettingsView: View {
                     Text("Próg rozmycia")
                 } footer: {
                     Text("Niższa wartość oznacza więcej zdjęć proponowanych jako rozmyte w „Wykryj rozmycie”.")
+                }
+
+                Section {
+                    Slider(value: $duplicateHammingThreshold, in: 10...40, step: 2) {
+                        Text("Czułość dopasowania duplikatów")
+                    }
+                    .onChange(of: duplicateHammingThreshold) { _, newValue in
+                        SettingsStore.duplicateHammingThreshold = Int(newValue)
+                    }
+
+                    HStack {
+                        Text("Czułość dopasowania")
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                        Spacer()
+                        Text(Int(duplicateHammingThreshold), format: .number)
+                            .font(.headline.monospacedDigit())
+                    }
+
+                    Button("Przywróć domyślne (20)") {
+                        duplicateHammingThreshold = Double(SettingsStore.defaultDuplicateHammingThreshold)
+                        SettingsStore.duplicateHammingThreshold = Int(duplicateHammingThreshold)
+                    }
+                } header: {
+                    Text("Czułość dopasowania duplikatów")
+                } footer: {
+                    Text("Wyższa wartość oznacza więcej zdjęć uznanych za duplikaty w „Usuń duplikaty” — nawet takich, które różnią się nieco bardziej.")
                 }
             }
             .navigationTitle("Ustawienia")
