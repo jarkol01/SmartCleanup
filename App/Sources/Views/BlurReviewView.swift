@@ -161,8 +161,10 @@ private struct BlurResultsView: View {
                     ForEach(selectedTab == .blurry ? blurryItems : sharpItems) { item in
                         BlurThumbnailCell(
                             item: item,
+                            // Margin shrinks as the threshold rises toward 100% — at a stricter
+                            // threshold there's less room above it, so "borderline" should mean less.
                             isUncertain: !item.isUserOverridden
-                                && abs(item.blurScore - BlurFlow.blurThreshold) < 0.1,
+                                && abs(item.blurScore - BlurFlow.blurThreshold) < (1 - BlurFlow.blurThreshold) / 2,
                             onTapMove: {
                                 flow.moveAsset(item, to: selectedTab == .blurry ? .sharp : .blurry)
                             }
