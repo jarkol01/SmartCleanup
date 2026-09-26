@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		04CD277452E6C9E43D7A8155 /* DeleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38666620A45508E0C5014B3 /* DeleteView.swift */; };
+		3A2B3C4D5E6F708192A3B4C5 /* BlurDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2B3C4D5E6F708192A3B4C6 /* BlurDetector.swift */; };
+		1A2B3C4D5E6F708192A3B4C7 /* BlurDecisionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F708192A3B4C8 /* BlurDecisionStore.swift */; };
+		1A2B3C4D5E6F708192A3B4C9 /* BlurFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F708192A3B4CA /* BlurFlow.swift */; };
+		1A2B3C4D5E6F708192A3B4CB /* BlurReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F708192A3B4CC /* BlurReviewView.swift */; };
 		15B0C23C88318C0159550AF9 /* DeleteFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780EB6DD2222744D29A962A8 /* DeleteFlow.swift */; };
 		37018E212E2E3C20A530C5E1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7FB83A964388269671620D82 /* InfoPlist.strings */; };
 		5746EDC31BE4CD1C42EABC10 /* SwipeCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4142D86181FF05869D447F /* SwipeCard.swift */; };
@@ -33,6 +37,10 @@
 
 /* Begin PBXFileReference section */
 		0376C12D3C2103A3D698713E /* SmartCleanupApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartCleanupApp.swift; sourceTree = "<group>"; };
+		3A2B3C4D5E6F708192A3B4C6 /* BlurDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurDetector.swift; sourceTree = "<group>"; };
+		1A2B3C4D5E6F708192A3B4C8 /* BlurDecisionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurDecisionStore.swift; sourceTree = "<group>"; };
+		1A2B3C4D5E6F708192A3B4CA /* BlurFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurFlow.swift; sourceTree = "<group>"; };
+		1A2B3C4D5E6F708192A3B4CC /* BlurReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurReviewView.swift; sourceTree = "<group>"; };
 		03814318A7123EB73753DA14 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		368E186EE8A643CAB740BCC1 /* ClassifierTrainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassifierTrainer.swift; sourceTree = "<group>"; };
 		3B0FF75BEA8A864959557DE2 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -67,6 +75,8 @@
 			isa = PBXGroup;
 			children = (
 				ACCC6C4A1930B8F5BF126268 /* AssetDecisionStore.swift */,
+				1A2B3C4D5E6F708192A3B4C8 /* BlurDecisionStore.swift */,
+				3A2B3C4D5E6F708192A3B4C6 /* BlurDetector.swift */,
 				6DBE28ADD125B71B9A9A2410 /* ClassifierRunner.swift */,
 				368E186EE8A643CAB740BCC1 /* ClassifierTrainer.swift */,
 				5A51B787297DAD2441C9B6A5 /* PhotoLibraryService.swift */,
@@ -97,6 +107,7 @@
 		ADB5159786C80DE43EA428D9 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				1A2B3C4D5E6F708192A3B4CA /* BlurFlow.swift */,
 				780EB6DD2222744D29A962A8 /* DeleteFlow.swift */,
 				CB63F3D2AAAFB48F040E09ED /* TrainFlow.swift */,
 			);
@@ -120,6 +131,7 @@
 		F324FAF91861C523FE501EFE /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				1A2B3C4D5E6F708192A3B4CC /* BlurReviewView.swift */,
 				A38666620A45508E0C5014B3 /* DeleteView.swift */,
 				2A2B3C4D5E6F708192A3B4C6 /* HoldToConfirmButton.swift */,
 				3B0FF75BEA8A864959557DE2 /* HomeView.swift */,
@@ -204,6 +216,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				B5FBA5E365931D0C72FBE2D7 /* AssetDecisionStore.swift in Sources */,
+				1A2B3C4D5E6F708192A3B4C7 /* BlurDecisionStore.swift in Sources */,
+				3A2B3C4D5E6F708192A3B4C5 /* BlurDetector.swift in Sources */,
+				1A2B3C4D5E6F708192A3B4C9 /* BlurFlow.swift in Sources */,
+				1A2B3C4D5E6F708192A3B4CB /* BlurReviewView.swift in Sources */,
 				717C8F30D351C69EC950FBAC /* ClassifierRunner.swift in Sources */,
 				8007128090E29F4ED65E6B51 /* ClassifierTrainer.swift in Sources */,
 				15B0C23C88318C0159550AF9 /* DeleteFlow.swift in Sources */,

@@ -3,6 +3,7 @@ import SwiftUI
 struct HomeView: View {
     @State private var showTrain = false
     @State private var showDelete = false
+    @State private var showBlur = false
     @State private var showSettings = false
 
     @State private var modelTrained = false
@@ -50,6 +51,16 @@ struct HomeView: View {
                             systemImage: "trash"
                         )
                     }
+
+                    Button {
+                        showBlur = true
+                    } label: {
+                        MenuButtonLabel(
+                            title: "Wykryj rozmycie",
+                            subtitle: "Znajdź nieostre zdjęcia i usuń je z galerii",
+                            systemImage: "wand.and.rays"
+                        )
+                    }
                 }
                 .buttonStyle(.plain)
 
@@ -67,6 +78,7 @@ struct HomeView: View {
             }
             .fullScreenCover(isPresented: $showTrain) { TrainView() }
             .fullScreenCover(isPresented: $showDelete) { DeleteView() }
+            .fullScreenCover(isPresented: $showBlur) { BlurReviewView() }
             .sheet(isPresented: $showSettings) { SettingsView() }
         }
         // Refresh whenever this screen (re)appears — including right after a fullScreenCover
@@ -74,6 +86,7 @@ struct HomeView: View {
         .onAppear(perform: refreshStats)
         .onChange(of: showTrain) { _, isShowing in if !isShowing { refreshStats() } }
         .onChange(of: showDelete) { _, isShowing in if !isShowing { refreshStats() } }
+        .onChange(of: showBlur) { _, isShowing in if !isShowing { refreshStats() } }
     }
 
     private func refreshStats() {

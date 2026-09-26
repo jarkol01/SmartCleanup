@@ -3,6 +3,7 @@ import SwiftUI
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var marginPercent = SettingsStore.uncertaintyMarginPercent
+    @State private var blurThresholdPercent = SettingsStore.blurThresholdPercent
     @AppStorage(SettingsStore.colorSchemeKey) private var colorSchemeRaw = AppColorScheme.system.rawValue
     @AppStorage(SettingsStore.languageKey) private var languageRaw = AppLanguage.system.rawValue
 
@@ -59,6 +60,33 @@ struct SettingsView: View {
                         marginPercent = SettingsStore.defaultMarginPercent
                         SettingsStore.uncertaintyMarginPercent = marginPercent
                     }
+                }
+
+                Section {
+                    Slider(value: $blurThresholdPercent, in: 75...95, step: 5) {
+                        Text("Próg rozmycia")
+                    }
+                    .onChange(of: blurThresholdPercent) { _, newValue in
+                        SettingsStore.blurThresholdPercent = newValue
+                    }
+
+                    HStack {
+                        Text("Od \(Int(blurThresholdPercent))% pewności uznajemy zdjęcie za rozmyte")
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                        Spacer()
+                        Text(Int(blurThresholdPercent), format: .number)
+                            .font(.headline.monospacedDigit())
+                    }
+
+                    Button("Przywróć domyślne (85)") {
+                        blurThresholdPercent = SettingsStore.defaultBlurThresholdPercent
+                        SettingsStore.blurThresholdPercent = blurThresholdPercent
+                    }
+                } header: {
+                    Text("Próg rozmycia")
+                } footer: {
+                    Text("Niższa wartość oznacza więcej zdjęć proponowanych jako rozmyte w „Wykryj rozmycie”.")
                 }
             }
             .navigationTitle("Ustawienia")
