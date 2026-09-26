@@ -100,6 +100,17 @@ private struct DuplicateThumbnailCell: View {
             onTap()
         }
         .contextMenu {
+            // An empty menu here disables the long-press entirely on-device, so this mirrors
+            // the tap action instead of leaving the menu section empty.
+            Button {
+                Haptics.selection()
+                onTap()
+            } label: {
+                Label(
+                    isKept ? "Oznacz do usunięcia" : "Oznacz do zachowania",
+                    systemImage: isKept ? "trash" : "checkmark.circle"
+                )
+            }
         } preview: {
             // Same native long-press preview as ResultsView's ThumbnailCell.
             DuplicateThumbnailPreview(asset: asset)

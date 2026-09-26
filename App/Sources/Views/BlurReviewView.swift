@@ -246,6 +246,17 @@ private struct BlurThumbnailCell: View {
             onTapMove()
         }
         .contextMenu {
+            // An empty menu here disables the long-press entirely on-device, so this mirrors
+            // the tap action instead of leaving the menu section empty.
+            Button {
+                Haptics.selection()
+                onTapMove()
+            } label: {
+                Label(
+                    item.label == .blurry ? "Oznacz jako ostre" : "Oznacz jako rozmyte",
+                    systemImage: item.label == .blurry ? "arrow.uturn.backward" : "trash"
+                )
+            }
         } preview: {
             // Same native long-press preview as ResultsView's ThumbnailCell.
             BlurThumbnailPreview(asset: item.asset)
