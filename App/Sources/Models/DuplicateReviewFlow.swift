@@ -76,11 +76,8 @@ final class DuplicateReviewFlow {
     var keepCount: Int { keepMarks.count }
     var deleteCount: Int { (currentGroup?.assets.count ?? 0) - keepCount }
 
-    /// Never let a group delete every asset in it — at least one must stay marked "keep".
-    var canConfirm: Bool { keepCount > 0 }
-
     func confirmCurrentGroup() {
-        guard let group = currentGroup, canConfirm else { return }
+        guard let group = currentGroup else { return }
         Task {
             stage = .deleting
             let toDelete = group.assets.filter { !isKept($0) }

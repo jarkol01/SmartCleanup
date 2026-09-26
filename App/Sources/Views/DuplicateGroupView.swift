@@ -1,10 +1,10 @@
 import Photos
 import SwiftUI
 
-/// One group of near-duplicate photos as a single gallery — any number of assets (including
-/// zero, though the button is disabled then) can be marked "keep"; the rest are implicitly
-/// "delete". Bursts can run into the dozens, so this is a scrollable adaptive grid, not a fixed
-/// 2-4 photo layout.
+/// One group of near-duplicate photos as a single gallery — any number of assets, including
+/// zero (deleting the whole group) or all of them (keeping the whole group), can be marked
+/// "keep"; the rest are implicitly "delete". Bursts can run into the dozens, so this is a
+/// scrollable adaptive grid, not a fixed 2-4 photo layout.
 struct DuplicateGroupView: View {
     let flow: DuplicateReviewFlow
     let group: DuplicateGroup
@@ -34,17 +34,12 @@ struct DuplicateGroupView: View {
                 .padding(.top, 8)
             }
 
-            if !flow.canConfirm {
-                Text("Zaznacz co najmniej jedno zdjęcie do zachowania.")
-                    .font(.caption)
-                    .foregroundStyle(.orange)
-                    .padding(.top, 4)
-            }
-
             Button {
                 if flow.deleteCount > 0 {
+                    Haptics.selection()
                     showConfirm = true
                 } else {
+                    Haptics.selection()
                     flow.confirmCurrentGroup()
                 }
             } label: {
@@ -54,7 +49,6 @@ struct DuplicateGroupView: View {
             }
             .buttonStyle(.borderedProminent)
             .tint(flow.deleteCount > 0 ? .red : .accentColor)
-            .disabled(!flow.canConfirm)
             .padding()
         }
         .confirmationDialog(
@@ -62,7 +56,10 @@ struct DuplicateGroupView: View {
             isPresented: $showConfirm,
             titleVisibility: .visible
         ) {
-            Button("Usuń", role: .destructive) { flow.confirmCurrentGroup() }
+            Button("Usuń", role: .destructive) {
+                Haptics.notification(.success)
+                flow.confirmCurrentGroup()
+            }
             Button("Anuluj", role: .cancel) {}
         }
     }
@@ -98,7 +95,10 @@ private struct DuplicateThumbnailCell: View {
                     .padding(4)
             }
         }
-        .onTapGesture(perform: onTap)
+        .onTapGesture {
+            Haptics.selection()
+            onTap()
+        }
         .task {
             image = await PhotoLibraryService.requestImage(
                 for: asset, targetSize: CGSize(width: 200, height: 200)

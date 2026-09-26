@@ -61,9 +61,12 @@ struct DuplicateReviewView: View {
                         description: Text("Przejrzano \(groupsReviewed) grup, usunięto \(deletedCount) zdjęć.")
                     )
                     .safeAreaInset(edge: .bottom) {
-                        Button("Wróć do menu") { dismiss() }
-                            .buttonStyle(.borderedProminent)
-                            .padding()
+                        Button("Wróć do menu") {
+                            Haptics.selection()
+                            dismiss()
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .padding()
                     }
                 }
             }
@@ -75,7 +78,10 @@ struct DuplicateReviewView: View {
                 }
                 if canRescan {
                     ToolbarItem(placement: .topBarTrailing) {
-                        Button("Skanuj ponownie") { flow.rescan() }
+                        Button("Skanuj ponownie") {
+                            Haptics.selection()
+                            flow.rescan()
+                        }
                     }
                 }
             }
