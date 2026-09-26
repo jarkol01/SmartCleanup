@@ -12,17 +12,12 @@ struct DuplicateGroup: Identifiable {
 /// Graphics) and tolerant of the minor recompression/exposure noise between burst shots.
 enum DuplicateDetector {
     /// Max Hamming distance (out of 64 bits) for two photos to count as duplicates.
-    /// ponytail: hand-picked constant rather than a tuned/learned threshold — good enough for
-    /// bursts, raise SettingsStore-backed tuning if false positives/negatives show up in practice.
-    private static let hammingThreshold = 10
+    /// User-tunable in Settings — see SettingsStore.duplicateHammingThreshold.
+    private static var hammingThreshold: Int { SettingsStore.duplicateHammingThreshold }
 
     /// Near-duplicates are almost always taken seconds apart (bursts). Requiring both time
     /// proximity and hash similarity avoids an O(n²) whole-library comparison.
     private static let timeWindow: TimeInterval = 120
-
-    /// Caps how many (newest) assets get scanned per run — full-image loads for hashing aren't
-    /// free. ponytail: hard cap instead of paging UI; rescan periodically for older photos.
-    static let maxScanCount = 4000
 
     private static let hashTargetSize = CGSize(width: 32, height: 32)
 

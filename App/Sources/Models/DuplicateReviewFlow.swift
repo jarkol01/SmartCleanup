@@ -37,9 +37,8 @@ final class DuplicateReviewFlow {
         stage = .scanning(done: 0, total: 0)
         let candidates = PhotoLibraryService.fetchAllImageAssets()
             .filter { !DuplicateDecisionStore.isHandled($0.localIdentifier) }
-            .prefix(DuplicateDetector.maxScanCount)
 
-        let found = await DuplicateDetector.scan(assets: Array(candidates)) { done, total in
+        let found = await DuplicateDetector.scan(assets: candidates) { done, total in
             Task { @MainActor in self.stage = .scanning(done: done, total: total) }
         }
 

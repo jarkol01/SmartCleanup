@@ -4,6 +4,7 @@ struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var marginPercent = SettingsStore.uncertaintyMarginPercent
     @State private var blurThresholdPercent = SettingsStore.blurThresholdPercent
+    @State private var duplicateHammingThreshold = Double(SettingsStore.duplicateHammingThreshold)
     @AppStorage(SettingsStore.colorSchemeKey) private var colorSchemeRaw = AppColorScheme.system.rawValue
     @AppStorage(SettingsStore.languageKey) private var languageRaw = AppLanguage.system.rawValue
 
@@ -87,6 +88,33 @@ struct SettingsView: View {
                     Text("Próg rozmycia")
                 } footer: {
                     Text("Niższa wartość oznacza więcej zdjęć proponowanych jako rozmyte w „Wykryj rozmycie”.")
+                }
+
+                Section {
+                    Slider(value: $duplicateHammingThreshold, in: 2...20, step: 1) {
+                        Text("Próg podobieństwa duplikatów")
+                    }
+                    .onChange(of: duplicateHammingThreshold) { _, newValue in
+                        SettingsStore.duplicateHammingThreshold = Int(newValue)
+                    }
+
+                    HStack {
+                        Text("Różnica do \(Int(duplicateHammingThreshold)) bitów na 64 uznajemy za duplikat")
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                        Spacer()
+                        Text(Int(duplicateHammingThreshold), format: .number)
+                            .font(.headline.monospacedDigit())
+                    }
+
+                    Button("Przywróć domyślne (10)") {
+                        duplicateHammingThreshold = Double(SettingsStore.defaultDuplicateHammingThreshold)
+                        SettingsStore.duplicateHammingThreshold = Int(duplicateHammingThreshold)
+                    }
+                } header: {
+                    Text("Próg podobieństwa duplikatów")
+                } footer: {
+                    Text("Wyższa wartość oznacza więcej zdjęć uznanych za duplikaty w „Usuń duplikaty”.")
                 }
             }
             .navigationTitle("Ustawienia")
