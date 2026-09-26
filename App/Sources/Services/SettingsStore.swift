@@ -85,7 +85,7 @@ enum SettingsStore {
     static var blurThreshold: Double { blurThresholdPercent / 100 }
 
     private static let duplicateHammingThresholdKey = "settings.duplicateHammingThreshold"
-    static let defaultDuplicateHammingThreshold = 20
+    static let defaultDuplicateHammingThreshold = 25
 
     /// Max Hamming distance (0...64 bits) for two photos to count as duplicates — lower is
     /// stricter (only near-identical shots match), higher is more lenient. User-adjustable

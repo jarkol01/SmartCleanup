@@ -93,7 +93,7 @@ struct SettingsView: View {
                 }
 
                 Section {
-                    Slider(value: $duplicateHammingThreshold, in: 10...40, step: 2) {
+                    Slider(value: $duplicateHammingThreshold, in: 10...40, step: 5) {
                         Text("Czułość dopasowania duplikatów")
                     }
                     .onChange(of: duplicateHammingThreshold) { _, newValue in
@@ -109,7 +109,7 @@ struct SettingsView: View {
                             .font(.headline.monospacedDigit())
                     }
 
-                    Button("Przywróć domyślne (20)") {
+                    Button("Przywróć domyślne (25)") {
                         Haptics.selection()
                         duplicateHammingThreshold = Double(SettingsStore.defaultDuplicateHammingThreshold)
                         SettingsStore.duplicateHammingThreshold = Int(duplicateHammingThreshold)
