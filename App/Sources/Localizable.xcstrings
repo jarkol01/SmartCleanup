@@ -225,6 +225,35 @@
       }
     },
     "Brak duplikatów": {},
+    "Brak wideo": {
+      "extractionState": "stale",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keine Videos"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No videos"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No hay vídeos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucune vidéo"
+          }
+        }
+      }
+    },
     "Błąd": {
       "extractionState": "stale",
       "localizations": {
@@ -456,6 +485,35 @@
         }
       }
     },
+    "Duże wideo": {
+      "extractionState": "stale",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Große Videos"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Large Videos"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vídeos grandes"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grandes vidéos"
+          }
+        }
+      }
+    },
     "Gotowe": {
       "extractionState": "stale",
       "localizations": {
@@ -657,6 +715,93 @@
         }
       }
     },
+    "Kompresja: ~%@ mniej": {
+      "extractionState": "stale",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Komprimierung: ~%@ kleiner"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compression: ~%@ smaller"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compresión: ~%@ menos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compression : ~%@ de moins"
+          }
+        }
+      }
+    },
+    "Kompresuj zaznaczone (%lld) · ~%@": {
+      "extractionState": "stale",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auswahl komprimieren (%lld) · ~%@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compress selected (%lld) · ~%@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comprimir selección (%lld) · ~%@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compresser la sélection (%lld) · ~%@"
+          }
+        }
+      }
+    },
+    "Kompresuję…": {
+      "extractionState": "stale",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wird komprimiert…"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compressing…"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comprimiendo…"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compression…"
+          }
+        }
+      }
+    },
     "Kontynuuj": {
       "extractionState": "stale",
       "localizations": {
@@ -710,6 +855,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Marge d'incertitude"
+          }
+        }
+      }
+    },
+    "Miejsce zwolni się dopiero po opróżnieniu albumu „Ostatnio usunięte”.": {
+      "extractionState": "stale",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Speicher wird erst nach dem Leeren von „Zuletzt gelöscht“ frei."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Space is freed only after you empty “Recently Deleted”."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El espacio se libera solo tras vaciar «Eliminado»."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L’espace n’est libéré qu’après avoir vidé « Supprimés récemment »."
           }
         }
       }
@@ -942,6 +1116,35 @@
         }
       }
     },
+    "Nie wymaga kompresji": {
+      "extractionState": "stale",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keine Komprimierung nötig"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No compression needed"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No necesita compresión"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compression inutile"
+          }
+        }
+      }
+    },
     "Nie znaleziono podobnych zdjęć w bibliotece.": {},
     "Niepewne: %@/%@": {
       "localizations": {
@@ -1040,6 +1243,35 @@
         }
       }
     },
+    "Obejrzyj, usuń lub skompresuj największe filmy": {
+      "extractionState": "stale",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Größte Videos ansehen, löschen oder komprimieren"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Watch, delete or compress your biggest videos"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mira, elimina o comprime tus vídeos más grandes"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Regardez, supprimez ou compressez vos plus grandes vidéos"
+          }
+        }
+      }
+    },
     "Od %lld%% pewności uznajemy zdjęcie za rozmyte": {
       "extractionState": "stale",
       "localizations": {
@@ -1065,6 +1297,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "À partir de %lld%% de confiance, une photo est considérée comme floue"
+          }
+        }
+      }
+    },
+    "Odznacz": {
+      "extractionState": "stale",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Abwählen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deselect"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deseleccionar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Désélectionner"
           }
         }
       }
@@ -1185,6 +1446,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Marquées : %lld"
+          }
+        }
+      }
+    },
+    "Pobieram z iCloud…": {
+      "extractionState": "stale",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wird aus iCloud geladen…"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Downloading from iCloud…"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Descargando de iCloud…"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Téléchargement depuis iCloud…"
           }
         }
       }
@@ -1358,6 +1648,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Examinez les suggestions du modèle et faites le tri dans votre photothèque"
+          }
+        }
+      }
+    },
+    "Przerwij po tym wideo": {
+      "extractionState": "stale",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nach diesem Video stoppen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stop after this video"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Detener tras este vídeo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arrêter après cette vidéo"
           }
         }
       }
@@ -1595,6 +1914,64 @@
       }
     },
     "Skanuj ponownie": {},
+    "Skompresowane wideo: %lld. Odzyskano %@.": {
+      "extractionState": "stale",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Komprimierte Videos: %lld. %@ freigegeben."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Videos compressed: %lld. Freed %@."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vídeos comprimidos: %lld. Liberado %@."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vidéos compressées : %lld. %@ libérés."
+          }
+        }
+      }
+    },
+    "Sprawdzam rozmiary wideo…": {
+      "extractionState": "stale",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Videogrößen werden geprüft…"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Checking video sizes…"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comprobando el tamaño de los vídeos…"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vérification de la taille des vidéos…"
+          }
+        }
+      }
+    },
     "Sprawdzono wszystkie niepewne zdjęcia.": {
       "localizations": {
         "de": {
@@ -1985,6 +2362,35 @@
         }
       }
     },
+    "Usuwam oryginały…": {
+      "extractionState": "stale",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Originale werden gelöscht…"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deleting originals…"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eliminando originales…"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Suppression des originaux…"
+          }
+        }
+      }
+    },
     "Usuwam zdjęcia…": {
       "extractionState": "stale",
       "localizations": {
@@ -2181,6 +2587,35 @@
         }
       }
     },
+    "Usuń wideo (%@)": {
+      "extractionState": "stale",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Video löschen (%@)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete video (%@)"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eliminar vídeo (%@)"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supprimer la vidéo (%@)"
+          }
+        }
+      }
+    },
     "Usuń zdjęcia": {
       "extractionState": "stale",
       "localizations": {
@@ -2206,6 +2641,35 @@
           "stringUnit": {
             "state": "translated",
             "value": "Supprimer des photos"
+          }
+        }
+      }
+    },
+    "Wideo %lld/%lld": {
+      "extractionState": "stale",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Video %lld/%lld"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Video %lld/%lld"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vídeo %lld/%lld"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vidéo %lld/%lld"
           }
         }
       }
@@ -2468,6 +2932,35 @@
         }
       }
     },
+    "Za mało wolnego miejsca. Potrzeba około %@.": {
+      "extractionState": "stale",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nicht genug freier Speicher. Etwa %@ wird benötigt."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not enough free space. About %@ is needed."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No hay espacio libre suficiente. Se necesitan unos %@."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Espace libre insuffisant. Environ %@ nécessaire."
+          }
+        }
+      }
+    },
     "Zachowaj na zawsze (wyjątek)": {
       "extractionState": "stale",
       "localizations": {
@@ -2613,6 +3106,35 @@
         }
       }
     },
+    "Zapisane skompresowane kopie: %lld. Oryginały zostały w bibliotece.": {
+      "extractionState": "stale",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gespeicherte komprimierte Kopien: %lld. Die Originale bleiben in der Mediathek."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compressed copies saved: %lld. The originals are still in your library."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copias comprimidas guardadas: %lld. Los originales siguen en la fototeca."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copies compressées enregistrées : %lld. Les originaux restent dans la photothèque."
+          }
+        }
+      }
+    },
     "Zapisano": {
       "extractionState": "stale",
       "localizations": {
@@ -2642,7 +3164,65 @@
         }
       }
     },
+    "Zaznacz": {
+      "extractionState": "stale",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Auswählen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seleccionar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sélectionner"
+          }
+        }
+      }
+    },
     "Zaznacz co najmniej jedno zdjęcie do zachowania.": {},
+    "Zaznacz wszystkie": {
+      "extractionState": "stale",
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alle auswählen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select All"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seleccionar todo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tout sélectionner"
+          }
+        }
+      }
+    },
     "Znajdź nieostre zdjęcia i usuń je z galerii": {
       "extractionState": "stale",
       "localizations": {
