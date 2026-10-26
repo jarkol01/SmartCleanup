@@ -13,7 +13,13 @@ struct LargeVideosView: View {
             Group {
                 switch flow.stage {
                 case .checkingAccess:
-                    ProgressView().task { await flow.start() }
+                    ToolIntroView(intro: .videos) {
+                        Button("Pokaż filmy") {
+                            Haptics.selection()
+                            Task { await flow.start() }
+                        }
+                        .buttonStyle(.primary)
+                    }
 
                 case .accessDenied:
                     ContentUnavailableView(
@@ -78,6 +84,7 @@ struct LargeVideosView: View {
                     ProgressView("Usuwam oryginały…")
                 }
             }
+            .screenBackground()
             .navigationTitle("Duże wideo")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -264,5 +271,22 @@ private struct VideoPlayerSheet: View {
             player?.play()
         }
         .onDisappear { player?.pause() }
+    }
+}
+
+extension ToolIntro {
+    static var videos: ToolIntro {
+        ToolIntro(
+            title: "Duże wideo",
+            systemImage: "film",
+            lead: "Pokazuje filmy od największych. Możesz je obejrzeć, usunąć albo skompresować.",
+            steps: [
+                ("play.circle", "**Stuknij film**, by go obejrzeć. W odtwarzaczu przytrzymaj „Usuń wideo”."),
+                ("checkmark.circle", "**Zaznacz** filmy do kompresji (HEVC 1080p). Przy każdym widać szacowaną oszczędność."),
+                ("doc.on.doc", "**Najpierw zapisujemy kopię.** O usunięciu oryginałów zdecydujesz potem."),
+                ("slowmo", "**Slow motion i tryb kinowy** pomijamy, żeby nie zepsuć efektów."),
+            ],
+            infos: [InfoRow(systemImage: "checkmark.shield", text: "Miejsce zwolni się dopiero po opróżnieniu albumu „Ostatnio usunięte”.")]
+        )
     }
 }

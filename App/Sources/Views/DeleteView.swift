@@ -33,10 +33,16 @@ struct DeleteView: View {
                     )
 
                 case .pickingBatchSize:
-                    BatchSizePickerView(
-                        availableCount: flow.unhandledCount,
-                        onPick: { flow.classifyBatch(size: $0) }
-                    )
+                    let young = ClassifierTrainer.isModelYoung
+                    ToolIntroView(intro: .delete) {
+                        BatchPicker(
+                            title: "Ile zdjęć przejrzeć teraz?",
+                            available: flow.unhandledCount,
+                            recommendSmall: young,
+                            tip: "Na początku przeglądaj małe partie. Model szybciej nauczy się Twoich wyborów.",
+                            onPick: { flow.classifyBatch(size: $0) }
+                        )
+                    }
 
                 case .updatingModel:
                     ProgressView("Aktualizuję model o nowe dane…")
@@ -84,6 +90,7 @@ struct DeleteView: View {
                     }
                 }
             }
+            .screenBackground()
             .navigationTitle("Usuń zdjęcia")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -152,45 +159,20 @@ private struct ModelUpdatedView: View {
     }
 }
 
-private struct BatchSizePickerView: View {
-    let availableCount: Int
-    let onPick: (Int) -> Void
-
-    private var options: [Int] { [50, 100, 250, 500].filter { $0 < availableCount } }
-
-    var body: some View {
-        VStack(spacing: 20) {
-            Spacer()
-            Image(systemName: "square.stack.3d.up")
-                .font(.system(size: 48))
-                .foregroundStyle(.tint)
-            Text("Ile zdjęć przejrzeć teraz?")
-                .font(.title2.bold())
-            Text("Zostało \(availableCount) nieprzejrzanych zdjęć. Możesz przerobić je partiami zamiast wszystkie naraz.")
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal, 32)
-
-            VStack(spacing: 12) {
-                ForEach(options, id: \.self) { count in
-                    Button("\(count) zdjęć") {
-                        Haptics.selection()
-                        onPick(count)
-                    }
-                    .buttonStyle(.bordered)
-                    .frame(maxWidth: .infinity)
-                }
-                Button("Wszystkie (\(availableCount))") {
-                    Haptics.selection()
-                    onPick(availableCount)
-                }
-                .buttonStyle(.borderedProminent)
-                .frame(maxWidth: .infinity)
-            }
-            .padding(.horizontal, 32)
-
-            Spacer()
-        }
+extension ToolIntro {
+    static var delete: ToolIntro {
+        ToolIntro(
+            title: "Usuń zdjęcia",
+            systemImage: "trash",
+            ai: true,
+            lead: "Model nauczony na Twoich decyzjach dzieli zdjęcia na do usunięcia i do zachowania.",
+            steps: [
+                ("rectangle.bottomthird.inset.filled", "**Pasek** pod zdjęciem pokazuje pewność modelu. Niepewne przejrzysz osobno."),
+                ("hand.tap", "**Stuknij**, by przerzucić zdjęcie do drugiej grupy."),
+                ("timer", "**Przytrzymaj**, by powiększyć lub oznaczyć wyjątek (np. zdjęcie licznika)."),
+                ("lightbulb", "**Twoje decyzje** uczą model. Przed kolejną partią sam się douczy."),
+            ],
+            infos: [InfoRow(systemImage: "checkmark.shield", text: "Usunięte zdjęcia trafiają do „Ostatnio usuniętych”.")]
+        )
     }
 }

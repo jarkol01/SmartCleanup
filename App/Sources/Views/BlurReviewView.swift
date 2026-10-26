@@ -29,10 +29,13 @@ struct BlurReviewView: View {
                     )
 
                 case .pickingBatchSize:
-                    BlurBatchSizePickerView(
-                        availableCount: flow.unhandledCount,
-                        onPick: { flow.scoreBatch(size: $0) }
-                    )
+                    ToolIntroView(intro: .blur) {
+                        BatchPicker(
+                            title: "Ile zdjęć przeanalizować teraz?",
+                            available: flow.unhandledCount,
+                            onPick: { flow.scoreBatch(size: $0) }
+                        )
+                    }
 
                 case .scoring(let done, let total):
                     VStack(spacing: 12) {
@@ -71,6 +74,7 @@ struct BlurReviewView: View {
                     }
                 }
             }
+            .screenBackground()
             .navigationTitle("Wykryj rozmycie")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -89,49 +93,6 @@ struct BlurReviewView: View {
             } message: {
                 Text(flow.errorMessage ?? "")
             }
-        }
-    }
-}
-
-private struct BlurBatchSizePickerView: View {
-    let availableCount: Int
-    let onPick: (Int) -> Void
-
-    private var options: [Int] { [50, 100, 250, 500].filter { $0 < availableCount } }
-
-    var body: some View {
-        VStack(spacing: 20) {
-            Spacer()
-            Image(systemName: "square.stack.3d.up")
-                .font(.system(size: 48))
-                .foregroundStyle(.tint)
-            Text("Ile zdjęć przeanalizować teraz?")
-                .font(.title2.bold())
-            Text("Zostało \(availableCount) nieprzejrzanych zdjęć. Możesz przerobić je partiami zamiast wszystkie naraz.")
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal, 32)
-
-            VStack(spacing: 12) {
-                ForEach(options, id: \.self) { count in
-                    Button("\(count) zdjęć") {
-                        Haptics.selection()
-                        onPick(count)
-                    }
-                    .buttonStyle(.bordered)
-                    .frame(maxWidth: .infinity)
-                }
-                Button("Wszystkie (\(availableCount))") {
-                    Haptics.selection()
-                    onPick(availableCount)
-                }
-                .buttonStyle(.borderedProminent)
-                .frame(maxWidth: .infinity)
-            }
-            .padding(.horizontal, 32)
-
-            Spacer()
         }
     }
 }
@@ -266,5 +227,22 @@ private struct BlurThumbnailCell: View {
                 for: item.asset, targetSize: CGSize(width: 200, height: 200)
             )
         }
+    }
+}
+
+extension ToolIntro {
+    static var blur: ToolIntro {
+        ToolIntro(
+            title: "Wykryj rozmycie",
+            systemImage: "camera.aperture",
+            lead: "Mierzy ostrość każdego zdjęcia i proponuje usunięcie nieostrych.",
+            steps: [
+                ("rectangle.bottomthird.inset.filled", "**Pasek** pokazuje, jak bardzo zdjęcie jest rozmyte. Próg zmienisz w Ustawieniach."),
+                ("hand.tap", "**Stuknij**, by przerzucić zdjęcie między Rozmyte i Ostre."),
+                ("timer", "**Przytrzymaj**, by powiększyć i obejrzeć szczegóły."),
+                ("person.crop.rectangle", "**Uwaga:** celowo rozmyte tło (np. portret) też może tu trafić."),
+            ],
+            infos: [InfoRow(systemImage: "checkmark.shield", text: "Usunięte zdjęcia trafiają do „Ostatnio usuniętych”.")]
+        )
     }
 }
