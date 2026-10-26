@@ -100,6 +100,7 @@ struct BlurReviewView: View {
 private struct BlurResultsView: View {
     @Bindable var flow: BlurFlow
     @State private var selectedTab: BlurLabel = .blurry
+    @State private var showHelp = false
 
     /// Non-overridden items sorted by "how blurry"/"how sharp" they are, overrides pushed to
     /// the end since their score was measured for the label they no longer have.
@@ -127,7 +128,7 @@ private struct BlurResultsView: View {
             .onChange(of: selectedTab) { _, _ in Haptics.selection() }
 
             ScrollView {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 100), spacing: 4)], spacing: 4) {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 100), spacing: 6)], spacing: 6) {
                     ForEach(selectedTab == .blurry ? blurryItems : sharpItems) { item in
                         BlurThumbnailCell(
                             item: item,
@@ -141,20 +142,16 @@ private struct BlurResultsView: View {
                         )
                     }
                 }
-                .padding(.horizontal, 4)
+                .padding(.horizontal, 12)
             }
 
             if blurryItems.isEmpty {
                 // Nothing to confirm-delete, same non-destructive path as ResultsView.
-                Button {
+                Button("Zakończ partię (wszystko zachowane)") {
                     Haptics.selection()
                     flow.confirmDeletion()
-                } label: {
-                    Text("Zakończ partię (wszystko zachowane)")
-                        .frame(maxWidth: .infinity)
-                        .padding()
                 }
-                .buttonStyle(.borderedProminent)
+                .buttonStyle(.primary)
                 .disabled(flow.scored.isEmpty)
                 .padding()
             } else {
@@ -162,6 +159,25 @@ private struct BlurResultsView: View {
                 HoldToConfirmButton(title: "Usuń \(blurryItems.count) zdjęć", isDisabled: flow.scored.isEmpty, action: { flow.confirmDeletion() })
                 .padding()
             }
+        }
+        .screenBackground()
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    Haptics.selection()
+                    showHelp = true
+                } label: {
+                    Text(verbatim: "?")
+                        .font(.headline.weight(.heavy))
+                        .foregroundStyle(.accent)
+                        .frame(width: 32, height: 32)
+                        .background(Color.card, in: Circle())
+                }
+                .accessibilityLabel(Text("Jak to działa"))
+            }
+        }
+        .sheet(isPresented: $showHelp) {
+            ToolIntroView(intro: .blur).presentationDragIndicator(.visible)
         }
     }
 }
@@ -171,35 +187,21 @@ private struct BlurThumbnailCell: View {
     let isUncertain: Bool
     let onTapMove: () -> Void
 
-    @State private var image: UIImage?
-
     var body: some View {
-        Group {
-            if let image {
-                Image(uiImage: image).resizable().scaledToFill()
-            } else {
-                Rectangle().fill(.gray.opacity(0.2))
-            }
-        }
-        .frame(width: 100, height: 100)
-        .clipped()
+        AssetThumbnail(asset: item.asset)
         .overlay(alignment: .topLeading) {
             if isUncertain {
-                Image(systemName: "questionmark.circle.fill")
-                    .foregroundStyle(.white, .orange)
-                    .font(.caption)
-                    .padding(4)
+                UncertainChip().padding(6)
             }
         }
         .overlay(alignment: .bottomTrailing) {
-            Image(systemName: item.label == .blurry ? "arrow.uturn.backward.circle.fill" : "trash.circle.fill")
-                .font(.title3)
-                .foregroundStyle(.white, .black.opacity(0.6))
-                .padding(4)
+            IconCircle(systemImage: item.label == .blurry ? "arrow.uturn.backward" : "trash", size: 26, fill: .white, foreground: .black.opacity(0.75))
+                .padding(.trailing, 6)
+                .padding(.bottom, 16)
         }
         .overlay(alignment: .bottom) {
             if !item.isUserOverridden {
-                ScoreBar(value: item.blurScore, tint: item.label == .blurry ? .red : .green)
+                ScoreBar(value: item.blurScore, tint: item.label == .blurry ? .destructive : .accent)
             }
         }
         .onTapGesture {
@@ -221,11 +223,6 @@ private struct BlurThumbnailCell: View {
         } preview: {
             // Same native long-press preview as ResultsView's ThumbnailCell.
             AssetPreview(asset: item.asset)
-        }
-        .task {
-            image = await PhotoLibraryService.requestImage(
-                for: item.asset, targetSize: CGSize(width: 200, height: 200)
-            )
         }
     }
 }
