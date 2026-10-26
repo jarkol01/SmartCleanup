@@ -22,8 +22,8 @@ screen records exact bytes: file size on delete, `before − after` on compressi
 - anything in `CompressedVideoStore`. That holds our own outputs and originals that turned
   out "not worth it", so neither shows up again.
 
-HDR / Dolby Vision is detected only once the AVAsset is loaded
-(`.containsHDRVideo`), so those videos stay selectable but get skipped during the run.
+HDR / Dolby Vision videos are compressed too (HEVC presets keep HDR); verification rejects a copy
+whose source had an HDR track (`.containsHDRVideo`) but whose output doesn't.
 
 The estimated savings shown are `size − duration × 8 Mb/s`. That's a rough guess at the
 output bitrate of `AVAssetExportPresetHEVC1920x1080`.

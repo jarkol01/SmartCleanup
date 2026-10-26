@@ -18,89 +18,85 @@ struct HomeView: View {
 
     var body: some View {
         NavigationStack {
-            VStack(spacing: 24) {
-                Spacer()
+            ScrollView {
+                VStack(spacing: 24) {
+                    Image(systemName: "sparkles.rectangle.stack")
+                        .font(.system(size: 64))
+                        .foregroundStyle(.tint)
 
-                Image(systemName: "sparkles.rectangle.stack")
-                    .font(.system(size: 64))
-                    .foregroundStyle(.tint)
+                    Text(verbatim: "SmartCleanup")
+                        .font(.largeTitle.bold())
 
-                Text(verbatim: "SmartCleanup")
-                    .font(.largeTitle.bold())
+                    Text(modelTrained ? "Model wytrenowany ✅" : "Model nie jest jeszcze wytrenowany")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
 
-                Text(modelTrained ? "Model wytrenowany ✅" : "Model nie jest jeszcze wytrenowany")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    StatsRow(trainingSetCount: trainingSetCount, totalDeleted: totalDeleted, savedBytes: savedBytes)
 
-                StatsRow(trainingSetCount: trainingSetCount, totalDeleted: totalDeleted, savedBytes: savedBytes)
+                    if let storage {
+                        StorageCard(current: storage, history: storageHistory)
+                    }
 
-                if let storage {
-                    StorageCard(current: storage, history: storageHistory)
+                    VStack(spacing: 16) {
+                        Button {
+                            Haptics.selection()
+                            showTrain = true
+                        } label: {
+                            MenuButtonLabel(
+                                title: "Ucz model",
+                                subtitle: "Oznacz kilka zdjęć jako Zachowaj / Usuń",
+                                systemImage: "brain.head.profile"
+                            )
+                        }
+
+                        Button {
+                            Haptics.selection()
+                            showDelete = true
+                        } label: {
+                            MenuButtonLabel(
+                                title: "Usuń zdjęcia",
+                                subtitle: "Przejrzyj propozycje modelu i posprzątaj galerię",
+                                systemImage: "trash"
+                            )
+                        }
+
+                        Button {
+                            Haptics.selection()
+                            showBlur = true
+                        } label: {
+                            MenuButtonLabel(
+                                title: "Wykryj rozmycie",
+                                subtitle: "Znajdź nieostre zdjęcia i usuń je z galerii",
+                                systemImage: "wand.and.rays"
+                            )
+                        }
+
+                        Button {
+                            Haptics.selection()
+                            showDuplicates = true
+                        } label: {
+                            MenuButtonLabel(
+                                title: "Usuń duplikaty",
+                                subtitle: "Znajdź podobne zdjęcia (np. serie ujęć) i wybierz, które zostawić",
+                                systemImage: "square.on.square"
+                            )
+                        }
+
+                        Button {
+                            Haptics.selection()
+                            showVideos = true
+                        } label: {
+                            MenuButtonLabel(
+                                title: "Duże wideo",
+                                subtitle: "Obejrzyj, usuń lub skompresuj największe filmy",
+                                systemImage: "film"
+                            )
+                        }
+                    }
+                    .buttonStyle(.plain)
                 }
-
-                Spacer()
-
-                VStack(spacing: 16) {
-                    Button {
-                        Haptics.selection()
-                        showTrain = true
-                    } label: {
-                        MenuButtonLabel(
-                            title: "Ucz model",
-                            subtitle: "Oznacz kilka zdjęć jako Zachowaj / Usuń",
-                            systemImage: "brain.head.profile"
-                        )
-                    }
-
-                    Button {
-                        Haptics.selection()
-                        showDelete = true
-                    } label: {
-                        MenuButtonLabel(
-                            title: "Usuń zdjęcia",
-                            subtitle: "Przejrzyj propozycje modelu i posprzątaj galerię",
-                            systemImage: "trash"
-                        )
-                    }
-
-                    Button {
-                        Haptics.selection()
-                        showBlur = true
-                    } label: {
-                        MenuButtonLabel(
-                            title: "Wykryj rozmycie",
-                            subtitle: "Znajdź nieostre zdjęcia i usuń je z galerii",
-                            systemImage: "wand.and.rays"
-                        )
-                    }
-
-                    Button {
-                        Haptics.selection()
-                        showDuplicates = true
-                    } label: {
-                        MenuButtonLabel(
-                            title: "Usuń duplikaty",
-                            subtitle: "Znajdź podobne zdjęcia (np. serie ujęć) i wybierz, które zostawić",
-                            systemImage: "square.on.square"
-                        )
-                    }
-
-                    Button {
-                        Haptics.selection()
-                        showVideos = true
-                    } label: {
-                        MenuButtonLabel(
-                            title: "Duże wideo",
-                            subtitle: "Obejrzyj, usuń lub skompresuj największe filmy",
-                            systemImage: "film"
-                        )
-                    }
-                }
-                .buttonStyle(.plain)
-
-                Spacer()
+                .padding()
             }
-            .padding()
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {

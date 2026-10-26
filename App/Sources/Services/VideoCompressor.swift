@@ -13,8 +13,9 @@ enum VideoCompressor {
         case unavailable, unsupported, notWorthIt, exportFailed, verificationFailed
     }
 
-    /// Rough HEVC 1080p output bitrate; only used to show estimated savings up front.
-    private static let estimatedOutputBitsPerSecond: Double = 8_000_000
+    /// Deliberately pessimistic HEVC 1080p output bitrate (real ~8 Mb/s, device tests saved 40–50%+);
+    /// only used to show estimated savings up front.
+    private static let estimatedOutputBitsPerSecond: Double = 12_000_000
 
     /// Localization key explaining why a video isn't offered for compression; nil = candidate.
     /// 12 Mb/s: iPhone 1080p HEVC records at ~8–10, so anything near that gains too little.
@@ -42,9 +43,8 @@ enum VideoCompressor {
         onPhase: @escaping @Sendable (Phase) -> Void
     ) async throws -> (id: String, size: Int64) {
         let source = try await requestAVAsset(for: asset, onPhase: onPhase)
-        // HDR / Dolby Vision would lose its look when squeezed through the SDR-agnostic preset.
-        guard try await source.loadTracks(withMediaCharacteristic: .containsHDRVideo).isEmpty,
-              let session = AVAssetExportSession(asset: source, presetName: AVAssetExportPresetHEVC1920x1080)
+        // HEVC presets keep HDR (WWDC20 "Export HDR media"); verify() rejects the copy if it didn't.
+        guard let session = AVAssetExportSession(asset: source, presetName: AVAssetExportPresetHEVC1920x1080)
         else { throw Failure.unsupported }
 
         let url = FileManager.default.temporaryDirectory
@@ -95,6 +95,9 @@ enum VideoCompressor {
         let (duration, isPlayable) = try await AVURLAsset(url: url).load(.duration, .isPlayable)
         let sourceDuration = try await source.load(.duration)
         guard isPlayable, abs(duration.seconds - sourceDuration.seconds) < 0.5 else { throw Failure.verificationFailed }
+        let sourceIsHDR = try await !source.loadTracks(withMediaCharacteristic: .containsHDRVideo).isEmpty
+        let outputIsHDR = try await !AVURLAsset(url: url).loadTracks(withMediaCharacteristic: .containsHDRVideo).isEmpty
+        guard outputIsHDR || !sourceIsHDR else { throw Failure.verificationFailed }
         return size
     }
 
