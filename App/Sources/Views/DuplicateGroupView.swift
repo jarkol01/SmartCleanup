@@ -34,15 +34,7 @@ struct DuplicateGroupView: View {
 
             if flow.deleteCount > 0 {
                 // Same hold-to-confirm as ResultsView's and BlurReviewView's destructive delete.
-                HoldToConfirmButton(
-                    duration: 0.7,
-                    tint: .red,
-                    action: { flow.confirmCurrentGroup() }
-                ) {
-                    Text("Usuń \(flow.deleteCount), zostaw \(flow.keepCount)")
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                }
+                HoldToConfirmButton(title: "Usuń \(flow.deleteCount), zostaw \(flow.keepCount)", action: { flow.confirmCurrentGroup() })
                 .padding()
             } else {
                 Button {

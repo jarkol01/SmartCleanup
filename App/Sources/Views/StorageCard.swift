@@ -11,17 +11,18 @@ struct StorageCard: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            HStack {
-                Label("Pamięć urządzenia", systemImage: "iphone")
-                    .font(.subheadline.bold())
+            HStack(alignment: .firstTextBaseline) {
+                Text("Pamięć urządzenia")
+                    .font(.subheadline.weight(.heavy))
                 Spacer()
                 Text("Wolne: \(format(current.freeBytes))")
-                    .font(.caption.monospacedDigit())
-                    .foregroundStyle(.secondary)
+                    .font(.subheadline.weight(.bold).monospacedDigit())
+                    .foregroundStyle(.accent)
             }
             ProgressView(value: Double(current.usedBytes), total: Double(max(current.totalBytes, 1)))
+                .progressViewStyle(CapsuleBarStyle(fill: .primary.opacity(0.78)))
             Text("Zajęte \(format(current.usedBytes)) z \(format(current.totalBytes))")
-                .font(.caption2)
+                .font(.footnote.monospacedDigit())
                 .foregroundStyle(.secondary)
 
             if history.count >= 2 {
@@ -30,12 +31,12 @@ struct StorageCard: View {
                         x: .value("Data", snapshot.date, unit: .day),
                         y: .value("Zajęte", Double(snapshot.usedBytes) / 1e9)
                     )
+                    .foregroundStyle(.accent)
                 }
                 .chartYAxisLabel { Text(verbatim: "GB") }
-                .frame(height: 60)
+                .frame(height: 50)
             }
         }
-        .padding()
-        .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 16))
+        .card(padding: 16)
     }
 }

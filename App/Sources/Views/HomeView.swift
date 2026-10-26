@@ -9,113 +9,83 @@ struct HomeView: View {
     @State private var showVideos = false
     @State private var showSettings = false
 
-    @State private var modelTrained = false
-    @State private var trainingSetCount = 0
+    @State private var keepCount = 0
+    @State private var deleteCount = 0
     @State private var totalDeleted = 0
     @State private var savedBytes: Int64 = 0
     @State private var storage: StorageSnapshot?
     @State private var storageHistory: [StorageSnapshot] = []
 
+    private var modelReady: Bool {
+        keepCount >= ClassifierTrainer.minSamplesPerClass && deleteCount >= ClassifierTrainer.minSamplesPerClass
+    }
+
     var body: some View {
-        NavigationStack {
-            ScrollView {
-                VStack(spacing: 24) {
-                    Image(systemName: "sparkles.rectangle.stack")
-                        .font(.system(size: 64))
-                        .foregroundStyle(.tint)
+        ScrollView {
+            VStack(spacing: 12) {
+                header
 
-                    Text(verbatim: "SmartCleanup")
-                        .font(.largeTitle.bold())
-
-                    Text(modelTrained ? "Model wytrenowany ✅" : "Model nie jest jeszcze wytrenowany")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-
-                    StatsRow(trainingSetCount: trainingSetCount, totalDeleted: totalDeleted, savedBytes: savedBytes)
-
-                    if let storage {
-                        StorageCard(current: storage, history: storageHistory)
+                if savedBytes > 0 || totalDeleted > 0 {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("oszczędzone").font(.subheadline.weight(.bold))
+                        Text(verbatim: "~\(formatBytes(savedBytes))")
+                            .font(.system(size: 40, weight: .heavy).monospacedDigit())
+                        Text("\(Text(totalDeleted, format: .number).bold().foregroundStyle(.primary)) usuniętych")
+                            .font(.subheadline.monospacedDigit())
+                            .foregroundStyle(.secondary)
                     }
-
-                    VStack(spacing: 16) {
-                        Button {
-                            Haptics.selection()
-                            showTrain = true
-                        } label: {
-                            MenuButtonLabel(
-                                title: "Ucz model",
-                                subtitle: "Oznacz kilka zdjęć jako Zachowaj / Usuń",
-                                systemImage: "brain.head.profile"
-                            )
-                        }
-
-                        Button {
-                            Haptics.selection()
-                            showDelete = true
-                        } label: {
-                            MenuButtonLabel(
-                                title: "Usuń zdjęcia",
-                                subtitle: "Przejrzyj propozycje modelu i posprzątaj galerię",
-                                systemImage: "trash"
-                            )
-                        }
-
-                        Button {
-                            Haptics.selection()
-                            showBlur = true
-                        } label: {
-                            MenuButtonLabel(
-                                title: "Wykryj rozmycie",
-                                subtitle: "Znajdź nieostre zdjęcia i usuń je z galerii",
-                                systemImage: "wand.and.rays"
-                            )
-                        }
-
-                        Button {
-                            Haptics.selection()
-                            showDuplicates = true
-                        } label: {
-                            MenuButtonLabel(
-                                title: "Usuń duplikaty",
-                                subtitle: "Znajdź podobne zdjęcia (np. serie ujęć) i wybierz, które zostawić",
-                                systemImage: "square.on.square"
-                            )
-                        }
-
-                        Button {
-                            Haptics.selection()
-                            showVideos = true
-                        } label: {
-                            MenuButtonLabel(
-                                title: "Duże wideo",
-                                subtitle: "Obejrzyj, usuń lub skompresuj największe filmy",
-                                systemImage: "film"
-                            )
-                        }
-                    }
-                    .buttonStyle(.plain)
+                    .foregroundStyle(.accent)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .card(radius: 26, fill: .accentSoft, padding: 18)
                 }
-                .padding()
-            }
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        Haptics.selection()
-                        showSettings = true
-                    } label: {
-                        Image(systemName: "gearshape")
-                    }
+
+                if let storage {
+                    StorageCard(current: storage, history: storageHistory)
                 }
+
+                if modelReady {
+                    SectionHeader(title: "Twój model").padding(.top, 4)
+                    modelCard
+                } else {
+                    startCard
+                }
+
+                SectionHeader(title: "Sprzątanie").padding(.top, 4)
+                ToolRow(
+                    title: "Usuń zdjęcia",
+                    subtitle: "Przejrzyj propozycje modelu i posprzątaj galerię",
+                    systemImage: "trash",
+                    ai: true,
+                    locked: !modelReady
+                ) { showDelete = true }
+                ToolRow(
+                    title: "Wykryj rozmycie",
+                    subtitle: "Znajdź nieostre zdjęcia i usuń je z galerii",
+                    systemImage: "camera.aperture"
+                ) { showBlur = true }
+                ToolRow(
+                    title: "Usuń duplikaty",
+                    subtitle: "Znajdź podobne zdjęcia (np. serie ujęć) i wybierz, które zostawić",
+                    systemImage: "square.on.square"
+                ) { showDuplicates = true }
+                ToolRow(
+                    title: "Duże wideo",
+                    subtitle: "Obejrzyj, usuń lub skompresuj największe filmy",
+                    systemImage: "film"
+                ) { showVideos = true }
             }
-            .fullScreenCover(isPresented: $showTrain) { TrainView() }
-            .fullScreenCover(isPresented: $showDelete) { DeleteView() }
-            .fullScreenCover(isPresented: $showBlur) { BlurReviewView() }
-            .fullScreenCover(isPresented: $showDuplicates) { DuplicateReviewView() }
-            .fullScreenCover(isPresented: $showVideos) { LargeVideosView() }
-            .sheet(isPresented: $showSettings) { SettingsView() }
+            .padding(.horizontal, 18)
+            .padding(.bottom, 18)
         }
-        // Refresh whenever this screen (re)appears — including right after a fullScreenCover
-        // dismisses — rather than trusting SwiftUI to re-run computed properties on its own.
+        .background(Color.appBackground)
+        .fullScreenCover(isPresented: $showTrain) { TrainView() }
+        .fullScreenCover(isPresented: $showDelete) { DeleteView() }
+        .fullScreenCover(isPresented: $showBlur) { BlurReviewView() }
+        .fullScreenCover(isPresented: $showDuplicates) { DuplicateReviewView() }
+        .fullScreenCover(isPresented: $showVideos) { LargeVideosView() }
+        .sheet(isPresented: $showSettings) { SettingsView() }
+        // Refresh whenever this screen (re)appears, including right after a fullScreenCover
+        // dismisses, rather than trusting SwiftUI to re-run computed properties on its own.
         .onAppear(perform: refreshStats)
         .onChange(of: showTrain) { _, isShowing in if !isShowing { refreshStats() } }
         .onChange(of: showDelete) { _, isShowing in if !isShowing { refreshStats() } }
@@ -125,10 +95,77 @@ struct HomeView: View {
         .onChange(of: scenePhase) { _, phase in if phase == .active { refreshStats() } }
     }
 
+    private var header: some View {
+        HStack(spacing: 10) {
+            IconCircle(systemImage: "sparkles", size: 34)
+            Text(verbatim: "SmartCleanup").font(.title2.weight(.heavy))
+            Spacer()
+            Button {
+                Haptics.selection()
+                showSettings = true
+            } label: {
+                Image(systemName: "gearshape")
+                    .font(.title3)
+                    .foregroundStyle(.secondary)
+                    .frame(width: 44, height: 44)
+                    .background(Color.card, in: Circle())
+            }
+            .accessibilityLabel(Text("Ustawienia"))
+        }
+        .frame(minHeight: 44)
+        .padding(.top, 8)
+    }
+
+    private var startCard: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text("Zacznij tutaj").textCase(.uppercase).chip(.accent, .onAccent)
+            Text("Naucz model, co chcesz usuwać").font(.title2.weight(.heavy))
+            Text("Oznacz kilka zdjęć jako Zachowaj / Usuń. Potrzeba co najmniej 3 z każdej kategorii.")
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+            HStack(spacing: 12) {
+                MiniProgress(title: "Zachowaj", count: keepCount)
+                MiniProgress(title: "Usuń", count: deleteCount)
+            }
+            Button("Ucz model") {
+                Haptics.selection()
+                showTrain = true
+            }
+            .buttonStyle(.primary)
+            .padding(.top, 4)
+        }
+        .card(radius: 26, fill: .accentSoft, padding: 18)
+    }
+
+    private var modelCard: some View {
+        HStack(spacing: 12) {
+            IconCircle(systemImage: "lightbulb")
+            VStack(alignment: .leading, spacing: 1) {
+                HStack(spacing: 5) {
+                    Text("Model wytrenowany").font(.headline.weight(.heavy))
+                    Image(systemName: "checkmark.circle.fill").foregroundStyle(.accent)
+                }
+                Text("\(keepCount + deleteCount) przykładów · \(keepCount) / \(deleteCount)")
+                    .monospacedDigit()
+                Text("Uczy się z każdej Twojej decyzji")
+            }
+            .font(.footnote)
+            .foregroundStyle(.secondary)
+            Spacer(minLength: 0)
+            if keepCount < ClassifierTrainer.matureSamplesPerClass || deleteCount < ClassifierTrainer.matureSamplesPerClass {
+                Button("Doucz model") {
+                    Haptics.selection()
+                    showTrain = true
+                }
+                .buttonStyle(.secondary)
+                .controlSize(.small)
+            }
+        }
+        .card(radius: 20, padding: 14)
+    }
+
     private func refreshStats() {
-        modelTrained = ClassifierTrainer.hasSavedModel()
-        let counts = TrainingDataStore.sampleCounts()
-        trainingSetCount = counts.keep + counts.delete
+        (keepCount, deleteCount) = TrainingDataStore.sampleCounts()
         totalDeleted = StatsStore.totalDeleted
         savedBytes = StatsStore.totalBytesFreedEstimate
         storage = StorageStore.recordSnapshot()
@@ -136,63 +173,21 @@ struct HomeView: View {
     }
 }
 
-private struct StatsRow: View {
-    let trainingSetCount: Int
-    let totalDeleted: Int
-    let savedBytes: Int64
-
-    private var savedSpaceText: String {
-        ByteCountFormatter.string(fromByteCount: savedBytes, countStyle: .file)
-    }
-
-    var body: some View {
-        HStack(spacing: 12) {
-            StatTile(value: "\(trainingSetCount)", label: "do treningu", systemImage: "photo.stack")
-            StatTile(value: "\(totalDeleted)", label: "usuniętych", systemImage: "trash")
-            StatTile(value: "~\(savedSpaceText)", label: "oszczędzone", systemImage: "internaldrive")
-        }
-    }
-}
-
-private struct StatTile: View {
-    let value: String
-    let label: LocalizedStringKey
-    let systemImage: String
-
-    var body: some View {
-        VStack(spacing: 4) {
-            Image(systemName: systemImage)
-                .foregroundStyle(.secondary)
-            Text(value)
-                .font(.headline.monospacedDigit())
-            Text(label)
-                .font(.caption2)
-                .foregroundStyle(.secondary)
-        }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 10)
-        .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 12))
-    }
-}
-
-private struct MenuButtonLabel: View {
+private struct MiniProgress: View {
     let title: LocalizedStringKey
-    let subtitle: LocalizedStringKey
-    let systemImage: String
+    let count: Int
 
     var body: some View {
-        HStack(spacing: 16) {
-            Image(systemName: systemImage)
-                .font(.title)
-                .frame(width: 44)
-            VStack(alignment: .leading, spacing: 2) {
-                Text(title).font(.headline)
-                Text(subtitle).font(.caption).foregroundStyle(.secondary)
+        let needed = ClassifierTrainer.minSamplesPerClass
+        VStack(spacing: 5) {
+            HStack {
+                Text(title)
+                Spacer()
+                Text(verbatim: "\(min(count, needed))/\(needed)").monospacedDigit()
             }
-            Spacer()
-            Image(systemName: "chevron.right").foregroundStyle(.tertiary)
+            .font(.footnote.weight(.bold))
+            ProgressView(value: Double(min(count, needed)), total: Double(needed))
+                .progressViewStyle(CapsuleBarStyle(height: 6, fill: .accent, trackFill: .card))
         }
-        .padding()
-        .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 16))
     }
 }

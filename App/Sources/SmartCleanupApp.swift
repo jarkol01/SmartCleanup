@@ -8,6 +8,8 @@ struct SmartCleanupApp: App {
     var body: some Scene {
         WindowGroup {
             HomeView()
+                .fontDesign(.rounded)
+                .tint(.accent)
                 .preferredColorScheme((AppColorScheme(rawValue: colorSchemeRaw) ?? .system).colorScheme)
                 .modifier(LocaleOverride(locale: (AppLanguage(rawValue: languageRaw) ?? .system).locale))
         }

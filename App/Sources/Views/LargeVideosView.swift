@@ -66,11 +66,7 @@ struct LargeVideosView: View {
                             .font(.footnote)
                             .foregroundStyle(.secondary)
                             .multilineTextAlignment(.center)
-                        HoldToConfirmButton(duration: 0.7, tint: .red, action: { Task { await flow.deleteOriginals() } }) {
-                            Text("Usuń oryginały")
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                        }
+                        HoldToConfirmButton(title: "Usuń oryginały", action: { Task { await flow.deleteOriginals() } })
                         Button("Zostaw oryginały") {
                             Haptics.selection()
                             Task { await flow.keepOriginals() }
@@ -257,11 +253,7 @@ private struct VideoPlayerSheet: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
 
-            HoldToConfirmButton(duration: 0.7, tint: .red, action: onDelete) {
-                Text("Usuń wideo (\(ByteCountFormatter.string(fromByteCount: item.size, countStyle: .file)))")
-                    .frame(maxWidth: .infinity)
-                    .padding()
-            }
+            HoldToConfirmButton(title: "Usuń wideo (\(ByteCountFormatter.string(fromByteCount: item.size, countStyle: .file)))", action: onDelete)
             .padding()
         }
         .task {

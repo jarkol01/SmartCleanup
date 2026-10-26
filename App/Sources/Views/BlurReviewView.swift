@@ -198,16 +198,7 @@ private struct BlurResultsView: View {
                 .padding()
             } else {
                 // Same hold-to-confirm as ResultsView's destructive delete button.
-                HoldToConfirmButton(
-                    duration: 0.7,
-                    tint: .red,
-                    isDisabled: flow.scored.isEmpty,
-                    action: { flow.confirmDeletion() }
-                ) {
-                    Text("Usuń \(blurryItems.count) zdjęć")
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                }
+                HoldToConfirmButton(title: "Usuń \(blurryItems.count) zdjęć", isDisabled: flow.scored.isEmpty, action: { flow.confirmDeletion() })
                 .padding()
             }
         }

@@ -58,9 +58,19 @@ enum ClassifierTrainer {
         return total - trainedSampleCount >= requiredGrowth
     }
 
+    static let minSamplesPerClass = 3
+    /// Below this many samples in either class the UI still nudges the user to train
+    /// ("Doucz model", small-batch tip).
+    static let matureSamplesPerClass = 200
+
     static var hasEnoughTrainingData: Bool {
         let (keep, delete) = TrainingDataStore.sampleCounts()
-        return keep >= 3 && delete >= 3
+        return keep >= minSamplesPerClass && delete >= minSamplesPerClass
+    }
+
+    static var isModelYoung: Bool {
+        let (keep, delete) = TrainingDataStore.sampleCounts()
+        return keep < matureSamplesPerClass || delete < matureSamplesPerClass
     }
 
     /// Trains on a capped, randomly sampled subset of TrainingDataStore's Keep/Delete folders and

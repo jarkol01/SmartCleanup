@@ -87,16 +87,7 @@ struct ResultsView: View {
             } else {
                 // Hold-to-confirm instead of a tap + dialog: a deliberate ~0.7s hold is at
                 // least as hard to trigger by accident, with no second UI to maintain.
-                HoldToConfirmButton(
-                    duration: 0.7,
-                    tint: .red,
-                    isDisabled: flow.classified.isEmpty,
-                    action: { flow.confirmDeletion() }
-                ) {
-                    Text("Usuń \(deleteItems.count) zdjęć")
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                }
+                HoldToConfirmButton(title: "Usuń \(deleteItems.count) zdjęć", isDisabled: flow.classified.isEmpty, action: { flow.confirmDeletion() })
                 .padding()
             }
         }
