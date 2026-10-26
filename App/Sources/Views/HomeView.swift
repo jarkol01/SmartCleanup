@@ -5,6 +5,7 @@ struct HomeView: View {
     @State private var showDelete = false
     @State private var showBlur = false
     @State private var showDuplicates = false
+    @State private var showVideos = false
     @State private var showSettings = false
 
     @State private var modelTrained = false
@@ -76,6 +77,17 @@ struct HomeView: View {
                             systemImage: "square.on.square"
                         )
                     }
+
+                    Button {
+                        Haptics.selection()
+                        showVideos = true
+                    } label: {
+                        MenuButtonLabel(
+                            title: "Duże wideo",
+                            subtitle: "Obejrzyj, usuń lub skompresuj największe filmy",
+                            systemImage: "film"
+                        )
+                    }
                 }
                 .buttonStyle(.plain)
 
@@ -96,6 +108,7 @@ struct HomeView: View {
             .fullScreenCover(isPresented: $showDelete) { DeleteView() }
             .fullScreenCover(isPresented: $showBlur) { BlurReviewView() }
             .fullScreenCover(isPresented: $showDuplicates) { DuplicateReviewView() }
+            .fullScreenCover(isPresented: $showVideos) { LargeVideosView() }
             .sheet(isPresented: $showSettings) { SettingsView() }
         }
         // Refresh whenever this screen (re)appears — including right after a fullScreenCover
@@ -105,6 +118,7 @@ struct HomeView: View {
         .onChange(of: showDelete) { _, isShowing in if !isShowing { refreshStats() } }
         .onChange(of: showBlur) { _, isShowing in if !isShowing { refreshStats() } }
         .onChange(of: showDuplicates) { _, isShowing in if !isShowing { refreshStats() } }
+        .onChange(of: showVideos) { _, isShowing in if !isShowing { refreshStats() } }
     }
 
     private func refreshStats() {
