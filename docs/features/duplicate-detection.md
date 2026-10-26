@@ -1,7 +1,8 @@
 # Duplicate detection ("Usuń duplikaty")
 
 Finds near-duplicate photo clusters (typically burst shots) and lets the user review each
-group as a single gallery, deciding which of its photos to keep.
+group as a single gallery, deciding which of its photos to keep. The tool opens on its intro
+screen (`ToolIntroView`); the scan only starts when the user taps "Rozpocznij skanowanie".
 
 ## Files
 
@@ -58,9 +59,10 @@ directly — no image decode needed — and resolution is a reasonable proxy for
 a downsized/re-encoded duplicate" without the cost of a real sharpness heuristic (e.g. Laplacian
 variance) over every asset in every group.
 
-The rest of the group starts unmarked ("delete"), but nothing is forced: any asset can be
-toggled to "keep", including all of them — the UI just disables the confirm button (and shows
-a hint) if the user ever unmarks the last "keep", so a group can never be fully deleted.
+The rest of the group starts unmarked ("delete"), but nothing is forced: any number of assets
+can be marked "keep", from all of them (the confirm button then just moves on, deleting nothing)
+to none of them (the whole group is deleted, behind the same hold-to-confirm button as any other
+deletion).
 
 ## Known tradeoffs / limitations
 
