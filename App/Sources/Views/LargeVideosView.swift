@@ -266,6 +266,8 @@ private struct VideoPlayerSheet: View {
         }
         .task {
             guard let playerItem = await PhotoLibraryService.requestPlayerItem(for: item.asset) else { return }
+            // Default .soloAmbient session is silenced by the ring/silent switch.
+            try? AVAudioSession.sharedInstance().setCategory(.playback)
             player = AVPlayer(playerItem: playerItem)
             player?.play()
         }
