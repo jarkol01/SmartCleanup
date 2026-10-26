@@ -142,7 +142,11 @@ struct HomeView: View {
             IconCircle(systemImage: "lightbulb")
             VStack(alignment: .leading, spacing: 1) {
                 HStack(spacing: 5) {
-                    Text("Model wytrenowany").font(.headline.weight(.heavy))
+                    Text("Model wytrenowany")
+                        .font(.headline.weight(.heavy))
+                        .foregroundStyle(.primary)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.8)
                     Image(systemName: "checkmark.circle.fill").foregroundStyle(.accent)
                 }
                 Text("\(keepCount + deleteCount) przykładów · \(keepCount) / \(deleteCount)")
