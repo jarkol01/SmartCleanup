@@ -16,13 +16,18 @@ enum VideoCompressor {
     /// Rough HEVC 1080p output bitrate; only used to show estimated savings up front.
     private static let estimatedOutputBitsPerSecond: Double = 8_000_000
 
-    static func isCandidate(_ asset: PHAsset, size: Int64) -> Bool {
+    /// Localization key explaining why a video isn't offered for compression; nil = candidate.
+    /// 12 Mb/s: iPhone 1080p HEVC records at ~8–10, so anything near that gains too little.
+    static func skipReason(_ asset: PHAsset, size: Int64) -> String? {
         let subtypes = asset.mediaSubtypes
-        guard !subtypes.contains(.videoHighFrameRate), !subtypes.contains(.videoCinematic),
-              !CompressedVideoStore.isHandled(asset.localIdentifier) else { return false }
+        if CompressedVideoStore.isHandled(asset.localIdentifier) { return "Już skompresowane" }
+        if subtypes.contains(.videoHighFrameRate) { return "Slow motion – pomijane" }
+        if subtypes.contains(.videoCinematic) { return "Tryb kinowy – pomijane" }
         let bitsPerSecond = Double(size) * 8 / max(asset.duration, 1)
-        let alreadySmall = bitsPerSecond < 20_000_000 && max(asset.pixelWidth, asset.pixelHeight) <= 1920
-        return !alreadySmall
+        if bitsPerSecond < 12_000_000, max(asset.pixelWidth, asset.pixelHeight) <= 1920 {
+            return "Już oszczędnie zapisane"
+        }
+        return nil
     }
 
     static func estimatedSavings(_ asset: PHAsset, size: Int64) -> Int64 {

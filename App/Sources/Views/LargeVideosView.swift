@@ -193,8 +193,8 @@ private struct VideoRow: View {
                     Text("Kompresja: ~\(ByteCountFormatter.string(fromByteCount: item.estimatedSavings, countStyle: .file)) mniej")
                         .font(.caption)
                         .foregroundStyle(.secondary)
-                } else {
-                    Text("Nie wymaga kompresji")
+                } else if let reason = item.skipReason {
+                    Text(LocalizedStringKey(reason))
                         .font(.caption)
                         .foregroundStyle(.tertiary)
                 }

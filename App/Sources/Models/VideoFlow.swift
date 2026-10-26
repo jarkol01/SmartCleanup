@@ -4,7 +4,8 @@ import UIKit
 struct VideoItem: Identifiable {
     let asset: PHAsset
     let size: Int64
-    let isCompressionCandidate: Bool
+    let skipReason: String?
+    var isCompressionCandidate: Bool { skipReason == nil }
     var id: String { asset.localIdentifier }
     var estimatedSavings: Int64 {
         isCompressionCandidate ? VideoCompressor.estimatedSavings(asset, size: size) : 0
@@ -50,7 +51,7 @@ final class VideoFlow {
         videos = await Task.detached {
             PhotoLibraryService.fetchAllAssets(of: .video).map { asset in
                 let size = PhotoLibraryService.videoFileSize(of: asset)
-                return VideoItem(asset: asset, size: size, isCompressionCandidate: VideoCompressor.isCandidate(asset, size: size))
+                return VideoItem(asset: asset, size: size, skipReason: VideoCompressor.skipReason(asset, size: size))
             }
             .sorted { $0.size > $1.size }
         }.value
