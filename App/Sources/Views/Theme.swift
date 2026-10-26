@@ -321,7 +321,7 @@ struct DoneView: View {
             VStack(spacing: 10) {
                 IconCircle(systemImage: "checkmark", size: 88)
                 Text("Gotowe").font(.largeTitle.weight(.heavy)).padding(.top, 8)
-                message.foregroundStyle(.secondary)
+                message.foregroundStyle(.secondary).multilineTextAlignment(.center)
 
                 VStack(alignment: .leading, spacing: 2) {
                     Text("zwolniono").font(.subheadline.weight(.bold))
@@ -340,7 +340,6 @@ struct DoneView: View {
 
                 ForEach(infos.indices, id: \.self) { infos[$0] }
             }
-            .multilineTextAlignment(.center)
             .padding(18)
             .padding(.top, 24)
         }
@@ -417,6 +416,10 @@ struct CapsuleBarStyle: ProgressViewStyle {
     }
 }
 
+/// Numeric even for 0 ("0 KB", not "Zero KB"), since it follows a "~".
 func formatBytes(_ bytes: Int64) -> String {
-    ByteCountFormatter.string(fromByteCount: bytes, countStyle: .file)
+    let formatter = ByteCountFormatter()
+    formatter.countStyle = .file
+    formatter.allowsNonnumericFormatting = false
+    return formatter.string(fromByteCount: bytes)
 }
