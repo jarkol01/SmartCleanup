@@ -38,8 +38,8 @@ struct TrainView: View {
                             Haptics.selection()
                             dismiss()
                         }
-                        .buttonStyle(.borderedProminent)
-                        .padding()
+                        .buttonStyle(.primary)
+                        .padding(18)
                     }
                 }
             }

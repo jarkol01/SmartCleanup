@@ -120,6 +120,8 @@ struct SettingsView: View {
                     Text("Wyższa wartość oznacza więcej zdjęć uznanych za duplikaty w „Usuń duplikaty” — nawet takich, które różnią się nieco bardziej.")
                 }
             }
+            .scrollContentBackground(.hidden)
+            .background(Color.appBackground)
             .navigationTitle("Ustawienia")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

@@ -113,11 +113,9 @@ private struct ModelUpdatedView: View {
     var body: some View {
         VStack(spacing: 16) {
             Spacer()
-            Image(systemName: "checkmark.seal.fill")
-                .font(.system(size: 48))
-                .foregroundStyle(.tint)
+            IconCircle(systemImage: "checkmark.seal.fill", size: 88)
             Text("Model zaktualizowany")
-                .font(.title2.bold())
+                .font(.title2.weight(.heavy))
 
             if let result {
                 VStack(spacing: 4) {
@@ -139,7 +137,7 @@ private struct ModelUpdatedView: View {
                 Haptics.selection()
                 onContinue()
             }
-            .buttonStyle(.borderedProminent)
+            .buttonStyle(.primary)
             .padding(.bottom, 24)
         }
         .padding()

@@ -19,7 +19,7 @@ struct DuplicateGroupView: View {
                 .padding(.top, 8)
 
             ScrollView {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 100), spacing: 4)], spacing: 4) {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 100), spacing: 6)], spacing: 6) {
                     ForEach(group.assets, id: \.localIdentifier) { asset in
                         DuplicateThumbnailCell(
                             asset: asset,
@@ -28,7 +28,7 @@ struct DuplicateGroupView: View {
                         )
                     }
                 }
-                .padding(.horizontal, 4)
+                .padding(.horizontal, 12)
                 .padding(.top, 8)
             }
 
@@ -37,18 +37,15 @@ struct DuplicateGroupView: View {
                 HoldToConfirmButton(title: "Usuń \(flow.deleteCount), zostaw \(flow.keepCount)", action: { flow.confirmCurrentGroup() })
                 .padding()
             } else {
-                Button {
+                Button("Usuń \(flow.deleteCount), zostaw \(flow.keepCount)") {
                     Haptics.selection()
                     flow.confirmCurrentGroup()
-                } label: {
-                    Text("Usuń \(flow.deleteCount), zostaw \(flow.keepCount)")
-                        .frame(maxWidth: .infinity)
-                        .padding()
                 }
-                .buttonStyle(.borderedProminent)
+                .buttonStyle(.primary)
                 .padding()
             }
         }
+        .screenBackground()
     }
 }
 
@@ -57,29 +54,17 @@ private struct DuplicateThumbnailCell: View {
     let isKept: Bool
     let onTap: () -> Void
 
-    @State private var image: UIImage?
-
     var body: some View {
-        Group {
-            if let image {
-                Image(uiImage: image).resizable().scaledToFill()
-            } else {
-                Rectangle().fill(.gray.opacity(0.2))
-            }
-        }
-        .frame(width: 100, height: 100)
-        .clipped()
+        AssetThumbnail(asset: asset)
         .overlay {
             if isKept {
-                RoundedRectangle(cornerRadius: 4).stroke(.green, lineWidth: 3)
+                RoundedRectangle(cornerRadius: 14, style: .continuous).strokeBorder(.accent, lineWidth: 3)
             }
         }
         .overlay(alignment: .topTrailing) {
             if isKept {
-                Image(systemName: "checkmark.circle.fill")
-                    .font(.title3)
-                    .foregroundStyle(.white, .green)
-                    .padding(4)
+                IconCircle(systemImage: "checkmark", size: 26, fill: .accent, foreground: .onAccent)
+                    .padding(6)
             }
         }
         .onTapGesture {
@@ -101,11 +86,6 @@ private struct DuplicateThumbnailCell: View {
         } preview: {
             // Same native long-press preview as ResultsView's ThumbnailCell.
             AssetPreview(asset: asset)
-        }
-        .task {
-            image = await PhotoLibraryService.requestImage(
-                for: asset, targetSize: CGSize(width: 200, height: 200)
-            )
         }
     }
 }
