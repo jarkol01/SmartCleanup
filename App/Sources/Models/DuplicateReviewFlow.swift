@@ -7,7 +7,7 @@ enum DuplicateReviewStage: Equatable {
     case noDuplicates
     case reviewing
     case deleting
-    case done(deletedCount: Int, groupsReviewed: Int)
+    case done(deletedCount: Int, groupsReviewed: Int, freedBytes: Int64)
 }
 
 @MainActor
@@ -22,6 +22,7 @@ final class DuplicateReviewFlow {
     private(set) var keepMarks: Set<String> = []
 
     private var deletedTotal = 0
+    private var freedTotal: Int64 = 0
     private var groupsReviewed = 0
 
     var currentGroup: DuplicateGroup? {
@@ -45,6 +46,7 @@ final class DuplicateReviewFlow {
         groups = found
         currentIndex = 0
         deletedTotal = 0
+        freedTotal = 0
         groupsReviewed = 0
         if groups.isEmpty {
             stage = .noDuplicates
@@ -82,7 +84,7 @@ final class DuplicateReviewFlow {
             let toDelete = group.assets.filter { !isKept($0) }
             let success = await PhotoLibraryService.delete(toDelete)
             if success {
-                StatsStore.recordDeletion(of: toDelete)
+                freedTotal += StatsStore.recordDeletion(of: toDelete)
                 deletedTotal += toDelete.count
             }
             DuplicateDecisionStore.markHandled(group.assets.map(\.localIdentifier))
@@ -94,7 +96,7 @@ final class DuplicateReviewFlow {
     private func advance() {
         currentIndex += 1
         if currentIndex >= groups.count {
-            stage = .done(deletedCount: deletedTotal, groupsReviewed: groupsReviewed)
+            stage = .done(deletedCount: deletedTotal, groupsReviewed: groupsReviewed, freedBytes: freedTotal)
         } else {
             seedKeepMarks()
             stage = .reviewing

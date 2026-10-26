@@ -70,20 +70,15 @@ struct DuplicateReviewView: View {
                     case .deleting:
                         ProgressView("Usuwam zdjęcia…")
 
-                    case .done(let deletedCount, let groupsReviewed):
-                        ContentUnavailableView(
-                            "Gotowe",
-                            systemImage: "checkmark.circle",
-                            description: Text("Przejrzano \(groupsReviewed) grup, usunięto \(deletedCount) zdjęć.")
+                    case .done(let deletedCount, let groupsReviewed, let freed):
+                        DoneView(
+                            message: Text("Przejrzano \(groupsReviewed) grup, usunięto \(deletedCount) zdjęć."),
+                            freedBytes: freed,
+                            infos: [
+                                InfoRow(systemImage: "checkmark.shield", text: "Miejsce zwolni się dopiero po opróżnieniu albumu „Ostatnio usunięte”.", fill: .card),
+                            ],
+                            onMenu: { dismiss() }
                         )
-                        .safeAreaInset(edge: .bottom) {
-                            Button("Wróć do menu") {
-                                Haptics.selection()
-                                dismiss()
-                            }
-                            .buttonStyle(.borderedProminent)
-                            .padding()
-                        }
                     }
                 }
             }

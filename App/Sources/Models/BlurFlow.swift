@@ -22,7 +22,7 @@ enum BlurStage: Equatable {
     case scoring(done: Int, total: Int)
     case results
     case deleting
-    case done(deletedCount: Int)
+    case done(deletedCount: Int, freedBytes: Int64)
 }
 
 /// Mirrors DeleteFlow's shape (stages, batching, confirm-delete) but scores photos with
@@ -116,10 +116,8 @@ final class BlurFlow {
             BlurDecisionStore.markHandled(scored.map(\.id))
 
             let success = await PhotoLibraryService.delete(toDelete)
-            if success {
-                StatsStore.recordDeletion(of: toDelete)
-            }
-            stage = .done(deletedCount: success ? toDelete.count : 0)
+            let freed = success ? StatsStore.recordDeletion(of: toDelete) : 0
+            stage = .done(deletedCount: success ? toDelete.count : 0, freedBytes: freed)
         }
     }
 

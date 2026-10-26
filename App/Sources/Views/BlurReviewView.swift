@@ -52,26 +52,16 @@ struct BlurReviewView: View {
                 case .deleting:
                     ProgressView("Usuwam zdjęcia…")
 
-                case .done(let count):
-                    ContentUnavailableView(
-                        "Gotowe",
-                        systemImage: "checkmark.circle",
-                        description: Text("Usunięto \(count) zdjęć.")
+                case .done(let count, let freed):
+                    DoneView(
+                        message: Text("Usunięto \(count) zdjęć."),
+                        freedBytes: freed,
+                        infos: [
+                            InfoRow(systemImage: "checkmark.shield", text: "Miejsce zwolni się dopiero po opróżnieniu albumu „Ostatnio usunięte”.", fill: .card),
+                        ],
+                        onNext: { flow.reset() },
+                        onMenu: { dismiss() }
                     )
-                    .safeAreaInset(edge: .bottom) {
-                        VStack(spacing: 12) {
-                            Button("Przetwórz kolejną partię") {
-                                Haptics.selection()
-                                flow.reset()
-                            }
-                            .buttonStyle(.borderedProminent)
-                            Button("Wróć do menu") {
-                                Haptics.selection()
-                                dismiss()
-                            }
-                        }
-                        .padding()
-                    }
                 }
             }
             .screenBackground()

@@ -12,7 +12,7 @@ enum DeleteStage: Equatable {
     case classifying(done: Int, total: Int)
     case results
     case deleting
-    case done(deletedCount: Int)
+    case done(deletedCount: Int, freedBytes: Int64)
 }
 
 @MainActor
@@ -123,10 +123,8 @@ final class DeleteFlow {
             AssetDecisionStore.markHandled(classified.map(\.id))
 
             let success = await PhotoLibraryService.delete(toDelete)
-            if success {
-                StatsStore.recordDeletion(of: toDelete)
-            }
-            stage = .done(deletedCount: success ? toDelete.count : 0)
+            let freed = success ? StatsStore.recordDeletion(of: toDelete) : 0
+            stage = .done(deletedCount: success ? toDelete.count : 0, freedBytes: freed)
         }
     }
 

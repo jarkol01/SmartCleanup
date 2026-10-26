@@ -13,9 +13,13 @@ enum StatsStore {
         Int64(UserDefaults.standard.double(forKey: totalBytesKey))
     }
 
-    static func recordDeletion(of assets: [PHAsset]) {
-        guard !assets.isEmpty else { return }
-        record(deletedCount: assets.count, bytesFreed: assets.reduce(Int64(0)) { $0 + estimatedBytes(for: $1) })
+    /// Returns the bytes freed estimate it recorded.
+    @discardableResult
+    static func recordDeletion(of assets: [PHAsset]) -> Int64 {
+        guard !assets.isEmpty else { return 0 }
+        let bytes = assets.reduce(Int64(0)) { $0 + estimatedBytes(for: $1) }
+        record(deletedCount: assets.count, bytesFreed: bytes)
+        return bytes
     }
 
     /// For callers that already know real bytes (video deletion: file size; compression: before − after).
