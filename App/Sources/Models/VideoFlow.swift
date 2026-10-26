@@ -19,6 +19,7 @@ enum VideoStage: Equatable {
     case empty
     case list
     case compressing(index: Int, total: Int, phase: VideoCompressor.Phase)
+    case copiesReady(count: Int, savedBytes: Int64)
     case deletingOriginals
 }
 
@@ -38,6 +39,8 @@ final class VideoFlow {
     var result: CompressionResult?
 
     private var stopRequested = false
+    private var pendingOriginals: [PHAsset] = []
+    private var pendingSavedBytes: Int64 = 0
 
     var candidates: [VideoItem] { videos.filter(\.isCompressionCandidate) }
 
@@ -123,14 +126,36 @@ final class VideoFlow {
             }
         }
 
+        pendingOriginals = originals
+        pendingSavedBytes = savedBytes
+        if originals.isEmpty {
+            await finish(deleted: false)
+        } else {
+            // Pause so the user sees the copies are safely saved before the delete prompt appears.
+            Haptics.notification(.success)
+            stage = .copiesReady(count: originals.count, savedBytes: savedBytes)
+        }
+    }
+
+    /// One batch = one system prompt. Declining it leaves both copies, nothing is lost.
+    func deleteOriginals() async {
         stage = .deletingOriginals
-        // One batch = one system prompt. Declining it leaves both copies, nothing is lost.
-        let deleted = originals.isEmpty ? false : await PhotoLibraryService.delete(originals)
+        let deleted = await PhotoLibraryService.delete(pendingOriginals)
         if deleted {
-            StatsStore.record(deletedCount: 0, bytesFreed: savedBytes)
+            StatsStore.record(deletedCount: 0, bytesFreed: pendingSavedBytes)
             Haptics.notification(.success)
         }
-        result = CompressionResult(compressedCount: originals.count, savedBytes: savedBytes, originalsDeleted: deleted)
+        await finish(deleted: deleted)
+    }
+
+    func keepOriginals() async {
+        await finish(deleted: false)
+    }
+
+    private func finish(deleted: Bool) async {
+        result = CompressionResult(compressedCount: pendingOriginals.count, savedBytes: pendingSavedBytes, originalsDeleted: deleted)
+        pendingOriginals = []
+        pendingSavedBytes = 0
         selected = []
         await start()
     }

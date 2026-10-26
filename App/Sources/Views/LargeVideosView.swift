@@ -55,6 +55,29 @@ struct LargeVideosView: View {
                     }
                     .padding(.horizontal, 40)
 
+                case .copiesReady(let count, let savedBytes):
+                    VStack(spacing: 16) {
+                        Image(systemName: "checkmark.circle.fill")
+                            .font(.system(size: 56))
+                            .foregroundStyle(.green)
+                        Text("Skompresowane kopie zapisane: \(count)")
+                            .font(.headline)
+                        Text("Kopie są już w bibliotece. Teraz usuniemy oryginały, co zwolni ok. \(ByteCountFormatter.string(fromByteCount: savedBytes, countStyle: .file)). Trafią do „Ostatnio usuniętych”.")
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                            .multilineTextAlignment(.center)
+                        HoldToConfirmButton(duration: 0.7, tint: .red, action: { Task { await flow.deleteOriginals() } }) {
+                            Text("Usuń oryginały")
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                        }
+                        Button("Zostaw oryginały") {
+                            Haptics.selection()
+                            Task { await flow.keepOriginals() }
+                        }
+                    }
+                    .padding(.horizontal, 32)
+
                 case .deletingOriginals:
                     ProgressView("Usuwam oryginały…")
                 }

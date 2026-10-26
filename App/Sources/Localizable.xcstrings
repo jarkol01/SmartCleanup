@@ -3670,6 +3670,118 @@
           }
         }
       }
+    },
+    "Skompresowane kopie zapisane: %lld": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Komprimierte Kopien gespeichert: %lld"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compressed copies saved: %lld"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copias comprimidas guardadas: %lld"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copies compressées enregistrées : %lld"
+          }
+        }
+      }
+    },
+    "Kopie są już w bibliotece. Teraz usuniemy oryginały, co zwolni ok. %@. Trafią do „Ostatnio usuniętych”.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Die Kopien sind bereits in deiner Mediathek. Jetzt löschen wir die Originale und geben etwa %@ frei. Sie landen in „Zuletzt gelöscht“."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The copies are already in your library. Next we'll delete the originals, freeing about %@. They'll go to “Recently Deleted”."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Las copias ya están en tu fototeca. Ahora eliminaremos los originales, lo que liberará unos %@. Irán a «Eliminado»."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les copies sont déjà dans votre photothèque. Nous allons maintenant supprimer les originaux, ce qui libérera environ %@. Ils iront dans « Supprimés récemment »."
+          }
+        }
+      }
+    },
+    "Usuń oryginały": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Originale löschen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete originals"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eliminar originales"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supprimer les originaux"
+          }
+        }
+      }
+    },
+    "Zostaw oryginały": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Originale behalten"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep originals"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Conservar originales"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Garder les originaux"
+          }
+        }
+      }
     }
   },
   "version": "1.0"
