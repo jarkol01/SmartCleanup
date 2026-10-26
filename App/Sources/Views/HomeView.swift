@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct HomeView: View {
+    @Environment(\.scenePhase) private var scenePhase
     @State private var showTrain = false
     @State private var showDelete = false
     @State private var showBlur = false
@@ -12,6 +13,8 @@ struct HomeView: View {
     @State private var trainingSetCount = 0
     @State private var totalDeleted = 0
     @State private var savedBytes: Int64 = 0
+    @State private var storage: StorageSnapshot?
+    @State private var storageHistory: [StorageSnapshot] = []
 
     var body: some View {
         NavigationStack {
@@ -30,6 +33,10 @@ struct HomeView: View {
                     .foregroundStyle(.secondary)
 
                 StatsRow(trainingSetCount: trainingSetCount, totalDeleted: totalDeleted, savedBytes: savedBytes)
+
+                if let storage {
+                    StorageCard(current: storage, history: storageHistory)
+                }
 
                 Spacer()
 
@@ -119,6 +126,7 @@ struct HomeView: View {
         .onChange(of: showBlur) { _, isShowing in if !isShowing { refreshStats() } }
         .onChange(of: showDuplicates) { _, isShowing in if !isShowing { refreshStats() } }
         .onChange(of: showVideos) { _, isShowing in if !isShowing { refreshStats() } }
+        .onChange(of: scenePhase) { _, phase in if phase == .active { refreshStats() } }
     }
 
     private func refreshStats() {
@@ -127,6 +135,8 @@ struct HomeView: View {
         trainingSetCount = counts.keep + counts.delete
         totalDeleted = StatsStore.totalDeleted
         savedBytes = StatsStore.totalBytesFreedEstimate
+        storage = StorageStore.recordSnapshot()
+        storageHistory = StorageStore.snapshots
     }
 }
 

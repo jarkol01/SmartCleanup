@@ -58,7 +58,9 @@ enum PhotoLibraryService {
     static func videoFileSize(of asset: PHAsset) -> Int64 {
         let resources = PHAssetResource.assetResources(for: asset)
         let resource = resources.first { $0.type == .fullSizeVideo } ?? resources.first { $0.type == .video }
-        if let size = resource?.value(forKey: "fileSize") as? Int64, size > 0 { return size }
+        // responds(to:) guard: KVC on a missing key throws an ObjC exception Swift can't catch.
+        if let resource, resource.responds(to: NSSelectorFromString("fileSize")),
+           let size = resource.value(forKey: "fileSize") as? Int64, size > 0 { return size }
         let longSide = max(asset.pixelWidth, asset.pixelHeight)
         let bitsPerSecond: Double = longSide >= 3840 ? 45_000_000 : longSide >= 1920 ? 17_000_000 : 8_000_000
         return Int64(asset.duration * bitsPerSecond / 8)

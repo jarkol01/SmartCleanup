@@ -43,6 +43,8 @@
 		EA983B8F291D5F3F917173D1 /* SmartCleanupApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0376C12D3C2103A3D698713E /* SmartCleanupApp.swift */; };
 		F0479AAD41C13A51B5FFFB1F /* SwipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F19A0B746659CF813B09B505 /* SwipeView.swift */; };
 		F1FBCEB46A60EC8624F13837 /* TrainFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB63F3D2AAAFB48F040E09ED /* TrainFlow.swift */; };
+		A1C0FFEE00000000000000A1 /* StorageStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C0FFEE00000000000000A2 /* StorageStore.swift */; };
+		A1C0FFEE00000000000000B1 /* StorageCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C0FFEE00000000000000B2 /* StorageCard.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -88,6 +90,8 @@
 		BFDBC2037F2A72FFC7EC5C3F /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		CB63F3D2AAAFB48F040E09ED /* TrainFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrainFlow.swift; sourceTree = "<group>"; };
 		F19A0B746659CF813B09B505 /* SwipeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeView.swift; sourceTree = "<group>"; };
+		A1C0FFEE00000000000000A2 /* StorageStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageStore.swift; sourceTree = "<group>"; };
+		A1C0FFEE00000000000000B2 /* StorageCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageCard.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -103,6 +107,7 @@
 				8154F7AE275343FC8384732C /* DuplicateDecisionStore.swift */,
 				3CC39740E307446FA9C056BB /* DuplicateDetector.swift */,
 				5A51B787297DAD2441C9B6A5 /* PhotoLibraryService.swift */,
+				A1C0FFEE00000000000000A2 /* StorageStore.swift */,
 				BD6B909C25034DA142A38F2C /* SettingsStore.swift */,
 				6A5957AFC57738FF88EA6DA0 /* StatsStore.swift */,
 				8F5A2C3F93359129D863E1FF /* TrainingDataStore.swift */,
@@ -165,6 +170,7 @@
 				5DFEA19869674EC6B69F615E /* DuplicateGroupView.swift */,
 				D483EDC8059A4003A63B0D2D /* DuplicateReviewView.swift */,
 				3B0FF75BEA8A864959557DE2 /* HomeView.swift */,
+				A1C0FFEE00000000000000B2 /* StorageCard.swift */,
 				792DD92311A7D2ACD0FC7D2B /* ResultsView.swift */,
 				BFDBC2037F2A72FFC7EC5C3F /* SettingsView.swift */,
 				6A4142D86181FF05869D447F /* SwipeCard.swift */,
@@ -263,6 +269,8 @@
 				A52FC9F5DA7B4F90A7501E28 /* DuplicateReviewFlow.swift in Sources */,
 				46204F135311473482C5D297 /* DuplicateReviewView.swift in Sources */,
 				90CA6991CD36EDF691DC6068 /* HomeView.swift in Sources */,
+				A1C0FFEE00000000000000B1 /* StorageCard.swift in Sources */,
+				A1C0FFEE00000000000000A1 /* StorageStore.swift in Sources */,
 				9615D343F104B09EF9D1D58D /* PhotoLibraryService.swift in Sources */,
 				D18DBF66C5F32A6BCC88579E /* ResultsView.swift in Sources */,
 				619C3D23A9B0298C0D05647F /* SettingsStore.swift in Sources */,
