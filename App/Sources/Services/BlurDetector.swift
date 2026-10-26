@@ -5,9 +5,12 @@ import UIKit
 /// Pure signal-processing blur heuristic — no CoreML/Vision, no training data. See
 /// docs/features/blur-detection.md for the algorithm and normalization writeup.
 enum BlurDetector {
-    /// Downscaling to a small fixed square before analysis keeps this fast and makes the raw
-    /// variance scale comparable across photos of any source resolution.
-    static let analysisSide = 256
+    /// At 256px a full-res shake blur shrinks below one pixel and vanishes; 1024 keeps it visible.
+    /// Smaller sources are analyzed at their own size, since upscaling would fake blur.
+    static let analysisSide = 1024
+
+    /// Score uses the sharpest cell of this grid, so a sharp subject on bokeh still reads sharp.
+    private static let gridSize = 4
 
     /// Empirically-picked divisor for the variance→0...1 squashing below; see the doc for how
     /// it was chosen. Not a hard variance cutoff — SettingsStore.blurThreshold is that knob.
@@ -16,8 +19,21 @@ enum BlurDetector {
     /// 0...1 confidence that the image is blurry (mirrors ClassifiedAsset.confidence's shape).
     /// Higher Laplacian variance = sharper edges = lower blur confidence.
     static func blurScore(for cgImage: CGImage) -> Double? {
-        guard let pixels = grayscalePixels(from: cgImage, side: analysisSide) else { return nil }
-        let variance = laplacianVariance(pixels, side: analysisSide)
+        let side = min(analysisSide, cgImage.width, cgImage.height) / gridSize * gridSize
+        guard side > 0, let pixels = grayscalePixels(from: cgImage, side: side) else { return nil }
+        let tileSide = side / gridSize
+        var variance = 0.0
+        for tileY in 0..<gridSize {
+            for tileX in 0..<gridSize {
+                var tile: [Float] = []
+                tile.reserveCapacity(tileSide * tileSide)
+                for y in 0..<tileSide {
+                    let start = (tileY * tileSide + y) * side + tileX * tileSide
+                    tile.append(contentsOf: pixels[start..<start + tileSide])
+                }
+                variance = max(variance, laplacianVariance(tile, side: tileSide))
+            }
+        }
         return 1 / (1 + variance / varianceScale)
     }
 

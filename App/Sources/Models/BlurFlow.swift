@@ -56,24 +56,51 @@ final class BlurFlow {
         Task { await runScoring() }
     }
 
-    // ponytail: sequential requests keep memory bounded, same tradeoff ClassifierRunner makes;
-    // batch with a small TaskGroup concurrency limit if scoring thousands gets too slow.
+    /// Scores up to `maxConcurrent` photos at once, off the main actor: at 1024px each request is
+    /// dominated by decode/iCloud fetch latency, so parallel requests overlap that wait.
+    private static let maxConcurrent = 4
+
     private func runScoring() async {
         stage = .scoring(done: 0, total: 0)
-        var results: [BlurredAsset] = []
-        results.reserveCapacity(pendingBatch.count)
-        for (index, asset) in pendingBatch.enumerated() {
-            if let image = await PhotoLibraryService.requestImage(
-                for: asset,
-                targetSize: CGSize(width: BlurDetector.analysisSide, height: BlurDetector.analysisSide)
-            ), let score = BlurDetector.blurScore(for: image) {
-                let label: BlurLabel = score >= BlurFlow.blurThreshold ? .blurry : .sharp
-                results.append(BlurredAsset(asset: asset, blurScore: score, label: label))
+        let batch = pendingBatch
+        var results = [BlurredAsset?](repeating: nil, count: batch.count)
+        var done = 0
+        await withTaskGroup(of: (Int, BlurredAsset?).self) { group in
+            var next = 0
+            func addNext() {
+                guard next < batch.count else { return }
+                let index = next
+                next += 1
+                group.addTask { (index, await Self.score(batch[index])) }
             }
-            stage = .scoring(done: index + 1, total: pendingBatch.count)
+            for _ in 0..<Self.maxConcurrent { addNext() }
+            for await (index, item) in group {
+                results[index] = item
+                done += 1
+                stage = .scoring(done: done, total: batch.count)
+                addNext()
+            }
         }
-        scored = results
+        scored = results.compactMap { $0 }
         stage = .results
+    }
+
+    private nonisolated static func score(_ asset: PHAsset) async -> BlurredAsset? {
+        let full = CGSize(width: BlurDetector.analysisSide, height: BlurDetector.analysisSide)
+        // Optimized-storage iPhones keep only ~256px locally for photos never opened (measured);
+        // scoring that copy beats an iCloud download per photo, at the cost of missing mild blur.
+        var image = await PhotoLibraryService.requestImage(for: asset, targetSize: full, allowNetwork: false)
+        if image == nil {
+            image = await PhotoLibraryService.requestImage(
+                for: asset, targetSize: CGSize(width: 256, height: 256), allowNetwork: false
+            )
+        }
+        if image == nil {
+            image = await PhotoLibraryService.requestImage(for: asset, targetSize: full)
+        }
+        guard let image, let score = BlurDetector.blurScore(for: image) else { return nil }
+        let label: BlurLabel = score >= SettingsStore.blurThreshold ? .blurry : .sharp
+        return BlurredAsset(asset: asset, blurScore: score, label: label)
     }
 
     func moveAsset(_ item: BlurredAsset, to label: BlurLabel) {

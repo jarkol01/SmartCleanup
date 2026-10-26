@@ -7,16 +7,17 @@ CoreML/Vision, no model — just a signal-processing heuristic run per photo.
 
 `BlurDetector.blurScore(for:)` (`App/Sources/Services/BlurDetector.swift`):
 
-1. Draw the image into a fixed 256x256 grayscale `CGContext` (`analysisSide`). Downscaling
-   first makes the raw variance scale roughly comparable across photos of any source
-   resolution, and keeps the per-photo cost small and constant.
+1. Draw the image into a 1024x1024 grayscale `CGContext` (`analysisSide`, or the source's
+   short side if smaller — upscaling would fake blur). At the old 256px a moderate shake
+   blur on a 12MP photo shrank below one pixel and was invisible to the Laplacian.
 2. Convolve with the discrete Laplacian kernel `[[0,1,0],[1,-4,1],[0,1,0]]` via
    `vDSP_f3x3` (Accelerate). This is a standard second-derivative edge/high-frequency
    response: flat or smoothly-blurred regions respond near zero, sharp edges produce large
    positive/negative swings.
-3. Take the variance of that response (`vDSP_meanv` / `vDSP_measqv`). This is the classic
-   "variance of the Laplacian" sharpness measure — low variance means the image has few
-   strong edges (blurry), high variance means lots of strong edges (sharp).
+3. Take the variance of that response (`vDSP_meanv` / `vDSP_measqv`) per cell of a 4x4
+   grid and keep the maximum. This is the classic "variance of the Laplacian" sharpness
+   measure, but scored on the sharpest region: a sharp subject on a bokeh background or
+   plain sky reads sharp, while camera shake / missed focus softens every cell.
 
 ## Normalization
 
@@ -31,7 +32,7 @@ To get something with the same shape as `ClassifiedAsset.confidence` (a threshol
 score = 1 / (1 + variance / varianceScale)
 ```
 
-`varianceScale` (1500, at `analysisSide` 256) was picked empirically as roughly the
+`varianceScale` (1500, at `analysisSide` 1024 with the 4x4 max) was picked empirically as roughly the
 variance level that separated clearly-blurry from clearly-sharp photos in ad hoc testing.
 It's a soft curve, not a hard cutoff — low variance pushes the score toward 1, high
 variance pushes it toward 0, and the actual blurry/sharp split point is the user-tunable
@@ -67,3 +68,11 @@ risk of touching `ResultsView`/`DeleteFlow` while other work is in flight on tho
   confirmation dialog before delete) rather than an automatic silent delete.
 - **False negatives on textureless sharp photos**: a genuinely sharp photo of a flat, low-
   detail subject (clear sky, blank wall) has little edge content and can score as blurry.
+
+## Image source (iCloud "Optimize Storage")
+
+Measured on an iPhone 14 Pro Max with Optimize Storage: recently viewed photos are available
+locally at 1024px, but photos never opened on the device only have a ~256px local copy — larger
+requests trigger an iCloud download per photo, which made scans crawl. `BlurFlow.score` therefore
+tries local 1024px, then local 256px, and only downloads when nothing is local. 256px scores are
+less sensitive to mild blur (downscaling hides it), so those photos may be missed, not misflagged.

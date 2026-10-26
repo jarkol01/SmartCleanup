@@ -22,11 +22,20 @@ enum PhotoLibraryService {
         fetchAllImageAssets().shuffled().prefix(count).map { $0 }
     }
 
+    /// Tries the on-device copy first: with network allowed Photos may fetch the iCloud original
+    /// even when the local "optimized" copy covers the size (on-device tests: always to 1024px).
     static func requestImage(for asset: PHAsset, targetSize: CGSize) async -> UIImage? {
+        if let local = await requestImage(for: asset, targetSize: targetSize, allowNetwork: false) {
+            return local
+        }
+        return await requestImage(for: asset, targetSize: targetSize, allowNetwork: true)
+    }
+
+    static func requestImage(for asset: PHAsset, targetSize: CGSize, allowNetwork: Bool) async -> UIImage? {
         await withCheckedContinuation { continuation in
             let options = PHImageRequestOptions()
             options.deliveryMode = .highQualityFormat
-            options.isNetworkAccessAllowed = true
+            options.isNetworkAccessAllowed = allowNetwork
             options.isSynchronous = false
             PHImageManager.default().requestImage(
                 for: asset,
