@@ -10,9 +10,8 @@
 ## Quality of life
 - iCloud storage indicator ("you'll free up X GB")
 - Widgets v2: large size, Control Center controls (iOS 18), streak
-- Reminder notifications ("100 new photos since last cleanup") — a local notification scheduled when the app goes to background, no BGTask needed
 - Export/import training data or model
 - Album/date-range scoping
 
 ## Done
-Duplicates, blur detection, haptics, long-press preview, large videos + compression, storage bar, widgets — see `docs/features/`.
+Duplicates, blur detection, haptics, long-press preview, large videos + compression, storage bar, widgets, reminder notifications — see `docs/features/`.

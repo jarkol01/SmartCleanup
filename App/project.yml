@@ -71,6 +71,8 @@ targets:
       - path: Sources/Services/DuplicateDetector.swift
       - path: Sources/Services/PhotoLibraryService.swift
       - path: Sources/Services/SettingsStore.swift
+      - path: Sources/Services/Reminders.swift
+      - path: Sources/Shared/SharedStore.swift
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.jkoldun.smartcleanup.tests

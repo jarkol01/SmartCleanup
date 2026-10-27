@@ -1,4 +1,5 @@
 import SwiftUI
+import UserNotifications
 
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
@@ -7,6 +8,8 @@ struct SettingsView: View {
     @State private var duplicateHammingThreshold = Double(SettingsStore.duplicateHammingThreshold)
     @AppStorage(SettingsStore.colorSchemeKey) private var colorSchemeRaw = AppColorScheme.system.rawValue
     @AppStorage(SettingsStore.languageKey) private var languageRaw = AppLanguage.system.rawValue
+    @AppStorage(Reminders.enabledKey) private var remindersEnabled = false
+    @State private var notificationsDenied = false
 
     private var thresholdPercentText: String { "\(Int(100 - marginPercent))%" }
 
@@ -32,6 +35,23 @@ struct SettingsView: View {
                     }
                 } header: {
                     Text("Język")
+                }
+
+                Section {
+                    Toggle("Przypomnienia", isOn: $remindersEnabled)
+                        .onChange(of: remindersEnabled) { _, isOn in
+                            guard isOn else { return }
+                            Task { notificationsDenied = !(await Reminders.enable()) }
+                        }
+                    if remindersEnabled && notificationsDenied {
+                        Button("Włącz powiadomienia w Ustawieniach iOS") {
+                            UIApplication.shared.open(URL(string: UIApplication.openNotificationSettingsURLString)!)
+                        }
+                    }
+                } header: {
+                    Text("Powiadomienia")
+                } footer: {
+                    Text("Najwyżej raz w tygodniu, bez spamu.")
                 }
 
                 Section {
@@ -112,6 +132,9 @@ struct SettingsView: View {
             }
             .scrollContentBackground(.hidden)
             .background(Color.appBackground)
+            .task {
+                notificationsDenied = await UNUserNotificationCenter.current().notificationSettings().authorizationStatus == .denied
+            }
             .navigationTitle("Ustawienia")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

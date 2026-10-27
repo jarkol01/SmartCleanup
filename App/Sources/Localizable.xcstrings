@@ -4977,6 +4977,398 @@
           }
         }
       }
+    },
+    "Wygląda na to, że przypomnienia nie pomagają, więc na razie przestajemy. Galeria poczeka 🙂": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sieht so aus, als würden die Erinnerungen nicht helfen – wir hören vorerst auf. Die Galerie kann warten 🙂"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Looks like these reminders aren't helping, so we'll stop for now. Your gallery can wait 🙂"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Parece que los recordatorios no ayudan, así que paramos por ahora. La galería puede esperar 🙂"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "On dirait que ces rappels ne servent à rien, alors on arrête pour l’instant. La galerie peut attendre 🙂"
+          }
+        }
+      }
+    },
+    "Zdjęcia do oznaczenia: %lld. Potem model zacznie sprzątać za Ciebie.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Noch zu markierende Fotos: %lld. Dann räumt das Modell für dich auf."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Photos left to label: %lld. Then the model starts cleaning up for you."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fotos por marcar: %lld. Después, el modelo limpiará por ti."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Photos à trier : %lld. Ensuite, le modèle fera le ménage pour toi."
+          }
+        }
+      }
+    },
+    "Model jest w %lld%% gotowy. Dokończymy?": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Das Modell ist zu %lld%% fertig. Machen wir es fertig?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The model is %lld%% ready. Shall we finish?"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El modelo está listo al %lld%%. ¿Lo terminamos?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le modèle est prêt à %lld %%. On termine ?"
+          }
+        }
+      }
+    },
+    "Od ostatniego sprzątania trochę się nazbierało. 2 minuty i po sprawie?": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seit dem letzten Aufräumen hat sich einiges angesammelt. Zwei Minuten und fertig?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Things have piled up since your last cleanup. Two minutes and done?"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se ha acumulado algo desde la última limpieza. ¿Dos minutos y listo?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ça s’est accumulé depuis le dernier ménage. Deux minutes et c’est réglé ?"
+          }
+        }
+      }
+    },
+    "Galeria znowu rośnie. Szybki przegląd?": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deine Galerie wächst wieder. Kurz durchsehen?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your gallery is growing again. Quick review?"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tu galería vuelve a crecer. ¿Un repaso rápido?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ta galerie grossit à nouveau. Un petit tri ?"
+          }
+        }
+      }
+    },
+    "Zrzuty ekranu same się nie usuną. No, chyba że pozwolisz modelowi.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Screenshots löschen sich nicht von selbst. Außer, du lässt das Modell ran."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Screenshots won't delete themselves. Well, unless you let the model do it."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Las capturas de pantalla no se borran solas. Bueno, salvo que dejes al modelo."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les captures d’écran ne vont pas s’effacer toutes seules. Sauf si tu laisses faire le modèle."
+          }
+        }
+      }
+    },
+    "Kilka duplikatów pewnie już się namnożyło. Sprawdzimy?": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bestimmt haben sich schon ein paar Duplikate vermehrt. Nachsehen?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A few duplicates have probably multiplied by now. Take a look?"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seguro que ya se han multiplicado algunos duplicados. ¿Lo revisamos?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quelques doublons se sont sûrement multipliés. On vérifie ?"
+          }
+        }
+      }
+    },
+    "Przypomnieć Ci, gdy uzbiera się nowa porcja?": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erinnern, wenn sich wieder etwas angesammelt hat?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remind you when a new batch piles up?"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¿Te avisamos cuando se acumule una nueva tanda?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Te le rappeler quand un nouveau lot s’accumule ?"
+          }
+        }
+      }
+    },
+    "Najwyżej raz w tygodniu, bez spamu.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Höchstens einmal pro Woche, kein Spam."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "At most once a week, no spam."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Como mucho una vez a la semana, sin spam."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Une fois par semaine au maximum, sans spam."
+          }
+        }
+      }
+    },
+    "Tak, przypominaj": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ja, erinnern"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yes, remind me"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sí, avísame"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oui, rappelle-moi"
+          }
+        }
+      }
+    },
+    "Nie teraz": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nicht jetzt"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Not now"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ahora no"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pas maintenant"
+          }
+        }
+      }
+    },
+    "Przypomnienia": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erinnerungen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reminders"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recordatorios"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rappels"
+          }
+        }
+      }
+    },
+    "Powiadomienia": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mitteilungen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notifications"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notificaciones"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Notifications"
+          }
+        }
+      }
+    },
+    "Włącz powiadomienia w Ustawieniach iOS": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mitteilungen in den iOS-Einstellungen aktivieren"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Turn on notifications in iOS Settings"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activa las notificaciones en Ajustes de iOS"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activer les notifications dans les Réglages iOS"
+          }
+        }
+      }
     }
   },
   "version": "1.0"
