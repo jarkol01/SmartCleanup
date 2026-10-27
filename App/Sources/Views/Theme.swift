@@ -322,6 +322,7 @@ struct DoneView: View {
                 .padding(.top, 14)
 
                 ForEach(infos.indices, id: \.self) { infos[$0] }
+                if freedBytes > 0 { ReminderPromptCard() }
             }
             .padding(18)
             .padding(.top, 24)

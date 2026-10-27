@@ -1,12 +1,15 @@
 import SwiftUI
+import UserNotifications
 
 @main
 struct SmartCleanupApp: App {
+    @Environment(\.scenePhase) private var scenePhase
     @AppStorage(SettingsStore.colorSchemeKey) private var colorSchemeRaw = AppColorScheme.system.rawValue
     @AppStorage(SettingsStore.languageKey) private var languageRaw = AppLanguage.system.rawValue
 
     init() {
         StatsStore.migrateToAppGroup()
+        UNUserNotificationCenter.current().delegate = ReminderTapHandler.shared
     }
 
     var body: some Scene {
@@ -23,6 +26,13 @@ struct SmartCleanupApp: App {
                     }
                 }
                 .modifier(LocaleOverride(locale: (AppLanguage(rawValue: languageRaw) ?? .system).locale))
+        }
+        .onChange(of: scenePhase) { _, phase in
+            switch phase {
+            case .active: Reminders.appBecameActive()
+            case .background: Reminders.appEnteredBackground()
+            default: break
+            }
         }
     }
 }
