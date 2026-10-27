@@ -43,7 +43,7 @@ final class DeleteFlow {
             return
         }
         unhandledPool = PhotoLibraryService.fetchAllImageAssets()
-            .filter { !AssetDecisionStore.isHandled($0.localIdentifier) }
+            .filter { !DecisionStore.photos.isHandled($0.localIdentifier) }
         stage = unhandledPool.isEmpty ? .noMorePhotos : .pickingBatchSize
     }
 
@@ -120,12 +120,14 @@ final class DeleteFlow {
                     TrainingDataStore.save(image, assetIdentifier: item.asset.localIdentifier, as: item.label)
                 }
             }
-            AssetDecisionStore.markHandled(classified.map(\.id))
 
+            let freed = StatsStore.bytes(of: toDelete)
             let success = await PhotoLibraryService.delete(toDelete)
             if success {
-                StatsStore.recordDeletion(of: toDelete)
+                StatsStore.record(deletedCount: toDelete.count, bytesFreed: freed)
             }
+            // Declining the system prompt leaves the delete picks in the pool for the next batch.
+            DecisionStore.photos.markHandled(classified.filter { success || $0.label == .keep }.map(\.id))
             stage = .done(deletedCount: success ? toDelete.count : 0)
         }
     }

@@ -45,7 +45,7 @@ final class BlurFlow {
             return
         }
         unhandledPool = PhotoLibraryService.fetchAllImageAssets()
-            .filter { !BlurDecisionStore.isHandled($0.localIdentifier) }
+            .filter { !DecisionStore.blur.isHandled($0.localIdentifier) }
         stage = unhandledPool.isEmpty ? .noMorePhotos : .pickingBatchSize
     }
 
@@ -113,12 +113,14 @@ final class BlurFlow {
         Task {
             stage = .deleting
             let toDelete = scored.filter { $0.label == .blurry }.map(\.asset)
-            BlurDecisionStore.markHandled(scored.map(\.id))
 
+            let freed = StatsStore.bytes(of: toDelete)
             let success = await PhotoLibraryService.delete(toDelete)
             if success {
-                StatsStore.recordDeletion(of: toDelete)
+                StatsStore.record(deletedCount: toDelete.count, bytesFreed: freed)
             }
+            // Declining the system prompt leaves the delete picks in the pool for the next batch.
+            DecisionStore.blur.markHandled(scored.filter { success || $0.label == .sharp }.map(\.id))
             stage = .done(deletedCount: success ? toDelete.count : 0)
         }
     }

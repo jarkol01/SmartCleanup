@@ -29,14 +29,14 @@ final class DuplicateReviewFlow {
     }
 
     func start(forceRescan: Bool = false) async {
-        if forceRescan { DuplicateDecisionStore.reset() }
+        if forceRescan { DecisionStore.duplicates.reset() }
         guard await PhotoLibraryService.requestAuthorization() else {
             stage = .accessDenied
             return
         }
         stage = .scanning(done: 0, total: 0)
         let candidates = PhotoLibraryService.fetchAllImageAssets()
-            .filter { !DuplicateDecisionStore.isHandled($0.localIdentifier) }
+            .filter { !DecisionStore.duplicates.isHandled($0.localIdentifier) }
 
         let found = await DuplicateDetector.scan(assets: candidates) { done, total in
             Task { @MainActor in self.stage = .scanning(done: done, total: total) }
@@ -49,13 +49,13 @@ final class DuplicateReviewFlow {
         if groups.isEmpty {
             stage = .noDuplicates
         } else {
-            seedKeepMarks()
+            await seedKeepMarks()
             stage = .reviewing
         }
     }
 
-    private func seedKeepMarks() {
-        guard let group = currentGroup, let keeper = DuplicateDetector.defaultKeeper(in: group.assets) else {
+    private func seedKeepMarks() async {
+        guard let group = currentGroup, let keeper = await DuplicateDetector.defaultKeeper(in: group.assets) else {
             keepMarks = []
             return
         }
@@ -80,23 +80,26 @@ final class DuplicateReviewFlow {
         Task {
             stage = .deleting
             let toDelete = group.assets.filter { !isKept($0) }
-            let success = await PhotoLibraryService.delete(toDelete)
-            if success {
-                StatsStore.recordDeletion(of: toDelete)
-                deletedTotal += toDelete.count
+            let freed = StatsStore.bytes(of: toDelete)
+            guard await PhotoLibraryService.delete(toDelete) else {
+                // Declined the system prompt: stay on this group so the marks can be changed.
+                stage = .reviewing
+                return
             }
-            DuplicateDecisionStore.markHandled(group.assets.map(\.localIdentifier))
+            StatsStore.record(deletedCount: toDelete.count, bytesFreed: freed)
+            deletedTotal += toDelete.count
+            DecisionStore.duplicates.markHandled(group.assets.map(\.localIdentifier))
             groupsReviewed += 1
-            advance()
+            await advance()
         }
     }
 
-    private func advance() {
+    private func advance() async {
         currentIndex += 1
         if currentIndex >= groups.count {
             stage = .done(deletedCount: deletedTotal, groupsReviewed: groupsReviewed)
         } else {
-            seedKeepMarks()
+            await seedKeepMarks()
             stage = .reviewing
         }
     }

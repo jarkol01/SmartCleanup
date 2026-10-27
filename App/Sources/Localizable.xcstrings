@@ -859,31 +859,30 @@
         }
       }
     },
-    "Miejsce zwolni się dopiero po opróżnieniu albumu „Ostatnio usunięte”.": {
-      "extractionState": "stale",
+    "Usunięte pliki trafiają do „Ostatnio usunięte”. Miejsce zwolni się dopiero, gdy usuniesz je stamtąd lub po 30 dniach.": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Speicher wird erst nach dem Leeren von „Zuletzt gelöscht“ frei."
+            "value": "Gelöschte Objekte landen in „Zuletzt gelöscht“. Speicher wird erst frei, wenn du sie dort löschst oder nach 30 Tagen."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Space is freed only after you empty “Recently Deleted”."
+            "value": "Deleted items go to “Recently Deleted”. Space is freed only once you remove them from there, or after 30 days."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "El espacio se libera solo tras vaciar «Eliminado»."
+            "value": "Los elementos eliminados van a «Eliminado». El espacio solo se libera al borrarlos de ahí o pasados 30 días."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "L’espace n’est libéré qu’après avoir vidé « Supprimés récemment »."
+            "value": "Les éléments supprimés vont dans « Supprimés récemment ». L’espace n’est libéré qu’une fois qu’ils y sont supprimés, ou après 30 jours."
           }
         }
       }
@@ -3699,30 +3698,30 @@
         }
       }
     },
-    "Kopie są już w bibliotece. Teraz usuniemy oryginały, co zwolni ok. %@. Trafią do „Ostatnio usuniętych”.": {
+    "Kopie są już w bibliotece. Teraz usuniemy oryginały, co zwolni ok. %@.": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Die Kopien sind bereits in deiner Mediathek. Jetzt löschen wir die Originale und geben etwa %@ frei. Sie landen in „Zuletzt gelöscht“."
+            "value": "Die Kopien sind bereits in deiner Mediathek. Jetzt löschen wir die Originale und geben etwa %@ frei."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "The copies are already in your library. Next we'll delete the originals, freeing about %@. They'll go to “Recently Deleted”."
+            "value": "The copies are already in your library. Next we'll delete the originals, freeing about %@."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Las copias ya están en tu fototeca. Ahora eliminaremos los originales, lo que liberará unos %@. Irán a «Eliminado»."
+            "value": "Las copias ya están en tu fototeca. Ahora eliminaremos los originales, lo que liberará unos %@."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Les copies sont déjà dans votre photothèque. Nous allons maintenant supprimer les originaux, ce qui libérera environ %@. Ils iront dans « Supprimés récemment »."
+            "value": "Les copies sont déjà dans votre photothèque. Nous allons maintenant supprimer les originaux, ce qui libérera environ %@."
           }
         }
       }

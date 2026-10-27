@@ -23,3 +23,20 @@ targets:
         SWIFT_VERSION: "5.0"
         TARGETED_DEVICE_FAMILY: "1"
         ENABLE_PREVIEWS: "YES"
+  # Host-less: compiles only the pure detectors, so it runs on the Simulator (the app can't — CreateML).
+  SmartCleanupTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: Tests
+      - path: Sources/Services/BlurDetector.swift
+      - path: Sources/Services/DuplicateDetector.swift
+      - path: Sources/Services/PhotoLibraryService.swift
+      - path: Sources/Services/SettingsStore.swift
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.jkoldun.smartcleanup.tests
+        SWIFT_VERSION: "5.0"
+        GENERATE_INFOPLIST_FILE: "YES"
+    scheme:
+      testTargets: [SmartCleanupTests]

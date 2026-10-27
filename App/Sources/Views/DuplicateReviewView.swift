@@ -58,7 +58,7 @@ struct DuplicateReviewView: View {
                     ContentUnavailableView(
                         "Gotowe",
                         systemImage: "checkmark.circle",
-                        description: Text("Przejrzano \(groupsReviewed) grup, usunięto \(deletedCount) zdjęć.")
+                        description: Text("Przejrzano \(groupsReviewed) grup, usunięto \(deletedCount) zdjęć.") + Text(verbatim: "\n\n") + .recentlyDeletedNote
                     )
                     .safeAreaInset(edge: .bottom) {
                         Button("Wróć do menu") {

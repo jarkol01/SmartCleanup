@@ -116,11 +116,11 @@ final class VideoFlow {
                         self.stage = .compressing(index: i, total: total, phase: phase)
                     }
                 }
-                CompressedVideoStore.markHandled([output.id])
+                DecisionStore.compressedVideos.markHandled([output.id])
                 originals.append(item.asset)
                 savedBytes += item.size - output.size
             } catch VideoCompressor.Failure.notWorthIt {
-                CompressedVideoStore.markHandled([item.id])
+                DecisionStore.compressedVideos.markHandled([item.id])
             } catch {
                 // Skip to the next one; the original is untouched and nothing was added.
             }

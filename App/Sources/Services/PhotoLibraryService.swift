@@ -58,12 +58,24 @@ enum PhotoLibraryService {
     static func videoFileSize(of asset: PHAsset) -> Int64 {
         let resources = PHAssetResource.assetResources(for: asset)
         let resource = resources.first { $0.type == .fullSizeVideo } ?? resources.first { $0.type == .video }
-        // responds(to:) guard: KVC on a missing key throws an ObjC exception Swift can't catch.
-        if let resource, resource.responds(to: NSSelectorFromString("fileSize")),
-           let size = resource.value(forKey: "fileSize") as? Int64, size > 0 { return size }
+        if let size = resource.flatMap(fileSize) { return size }
         let longSide = max(asset.pixelWidth, asset.pixelHeight)
         let bitsPerSecond: Double = longSide >= 3840 ? 45_000_000 : longSide >= 1920 ? 17_000_000 : 8_000_000
         return Int64(asset.duration * bitsPerSecond / 8)
+    }
+
+    /// Sum of every resource deleting the photo frees (original, edited render, Live Photo video);
+    /// nil when none reports a size.
+    static func photoFileSize(of asset: PHAsset) -> Int64? {
+        let sizes = PHAssetResource.assetResources(for: asset).compactMap(fileSize)
+        return sizes.isEmpty ? nil : sizes.reduce(0, +)
+    }
+
+    private static func fileSize(of resource: PHAssetResource) -> Int64? {
+        // responds(to:) guard: KVC on a missing key throws an ObjC exception Swift can't catch.
+        guard resource.responds(to: NSSelectorFromString("fileSize")),
+              let size = resource.value(forKey: "fileSize") as? Int64, size > 0 else { return nil }
+        return size
     }
 
     static func requestPlayerItem(for asset: PHAsset) async -> AVPlayerItem? {

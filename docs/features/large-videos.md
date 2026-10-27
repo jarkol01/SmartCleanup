@@ -19,7 +19,7 @@ screen records exact bytes: file size on delete, `before − after` on compressi
 - slo-mo (`.videoHighFrameRate`) and cinematic (`.videoCinematic`). Re-encoding them
   flattens the variable-speed / depth edits.
 - videos that are already small: < 20 Mb/s and long side ≤ 1920.
-- anything in `CompressedVideoStore`. That holds our own outputs and originals that turned
+- anything in `DecisionStore.compressedVideos`. That holds our own outputs and originals that turned
   out "not worth it", so neither shows up again.
 
 HDR / Dolby Vision videos are compressed too (HEVC presets keep HDR); verification rejects a copy

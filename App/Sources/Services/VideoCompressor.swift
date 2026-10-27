@@ -21,7 +21,7 @@ enum VideoCompressor {
     /// 12 Mb/s: iPhone 1080p HEVC records at ~8–10, so anything near that gains too little.
     static func skipReason(_ asset: PHAsset, size: Int64) -> String? {
         let subtypes = asset.mediaSubtypes
-        if CompressedVideoStore.isHandled(asset.localIdentifier) { return "Już skompresowane" }
+        if DecisionStore.compressedVideos.isHandled(asset.localIdentifier) { return "Już skompresowane" }
         if subtypes.contains(.videoHighFrameRate) { return "Slow motion – pomijane" }
         if subtypes.contains(.videoCinematic) { return "Tryb kinowy – pomijane" }
         let bitsPerSecond = Double(size) * 8 / max(asset.duration, 1)
@@ -129,26 +129,4 @@ enum VideoCompressor {
 
     /// performChanges' block can't mutate a captured local var.
     private final class IDBox: @unchecked Sendable { var value: String? }
-}
-
-/// Assets that shouldn't be offered for compression again: our own outputs, and originals
-/// that turned out not worth compressing. Same JSON-file pattern as BlurDecisionStore.
-enum CompressedVideoStore {
-    private static let fileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        .appendingPathComponent("handled-video-assets.json")
-
-    private static var cache: Set<String> = {
-        guard let data = try? Data(contentsOf: fileURL),
-              let ids = try? JSONDecoder().decode(Set<String>.self, from: data) else { return [] }
-        return ids
-    }()
-
-    static func isHandled(_ assetIdentifier: String) -> Bool {
-        cache.contains(assetIdentifier)
-    }
-
-    static func markHandled(_ assetIdentifiers: some Sequence<String>) {
-        cache.formUnion(assetIdentifiers)
-        try? JSONEncoder().encode(cache).write(to: fileURL, options: .atomic)
-    }
 }

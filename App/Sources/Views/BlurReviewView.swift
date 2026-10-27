@@ -53,7 +53,7 @@ struct BlurReviewView: View {
                     ContentUnavailableView(
                         "Gotowe",
                         systemImage: "checkmark.circle",
-                        description: Text("Usunięto \(count) zdjęć.")
+                        description: Text("Usunięto \(count) zdjęć.") + Text(verbatim: "\n\n") + .recentlyDeletedNote
                     )
                     .safeAreaInset(edge: .bottom) {
                         VStack(spacing: 12) {

@@ -43,8 +43,8 @@ constant baked into the detector.
 
 `BlurFlow` (`App/Sources/Models/BlurFlow.swift`) mirrors `DeleteFlow`'s shape — batch
 picking, progress, results, confirm-delete, done — without any training/model stage, since
-there's nothing to train. It uses its own `BlurDecisionStore` (separate JSON file from the
-ML flow's `AssetDecisionStore`) so a photo dismissed as "sharp" here doesn't disappear from
+there's nothing to train. It uses its own `DecisionStore.blur` (separate JSON file from the
+ML flow's `DecisionStore.photos`) so a photo dismissed as "sharp" here doesn't disappear from
 the ML delete flow's candidate pool, or vice versa — the two tools are independent.
 
 `BlurReviewView` (`App/Sources/Views/BlurReviewView.swift`) is a small, deliberately

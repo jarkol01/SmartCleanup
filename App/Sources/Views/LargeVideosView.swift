@@ -62,7 +62,7 @@ struct LargeVideosView: View {
                             .foregroundStyle(.green)
                         Text("Skompresowane kopie zapisane: \(count)")
                             .font(.headline)
-                        Text("Kopie są już w bibliotece. Teraz usuniemy oryginały, co zwolni ok. \(ByteCountFormatter.string(fromByteCount: savedBytes, countStyle: .file)). Trafią do „Ostatnio usuniętych”.")
+                        (Text("Kopie są już w bibliotece. Teraz usuniemy oryginały, co zwolni ok. \(ByteCountFormatter.string(fromByteCount: savedBytes, countStyle: .file)).") + Text(verbatim: " ") + .recentlyDeletedNote)
                             .font(.footnote)
                             .foregroundStyle(.secondary)
                             .multilineTextAlignment(.center)
@@ -161,7 +161,7 @@ private struct VideoListView: View {
         .listStyle(.plain)
         .safeAreaInset(edge: .bottom) {
             VStack(spacing: 8) {
-                Text("Miejsce zwolni się dopiero po opróżnieniu albumu „Ostatnio usunięte”.")
+                Text.recentlyDeletedNote
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)

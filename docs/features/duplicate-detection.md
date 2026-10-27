@@ -6,7 +6,7 @@ group as a single gallery, deciding which of its photos to keep.
 ## Files
 
 - `App/Sources/Services/DuplicateDetector.swift` — hashing + clustering
-- `App/Sources/Services/DuplicateDecisionStore.swift` — "already reviewed" persistence, own namespace
+- `DecisionStore.duplicates` (`App/Sources/Services/DecisionStore.swift`) — "already reviewed" persistence, own namespace
 - `App/Sources/Models/DuplicateReviewFlow.swift` — stage machine driving the review
 - `App/Sources/Views/DuplicateReviewView.swift` — top-level stage switch (mirrors `DeleteView`)
 - `App/Sources/Views/DuplicateGroupView.swift` — one group's gallery + confirm
@@ -47,7 +47,7 @@ linear pass and matches what a "duplicate" actually is in this app's context: bu
 **Scan scope:** capped at `DuplicateDetector.maxScanCount` (4000, newest-first) per run — full
 thumbnail loads aren't free, and burst duplicates are rare far back in a huge library relative
 to the cost of scanning it all up front. Assets already resolved by a previous run are excluded
-via `DuplicateDecisionStore` (its own JSON file, separate from `AssetDecisionStore` used by the
+via `DecisionStore.duplicates` (its own JSON file, separate from `DecisionStore.photos` used by the
 ML delete flow, so the two flows can't interfere with each other's state).
 
 ## Which photo defaults to "keep"
