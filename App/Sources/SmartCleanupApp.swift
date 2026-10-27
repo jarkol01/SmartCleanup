@@ -8,7 +8,16 @@ struct SmartCleanupApp: App {
     var body: some Scene {
         WindowGroup {
             HomeView()
-                .preferredColorScheme((AppColorScheme(rawValue: colorSchemeRaw) ?? .system).colorScheme)
+                .fontDesign(.rounded)
+                .tint(.accent)
+                // Set on the window, not via .preferredColorScheme: going back to nil ("Systemowy")
+                // doesn't reliably reset an open sheet, which stayed dark until reopened.
+                .onChange(of: colorSchemeRaw, initial: true) { _, raw in
+                    let style = (AppColorScheme(rawValue: raw) ?? .system).interfaceStyle
+                    for case let scene as UIWindowScene in UIApplication.shared.connectedScenes {
+                        scene.windows.forEach { $0.overrideUserInterfaceStyle = style }
+                    }
+                }
                 .modifier(LocaleOverride(locale: (AppLanguage(rawValue: languageRaw) ?? .system).locale))
         }
     }

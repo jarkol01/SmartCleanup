@@ -42,17 +42,14 @@ struct ResultsView: View {
                     uncertainReviewPayload = UncertainReviewPayload(items: uncertainDeleteItems)
                 } label: {
                     Label("Przejrzyj niepewne (\(uncertainDeleteItems.count))", systemImage: "questionmark.circle.fill")
-                        .font(.subheadline.weight(.medium))
-                        .frame(maxWidth: .infinity)
-                        .padding(10)
-                        .background(.yellow.opacity(0.2), in: RoundedRectangle(cornerRadius: 12))
                 }
+                .buttonStyle(CapsuleButtonStyle(fill: .warning, foreground: .onWarning))
                 .padding(.horizontal)
-                .padding(.bottom, 8)
+                .padding(.bottom, 10)
             }
 
             ScrollView {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 100), spacing: 4)], spacing: 4) {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 100), spacing: 6)], spacing: 6) {
                     ForEach(selectedTab == .delete ? deleteItems : keepItems) { item in
                         ThumbnailCell(
                             item: item,
@@ -67,39 +64,28 @@ struct ResultsView: View {
                         )
                     }
                 }
-                .padding(.horizontal, 4)
+                .padding(.horizontal, 12)
             }
+            .id(selectedTab)  // fresh scroll position per tab, so a short tab never opens scrolled past its end
 
             if deleteItems.isEmpty {
                 // Nothing to confirm-delete, but the batch's Keep decisions still need to be
                 // saved as training data and marked handled so they don't resurface next batch.
-                Button {
+                Button("Zakończ partię (wszystko zachowane)") {
                     Haptics.selection()
                     flow.confirmDeletion()
-                } label: {
-                    Text("Zakończ partię (wszystko zachowane)")
-                        .frame(maxWidth: .infinity)
-                        .padding()
                 }
-                .buttonStyle(.borderedProminent)
+                .buttonStyle(.primary)
                 .disabled(flow.classified.isEmpty)
                 .padding()
             } else {
                 // Hold-to-confirm instead of a tap + dialog: a deliberate ~0.7s hold is at
                 // least as hard to trigger by accident, with no second UI to maintain.
-                HoldToConfirmButton(
-                    duration: 0.7,
-                    tint: .red,
-                    isDisabled: flow.classified.isEmpty,
-                    action: { flow.confirmDeletion() }
-                ) {
-                    Text("Usuń \(deleteItems.count) zdjęć")
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                }
+                HoldToConfirmButton(title: "Usuń \(deleteItems.count) zdjęć", isDisabled: flow.classified.isEmpty, action: { flow.confirmDeletion() })
                 .padding()
             }
         }
+        .screenBackground()
         .fullScreenCover(item: $uncertainReviewPayload) { payload in
             UncertainReviewView(flow: flow, items: payload.items)
         }
@@ -112,41 +98,25 @@ private struct ThumbnailCell: View {
     let onTapMove: () -> Void
     let onMarkException: () -> Void
 
-    @State private var image: UIImage?
-
     var body: some View {
-        Group {
-            if let image {
-                Image(uiImage: image).resizable().scaledToFill()
-            } else {
-                Rectangle().fill(.gray.opacity(0.2))
-            }
-        }
-        .frame(width: 100, height: 100)
-        .clipped()
+        AssetThumbnail(asset: item.asset)
         .overlay(alignment: .topLeading) {
-            HStack(spacing: 2) {
-                if isUncertain {
-                    Image(systemName: "questionmark.circle.fill")
-                        .foregroundStyle(.white, .orange)
-                }
+            HStack(spacing: 4) {
+                if isUncertain { UncertainChip() }
                 if item.isException {
-                    Image(systemName: "star.circle.fill")
-                        .foregroundStyle(.white, .yellow)
+                    IconCircle(systemImage: "star.fill", size: 22, fill: .white, foreground: .onWarning)
                 }
             }
-            .font(.caption)
-            .padding(4)
+            .padding(6)
         }
         .overlay(alignment: .bottomTrailing) {
-            Image(systemName: item.label == .delete ? "arrow.uturn.backward.circle.fill" : "trash.circle.fill")
-                .font(.title3)
-                .foregroundStyle(.white, .black.opacity(0.6))
-                .padding(4)
+            IconCircle(systemImage: item.label == .delete ? "arrow.uturn.backward" : "trash", size: 26, fill: .white, foreground: .black.opacity(0.75))
+                .padding(.trailing, 6)
+                .padding(.bottom, 16)
         }
         .overlay(alignment: .bottom) {
             if !item.isUserOverridden {
-                ScoreBar(value: item.confidence, tint: item.label == .delete ? .red : .green)
+                ScoreBar(value: item.confidence, tint: item.label == .delete ? .destructive : .accent)
             }
         }
         .onTapGesture {
@@ -173,11 +143,6 @@ private struct ThumbnailCell: View {
             // Native contextMenu preview: long-press already drives this, so it coexists with
             // onTapGesture (tap) and the menu items above without a second gesture recognizer.
             AssetPreview(asset: item.asset)
-        }
-        .task {
-            image = await PhotoLibraryService.requestImage(
-                for: item.asset, targetSize: CGSize(width: 200, height: 200)
-            )
         }
     }
 }

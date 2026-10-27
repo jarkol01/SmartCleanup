@@ -1,15 +1,14 @@
 import SwiftUI
 
-/// Press-and-hold gate for a destructive action, styled as a filled button.
+/// Press-and-hold gate for a destructive action, styled as a destructive capsule with a trash icon.
 /// Mirrors Apple's "Clear all" / "Empty Trash" hold pattern: a deliberate hold
 /// is much harder to trigger by accident than a single tap on a confirmation dialog.
 /// Releasing early cancels with no action and no side effects.
-struct HoldToConfirmButton<Label: View>: View {
-    let duration: Double
-    let tint: Color
+struct HoldToConfirmButton: View {
+    let title: LocalizedStringKey
+    var duration: Double = 0.7
     var isDisabled: Bool = false
     let action: () -> Void
-    @ViewBuilder var label: () -> Label
 
     @State private var progress: CGFloat = 0
     @State private var isHolding = false
@@ -18,18 +17,20 @@ struct HoldToConfirmButton<Label: View>: View {
     private let tickCount = 4
 
     var body: some View {
-        label()
-            .foregroundStyle(.white)
+        Label(title, systemImage: "trash")
+            .font(.headline.weight(.heavy))
+            .foregroundStyle(.onDestructive)
+            .frame(maxWidth: .infinity, minHeight: 54)
             .background(
                 GeometryReader { geo in
                     ZStack(alignment: .leading) {
-                        tint
+                        Color.destructive
                         Color.white.opacity(0.3)
                             .frame(width: geo.size.width * progress)
                     }
                 }
             )
-            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .clipShape(Capsule())
             .scaleEffect(isHolding ? 0.97 : 1)
             .opacity(isDisabled ? 0.5 : 1)
             .animation(.easeOut(duration: 0.15), value: isHolding)

@@ -12,7 +12,7 @@ enum DeleteStage: Equatable {
     case classifying(done: Int, total: Int)
     case results
     case deleting
-    case done(deletedCount: Int)
+    case done(deletedCount: Int, freedBytes: Int64)
 }
 
 @MainActor
@@ -128,7 +128,7 @@ final class DeleteFlow {
             }
             // Declining the system prompt leaves the delete picks in the pool for the next batch.
             DecisionStore.photos.markHandled(classified.filter { success || $0.label == .keep }.map(\.id))
-            stage = .done(deletedCount: success ? toDelete.count : 0)
+            stage = .done(deletedCount: success ? toDelete.count : 0, freedBytes: success ? freed : 0)
         }
     }
 

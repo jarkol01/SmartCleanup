@@ -25,17 +25,18 @@ enum StorageStore {
         return (try? JSONDecoder().decode([StorageSnapshot].self, from: data)) ?? []
     }
 
-    /// Keeps at most one snapshot per calendar day (the latest reading of the day wins).
+    /// A ≥ 50 MB change adds a point. Smaller drift moves a trailing "drift" point (never a change point),
+    /// so the chart keeps every step and still ends at the current "Wolne" value.
     @discardableResult
     static func recordSnapshot() -> StorageSnapshot? {
         guard let snapshot = current() else { return nil }
         var all = snapshots
-        if let last = all.last, Calendar.current.isDate(last.date, inSameDayAs: snapshot.date) {
+        let isSmall = { (a: StorageSnapshot, b: StorageSnapshot) in abs(a.freeBytes - b.freeBytes) < 50_000_000 }
+        if all.count >= 2, isSmall(all[all.count - 1], snapshot), isSmall(all[all.count - 2], all[all.count - 1]) {
             all.removeLast()
         }
         all.append(snapshot)
-        // ponytail: unbounded daily array in UserDefaults (~100 B/day); trim if years of history pile up.
-        UserDefaults.standard.set(try? JSONEncoder().encode(all), forKey: snapshotsKey)
+        UserDefaults.standard.set(try? JSONEncoder().encode(all.suffix(500)), forKey: snapshotsKey)
         return snapshot
     }
 }

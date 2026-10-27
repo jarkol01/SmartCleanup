@@ -1,7 +1,8 @@
 # Large videos ("Duże wideo")
 
 Lists every video by real file size, largest first. Tap a row to watch it (`VideoPlayer`)
-and hold-to-delete it; select candidates and compress them to HEVC 1080p.
+and hold-to-delete it; select candidates and compress them to HEVC 1080p. The tool opens on its
+intro screen (`ToolIntroView`); "Pokaż filmy" requests access and loads the list.
 
 ## File size
 

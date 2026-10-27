@@ -5,7 +5,7 @@ struct DeleteView: View {
     @State private var flow = DeleteFlow()
 
     var body: some View {
-        NavigationStack {
+        Group {
             Group {
                 switch flow.stage {
                 case .checkingModel:
@@ -15,7 +15,7 @@ struct DeleteView: View {
                     ContentUnavailableView(
                         "Za mało oznaczonych zdjęć",
                         systemImage: "brain.head.profile",
-                        description: Text("Oznacz jeszcze kilka zdjęć w sekcji \"Ucz model\" na ekranie głównym — potrzeba co najmniej 3 z każdej kategorii.")
+                        description: Text("Oznacz jeszcze kilka zdjęć w sekcji \"Ucz model\" na ekranie głównym — potrzeba co najmniej 20 z każdej kategorii.")
                     )
 
                 case .accessDenied:
@@ -33,10 +33,16 @@ struct DeleteView: View {
                     )
 
                 case .pickingBatchSize:
-                    BatchSizePickerView(
-                        availableCount: flow.unhandledCount,
-                        onPick: { flow.classifyBatch(size: $0) }
-                    )
+                    let young = ClassifierTrainer.isModelYoung
+                    ToolIntroView(intro: .delete) {
+                        BatchPicker(
+                            title: "Ile zdjęć przejrzeć teraz?",
+                            available: flow.unhandledCount,
+                            recommendSmall: young,
+                            tip: "Na początku przeglądaj małe partie. Model szybciej nauczy się Twoich wyborów.",
+                            onPick: { flow.classifyBatch(size: $0) }
+                        )
+                    }
 
                 case .updatingModel:
                     ProgressView("Aktualizuję model o nowe dane…")
@@ -62,38 +68,22 @@ struct DeleteView: View {
                 case .deleting:
                     ProgressView("Usuwam zdjęcia…")
 
-                case .done(let count):
-                    ContentUnavailableView(
-                        "Gotowe",
-                        systemImage: "checkmark.circle",
-                        description: Text("Usunięto \(count) zdjęć.") + Text(verbatim: "\n\n") + .recentlyDeletedNote
+                case .done(let count, let freed):
+                    DoneView(
+                        message: Text("Usunięto \(count) zdjęć."),
+                        freedBytes: freed,
+                        infos: [
+                            InfoRow(systemImage: "lightbulb", text: "Model douczy się na tych decyzjach przed kolejną partią.", fill: .card),
+                            InfoRow.recentlyDeleted(fill: .card),
+                        ],
+                        onNext: { flow.reset() },
+                        onMenu: { dismiss() }
                     )
-                    .safeAreaInset(edge: .bottom) {
-                        VStack(spacing: 12) {
-                            Button("Przetwórz kolejną partię") {
-                                Haptics.selection()
-                                flow.reset()
-                            }
-                            .buttonStyle(.borderedProminent)
-                            Button("Wróć do menu") {
-                                Haptics.selection()
-                                dismiss()
-                            }
-                        }
-                        .padding()
-                    }
                 }
             }
+            .screenBackground()
             .navigationTitle("Usuń zdjęcia")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Zamknij") {
-                        Haptics.selection()
-                        dismiss()
-                    }
-                }
-            }
             .alert("Błąd", isPresented: Binding(
                 get: { flow.errorMessage != nil },
                 set: { if !$0 { flow.errorMessage = nil } }
@@ -115,11 +105,9 @@ private struct ModelUpdatedView: View {
     var body: some View {
         VStack(spacing: 16) {
             Spacer()
-            Image(systemName: "checkmark.seal.fill")
-                .font(.system(size: 48))
-                .foregroundStyle(.tint)
+            IconCircle(systemImage: "checkmark.seal.fill", size: 88)
             Text("Model zaktualizowany")
-                .font(.title2.bold())
+                .font(.title2.weight(.heavy))
 
             if let result {
                 VStack(spacing: 4) {
@@ -141,7 +129,7 @@ private struct ModelUpdatedView: View {
                 Haptics.selection()
                 onContinue()
             }
-            .buttonStyle(.borderedProminent)
+            .buttonStyle(.primary)
             .padding(.bottom, 24)
         }
         .padding()
@@ -152,45 +140,20 @@ private struct ModelUpdatedView: View {
     }
 }
 
-private struct BatchSizePickerView: View {
-    let availableCount: Int
-    let onPick: (Int) -> Void
-
-    private var options: [Int] { [50, 100, 250, 500].filter { $0 < availableCount } }
-
-    var body: some View {
-        VStack(spacing: 20) {
-            Spacer()
-            Image(systemName: "square.stack.3d.up")
-                .font(.system(size: 48))
-                .foregroundStyle(.tint)
-            Text("Ile zdjęć przejrzeć teraz?")
-                .font(.title2.bold())
-            Text("Zostało \(availableCount) nieprzejrzanych zdjęć. Możesz przerobić je partiami zamiast wszystkie naraz.")
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal, 32)
-
-            VStack(spacing: 12) {
-                ForEach(options, id: \.self) { count in
-                    Button("\(count) zdjęć") {
-                        Haptics.selection()
-                        onPick(count)
-                    }
-                    .buttonStyle(.bordered)
-                    .frame(maxWidth: .infinity)
-                }
-                Button("Wszystkie (\(availableCount))") {
-                    Haptics.selection()
-                    onPick(availableCount)
-                }
-                .buttonStyle(.borderedProminent)
-                .frame(maxWidth: .infinity)
-            }
-            .padding(.horizontal, 32)
-
-            Spacer()
-        }
+extension ToolIntro {
+    static var delete: ToolIntro {
+        ToolIntro(
+            title: "Usuń zdjęcia",
+            systemImage: "trash",
+            ai: true,
+            lead: "Model nauczony na Twoich decyzjach dzieli zdjęcia na do usunięcia i do zachowania.",
+            steps: [
+                ("rectangle.bottomthird.inset.filled", "**Pasek** pod zdjęciem pokazuje pewność modelu. Niepewne przejrzysz osobno."),
+                ("hand.tap", "**Stuknij**, by przerzucić zdjęcie do drugiej grupy."),
+                ("timer", "**Przytrzymaj**, by powiększyć lub oznaczyć wyjątek (np. zdjęcie licznika)."),
+                ("lightbulb", "**Twoje decyzje** uczą model. Przed kolejną partią sam się douczy."),
+            ],
+            infos: [InfoRow.recentlyDeleted()]
+        )
     }
 }

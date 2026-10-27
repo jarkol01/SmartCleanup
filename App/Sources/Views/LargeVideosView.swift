@@ -9,11 +9,17 @@ struct LargeVideosView: View {
     @State private var playing: VideoItem?
 
     var body: some View {
-        NavigationStack {
+        Group {
             Group {
                 switch flow.stage {
                 case .checkingAccess:
-                    ProgressView().task { await flow.start() }
+                    ToolIntroView(intro: .videos) {
+                        Button("Pokaż filmy") {
+                            Haptics.selection()
+                            Task { await flow.start() }
+                        }
+                        .buttonStyle(.primary)
+                    }
 
                 case .accessDenied:
                     ContentUnavailableView(
@@ -37,12 +43,12 @@ struct LargeVideosView: View {
                             .font(.headline)
                         switch phase {
                         case .downloading(let progress):
-                            ProgressView(value: progress)
+                            ProgressView(value: progress).progressViewStyle(CapsuleBarStyle())
                             Text("Pobieram z iCloud…")
                                 .font(.footnote)
                                 .foregroundStyle(.secondary)
                         case .compressing(let progress):
-                            ProgressView(value: progress)
+                            ProgressView(value: progress).progressViewStyle(CapsuleBarStyle())
                             Text("Kompresuję…")
                                 .font(.footnote)
                                 .foregroundStyle(.secondary)
@@ -51,55 +57,48 @@ struct LargeVideosView: View {
                             Haptics.selection()
                             flow.stop()
                         }
+                        .buttonStyle(.neutral)
+                        .controlSize(.small)
                         .padding(.top)
                     }
                     .padding(.horizontal, 40)
 
                 case .copiesReady(let count, let savedBytes):
                     VStack(spacing: 16) {
-                        Image(systemName: "checkmark.circle.fill")
-                            .font(.system(size: 56))
-                            .foregroundStyle(.green)
+                        IconCircle(systemImage: "checkmark", size: 88)
                         Text("Skompresowane kopie zapisane: \(count)")
-                            .font(.headline)
-                        (Text("Kopie są już w bibliotece. Teraz usuniemy oryginały, co zwolni ok. \(ByteCountFormatter.string(fromByteCount: savedBytes, countStyle: .file)).") + Text(verbatim: " ") + .recentlyDeletedNote)
-                            .font(.footnote)
-                            .foregroundStyle(.secondary)
+                            .font(.title3.weight(.heavy))
                             .multilineTextAlignment(.center)
-                        HoldToConfirmButton(duration: 0.7, tint: .red, action: { Task { await flow.deleteOriginals() } }) {
-                            Text("Usuń oryginały")
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                        }
+                        InfoRow(
+                            systemImage: "checkmark.shield",
+                            text: "Kopie są już w bibliotece. Teraz usuniemy oryginały, co zwolni ok. \(formatBytes(savedBytes))."
+                        )
+                        InfoRow.recentlyDeleted()
+                        HoldToConfirmButton(title: "Usuń oryginały", action: { Task { await flow.deleteOriginals() } })
                         Button("Zostaw oryginały") {
                             Haptics.selection()
                             Task { await flow.keepOriginals() }
                         }
+                        .buttonStyle(.secondary)
                     }
-                    .padding(.horizontal, 32)
+                    .padding(.horizontal, 18)
 
                 case .deletingOriginals:
                     ProgressView("Usuwam oryginały…")
+
+                case .done(let count, let savedBytes):
+                    DoneView(
+                        message: Text("Skompresowane wideo: \(count)."),
+                        freedBytes: savedBytes,
+                        infos: [InfoRow.recentlyDeleted(fill: .card)],
+                        onNext: { flow.stage = flow.videos.isEmpty ? .empty : .list },
+                        onMenu: { dismiss() }
+                    )
                 }
             }
+            .screenBackground()
             .navigationTitle("Duże wideo")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Zamknij") {
-                        Haptics.selection()
-                        dismiss()
-                    }
-                }
-                if flow.stage == .list, !flow.candidates.isEmpty {
-                    ToolbarItem(placement: .primaryAction) {
-                        Button(flow.selected.count == flow.candidates.count ? "Odznacz" : "Zaznacz wszystkie") {
-                            Haptics.selection()
-                            flow.toggleSelectAll()
-                        }
-                    }
-                }
-            }
             .sheet(item: $playing) { item in
                 VideoPlayerSheet(item: item) {
                     Task {
@@ -116,20 +115,6 @@ struct LargeVideosView: View {
             } message: {
                 Text(flow.errorMessage ?? "")
             }
-            .alert("Gotowe", isPresented: Binding(
-                get: { flow.result != nil },
-                set: { if !$0 { flow.result = nil } }
-            )) {
-                Button("OK") { flow.result = nil }
-            } message: {
-                if let result = flow.result {
-                    if result.originalsDeleted {
-                        Text("Skompresowane wideo: \(result.compressedCount). Odzyskano \(ByteCountFormatter.string(fromByteCount: result.savedBytes, countStyle: .file)).")
-                    } else {
-                        Text("Zapisane skompresowane kopie: \(result.compressedCount). Oryginały zostały w bibliotece.")
-                    }
-                }
-            }
         }
     }
 }
@@ -143,41 +128,39 @@ private struct VideoListView: View {
     }
 
     var body: some View {
-        List(flow.videos) { item in
-            VideoRow(
-                item: item,
-                isSelected: flow.selected.contains(item.id),
-                onToggle: {
-                    Haptics.selection()
-                    flow.toggleSelection(item)
+        ScrollView {
+            LazyVStack(spacing: 8) {
+                ForEach(flow.videos) { item in
+                    VideoRow(
+                        item: item,
+                        isSelected: flow.selected.contains(item.id),
+                        onToggle: {
+                            Haptics.selection()
+                            flow.toggleSelection(item)
+                        }
+                    )
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        Haptics.selection()
+                        onPlay(item)
+                    }
                 }
-            )
-            .contentShape(Rectangle())
-            .onTapGesture {
-                Haptics.selection()
-                onPlay(item)
             }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 10)
         }
-        .listStyle(.plain)
         .safeAreaInset(edge: .bottom) {
-            VStack(spacing: 8) {
-                Text.recentlyDeletedNote
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.center)
-                Button {
+            VStack(spacing: 10) {
+                InfoRow.recentlyDeleted()
+                Button("Kompresuj zaznaczone (\(flow.selected.count)) · ~\(ByteCountFormatter.string(fromByteCount: selectedSavings, countStyle: .file))") {
                     Haptics.selection()
                     flow.compressSelected()
-                } label: {
-                    Text("Kompresuj zaznaczone (\(flow.selected.count)) · ~\(ByteCountFormatter.string(fromByteCount: selectedSavings, countStyle: .file))")
-                        .frame(maxWidth: .infinity)
-                        .padding()
                 }
-                .buttonStyle(.borderedProminent)
+                .buttonStyle(.primary)
                 .disabled(flow.selected.isEmpty)
             }
-            .padding()
-            .background(.bar)
+            .padding(16)
+            .background(Color.appBackground)
         }
     }
 }
@@ -187,38 +170,30 @@ private struct VideoRow: View {
     let isSelected: Bool
     let onToggle: () -> Void
 
-    @State private var image: UIImage?
-
     var body: some View {
         HStack(spacing: 12) {
-            Group {
-                if let image {
-                    Image(uiImage: image).resizable().scaledToFill()
-                } else {
-                    Rectangle().fill(.gray.opacity(0.2))
+            AssetThumbnail(asset: item.asset, targetSide: 128)
+                .frame(width: 60, height: 60)
+                .overlay(alignment: .bottomTrailing) {
+                    Text(Duration.seconds(item.asset.duration).formatted(.time(pattern: .minuteSecond)))
+                        .font(.caption2.weight(.bold).monospacedDigit())
+                        .foregroundStyle(.white)
+                        .padding(.horizontal, 4)
+                        .padding(.vertical, 1)
+                        .background(.black.opacity(0.6), in: Capsule())
+                        .padding(3)
                 }
-            }
-            .frame(width: 64, height: 64)
-            .clipShape(RoundedRectangle(cornerRadius: 8))
-            .overlay(alignment: .bottomTrailing) {
-                Text(Duration.seconds(item.asset.duration).formatted(.time(pattern: .minuteSecond)))
-                    .font(.caption2.monospacedDigit())
-                    .foregroundStyle(.white)
-                    .padding(2)
-                    .background(.black.opacity(0.6), in: RoundedRectangle(cornerRadius: 4))
-                    .padding(2)
-            }
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(ByteCountFormatter.string(fromByteCount: item.size, countStyle: .file))
-                    .font(.headline.monospacedDigit())
+                    .font(.headline.weight(.heavy).monospacedDigit())
                 if item.isCompressionCandidate {
                     Text("Kompresja: ~\(ByteCountFormatter.string(fromByteCount: item.estimatedSavings, countStyle: .file)) mniej")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .font(.footnote.weight(.bold))
+                        .foregroundStyle(.accent)
                 } else if let reason = item.skipReason {
                     Text(LocalizedStringKey(reason))
-                        .font(.caption)
+                        .font(.footnote)
                         .foregroundStyle(.tertiary)
                 }
             }
@@ -229,14 +204,14 @@ private struct VideoRow: View {
                 Button(action: onToggle) {
                     Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
                         .font(.title2)
+                        .foregroundStyle(isSelected ? AnyShapeStyle(.accent) : AnyShapeStyle(.tertiary))
+                        .frame(width: 44, height: 44)
                 }
                 .buttonStyle(.borderless)
                 .accessibilityLabel(Text(isSelected ? "Odznacz" : "Zaznacz"))
             }
         }
-        .task {
-            image = await PhotoLibraryService.requestImage(for: item.asset, targetSize: CGSize(width: 128, height: 128))
-        }
+        .card(radius: 20, padding: 8)
     }
 }
 
@@ -257,12 +232,8 @@ private struct VideoPlayerSheet: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
 
-            HoldToConfirmButton(duration: 0.7, tint: .red, action: onDelete) {
-                Text("Usuń wideo (\(ByteCountFormatter.string(fromByteCount: item.size, countStyle: .file)))")
-                    .frame(maxWidth: .infinity)
-                    .padding()
-            }
-            .padding()
+            HoldToConfirmButton(title: "Usuń wideo (\(ByteCountFormatter.string(fromByteCount: item.size, countStyle: .file)))", action: onDelete)
+                .padding(18)
         }
         .task {
             guard let playerItem = await PhotoLibraryService.requestPlayerItem(for: item.asset) else { return }
@@ -272,5 +243,22 @@ private struct VideoPlayerSheet: View {
             player?.play()
         }
         .onDisappear { player?.pause() }
+    }
+}
+
+extension ToolIntro {
+    static var videos: ToolIntro {
+        ToolIntro(
+            title: "Duże wideo",
+            systemImage: "film",
+            lead: "Pokazuje filmy od największych. Możesz je obejrzeć, usunąć albo skompresować.",
+            steps: [
+                ("play.circle", "**Stuknij film**, by go obejrzeć. W odtwarzaczu przytrzymaj „Usuń wideo”."),
+                ("checkmark.circle", "**Zaznacz** filmy do kompresji (HEVC 1080p). Przy każdym widać szacowaną oszczędność."),
+                ("doc.on.doc", "**Najpierw zapisujemy kopię.** O usunięciu oryginałów zdecydujesz potem."),
+                ("slowmo", "**Slow motion i tryb kinowy** pomijamy, żeby nie zepsuć efektów."),
+            ],
+            infos: [InfoRow.recentlyDeleted()]
+        )
     }
 }

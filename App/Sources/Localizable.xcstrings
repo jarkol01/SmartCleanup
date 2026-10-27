@@ -1,109 +1,86 @@
 {
   "sourceLanguage": "pl",
   "strings": {
-    "%lld zdjęć": {
-      "extractionState": "stale",
+    "Skompresowane wideo: %lld.": {
       "localizations": {
         "de": {
-          "variations": {
-            "plural": {
-              "one": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld Foto"
-                }
-              },
-              "other": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld Fotos"
-                }
-              }
-            }
+          "stringUnit": {
+            "state": "translated",
+            "value": "Komprimierte Videos: %lld."
           }
         },
         "en": {
-          "variations": {
-            "plural": {
-              "one": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld photo"
-                }
-              },
-              "other": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld photos"
-                }
-              }
-            }
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compressed videos: %lld."
           }
         },
         "es": {
-          "variations": {
-            "plural": {
-              "one": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld foto"
-                }
-              },
-              "other": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld fotos"
-                }
-              }
-            }
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vídeos comprimidos: %lld."
           }
         },
         "fr": {
-          "variations": {
-            "plural": {
-              "one": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld photo"
-                }
-              },
-              "other": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld photos"
-                }
-              }
-            }
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vidéos compressées : %lld."
+          }
+        }
+      }
+    },
+    "Przywróć domyślne ustawienia": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Standardeinstellungen wiederherstellen"
           }
         },
-        "pl": {
-          "variations": {
-            "plural": {
-              "few": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld zdjęcia"
-                }
-              },
-              "many": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld zdjęć"
-                }
-              },
-              "one": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld zdjęcie"
-                }
-              },
-              "other": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "%lld zdjęć"
-                }
-              }
-            }
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restore default settings"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restaurar ajustes predeterminados"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rétablir les réglages par défaut"
+          }
+        }
+      }
+    },
+    "%@ od %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ seit %2$@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ since %2$@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ desde %2$@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ depuis %2$@"
           }
         }
       }
@@ -915,64 +892,6 @@
         }
       }
     },
-    "Model nie jest jeszcze wytrenowany": {
-      "extractionState": "stale",
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Modell ist noch nicht trainiert"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Model isn't trained yet"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "El modelo aún no está entrenado"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Le modèle n'est pas encore entraîné"
-          }
-        }
-      }
-    },
-    "Model wytrenowany ✅": {
-      "extractionState": "stale",
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Modell trainiert ✅"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Model trained ✅"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Modelo entrenado ✅"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Modèle entraîné ✅"
-          }
-        }
-      }
-    },
     "Model zaktualizowany": {
       "localizations": {
         "de": {
@@ -1333,59 +1252,30 @@
     "Oznacz do zachowania": {},
     "Oznacz jako ostre": {},
     "Oznacz jako rozmyte": {},
-    "Oznacz jeszcze kilka zdjęć w sekcji \"Ucz model\" na ekranie głównym — potrzeba co najmniej 3 z każdej kategorii.": {
+    "Oznacz jeszcze kilka zdjęć w sekcji \"Ucz model\" na ekranie głównym — potrzeba co najmniej 20 z każdej kategorii.": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Markiere noch ein paar Fotos im Bereich „Modell trainieren“ auf dem Startbildschirm — du brauchst mindestens 3 pro Kategorie."
+            "value": "Markiere noch ein paar Fotos im Bereich „Modell trainieren“ auf dem Startbildschirm — du brauchst mindestens 20 pro Kategorie."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Label a few more photos in \"Train Model\" on the home screen — you need at least 3 in each category."
+            "value": "Label a few more photos in \"Train Model\" on the home screen — you need at least 20 in each category."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Etiqueta unas cuantas fotos más en \"Entrenar modelo\" en la pantalla principal: necesitas al menos 3 de cada categoría."
+            "value": "Etiqueta unas cuantas fotos más en \"Entrenar modelo\" en la pantalla principal: necesitas al menos 20 de cada categoría."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Étiquetez encore quelques photos dans « Entraîner le modèle » sur l'écran d'accueil — il en faut au moins 3 par catégorie."
-          }
-        }
-      }
-    },
-    "Oznacz kilka zdjęć jako Zachowaj / Usuń": {
-      "extractionState": "stale",
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Markiere ein paar Fotos als Behalten / Löschen"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mark a few photos as Keep / Delete"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Marca algunas fotos como Conservar / Eliminar"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Marquez quelques photos comme Conserver / Supprimer"
+            "value": "Étiquetez encore quelques photos dans « Entraîner le modèle » sur l'écran d'accueil — il en faut au moins 20 par catégorie."
           }
         }
       }
@@ -1502,35 +1392,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "En dessous de %@ de confiance, c'est considéré comme incertain"
-          }
-        }
-      }
-    },
-    "Proszę o dostęp do zdjęć…": {
-      "extractionState": "stale",
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fotozugriff wird angefragt…"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Requesting photo access…"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Solicitando acceso a las fotos…"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Demande d'accès aux photos…"
           }
         }
       }
@@ -1739,64 +1600,6 @@
       }
     },
     "Przygotowuję skanowanie…": {},
-    "Przywróć domyślne (25)": {
-      "extractionState": "stale",
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Standard wiederherstellen (25)"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Restore default (25)"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Restaurar valor predeterminado (25)"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rétablir la valeur par défaut (25)"
-          }
-        }
-      }
-    },
-    "Przywróć domyślne (50)": {
-      "extractionState": "stale",
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Standard wiederherstellen (50)"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Restore default (50)"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Restaurar valor predeterminado (50)"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rétablir la valeur par défaut (50)"
-          }
-        }
-      }
-    },
     "Próg pewności": {
       "localizations": {
         "de": {
@@ -1884,35 +1687,6 @@
       }
     },
     "Skanuj ponownie": {},
-    "Skompresowane wideo: %lld. Odzyskano %@.": {
-      "extractionState": "stale",
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Komprimierte Videos: %lld. %@ freigegeben."
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Videos compressed: %lld. Freed %@."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vídeos comprimidos: %lld. Liberado %@."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vidéos compressées : %lld. %@ libérés."
-          }
-        }
-      }
-    },
     "Sprawdzam rozmiary wideo…": {
       "extractionState": "stale",
       "localizations": {
@@ -3076,35 +2850,6 @@
         }
       }
     },
-    "Zapisane skompresowane kopie: %lld. Oryginały zostały w bibliotece.": {
-      "extractionState": "stale",
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Gespeicherte komprimierte Kopien: %lld. Die Originale bleiben in der Mediathek."
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Compressed copies saved: %lld. The originals are still in your library."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Copias comprimidas guardadas: %lld. Los originales siguen en la fototeca."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Copies compressées enregistrées : %lld. Les originaux restent dans la photothèque."
-          }
-        }
-      }
-    },
     "Zapisano": {
       "extractionState": "stale",
       "localizations": {
@@ -3164,35 +2909,6 @@
       }
     },
     "Zaznacz co najmniej jedno zdjęcie do zachowania.": {},
-    "Zaznacz wszystkie": {
-      "extractionState": "stale",
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Alle auswählen"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Select All"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Seleccionar todo"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tout sélectionner"
-          }
-        }
-      }
-    },
     "Znajdź nieostre zdjęcia i usuń je z galerii": {
       "extractionState": "stale",
       "localizations": {
@@ -3223,143 +2939,6 @@
       }
     },
     "Znajdź podobne zdjęcia (np. serie ujęć) i wybierz, które zostawić": {},
-    "Zostało %@ nieprzejrzanych zdjęć. Możesz przerobić je partiami zamiast wszystkie naraz.": {},
-    "Zostało %lld nieprzejrzanych zdjęć. Możesz przerobić je partiami zamiast wszystkie naraz.": {
-      "extractionState": "stale",
-      "localizations": {
-        "de": {
-          "variations": {
-            "plural": {
-              "one": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "Es ist noch %lld ungeprüftes Foto übrig. Du kannst sie in Stapeln statt auf einmal bearbeiten."
-                }
-              },
-              "other": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "Es sind noch %lld ungeprüfte Fotos übrig. Du kannst sie in Stapeln statt auf einmal bearbeiten."
-                }
-              }
-            }
-          }
-        },
-        "en": {
-          "variations": {
-            "plural": {
-              "one": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "There is %lld unreviewed photo left. You can work through them in batches instead of all at once."
-                }
-              },
-              "other": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "There are %lld unreviewed photos left. You can work through them in batches instead of all at once."
-                }
-              }
-            }
-          }
-        },
-        "es": {
-          "variations": {
-            "plural": {
-              "one": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "Queda %lld foto sin revisar. Puedes procesarlas por lotes en lugar de todas a la vez."
-                }
-              },
-              "other": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "Quedan %lld fotos sin revisar. Puedes procesarlas por lotes en lugar de todas a la vez."
-                }
-              }
-            }
-          }
-        },
-        "fr": {
-          "variations": {
-            "plural": {
-              "one": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "Il reste %lld photo non examinée. Vous pouvez les traiter par lots plutôt que toutes à la fois."
-                }
-              },
-              "other": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "Il reste %lld photos non examinées. Vous pouvez les traiter par lots plutôt que toutes à la fois."
-                }
-              }
-            }
-          }
-        },
-        "pl": {
-          "variations": {
-            "plural": {
-              "few": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "Zostały %lld nieprzejrzane zdjęcia. Możesz przerobić je partiami zamiast wszystkie naraz."
-                }
-              },
-              "many": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "Zostało %lld nieprzejrzanych zdjęć. Możesz przerobić je partiami zamiast wszystkie naraz."
-                }
-              },
-              "one": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "Zostało %lld nieprzejrzane zdjęcie. Możesz przerobić je partiami zamiast wszystkie naraz."
-                }
-              },
-              "other": {
-                "stringUnit": {
-                  "state": "translated",
-                  "value": "Zostało %lld nieprzejrzanych zdjęć. Możesz przerobić je partiami zamiast wszystkie naraz."
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "do treningu": {
-      "extractionState": "stale",
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "zum Training"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "for training"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "para entrenar"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "pour l'entraînement"
-          }
-        }
-      }
-    },
     "oszczędzone": {
       "extractionState": "stale",
       "localizations": {
@@ -3385,35 +2964,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "économisé"
-          }
-        }
-      }
-    },
-    "usuniętych": {
-      "extractionState": "stale",
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "gelöscht"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "deleted"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "eliminadas"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "supprimées"
           }
         }
       }
@@ -3470,6 +3020,34 @@
           "stringUnit": {
             "state": "translated",
             "value": "Stockage de l’appareil"
+          }
+        }
+      }
+    },
+    "Wolne, GB": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Frei, GB"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Free, GB"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Libre, GB"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Libre, Go"
           }
         }
       }
@@ -3778,6 +3356,1456 @@
           "stringUnit": {
             "state": "translated",
             "value": "Garder les originaux"
+          }
+        }
+      }
+    },
+    "**Cała grupa niepotrzebna?** Odznacz wszystkie i usuń ją w całości.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Don’t need the whole group?** Unmark all and delete it entirely."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Ganze Gruppe überflüssig?** Alle abwählen und komplett löschen."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**¿No necesitas el grupo entero?** Desmarca todas y elimínalo por completo."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Tout le groupe est inutile ?** Décochez tout et supprimez-le entièrement."
+          }
+        }
+      }
+    },
+    "**Co najmniej 20 z każdej kategorii.** Model douczy się przy następnym „Usuń zdjęcia”.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**At least 20 of each category.** The model updates on your next “Delete Photos”."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Mindestens 20 pro Kategorie.** Das Modell lernt beim nächsten „Fotos löschen“ dazu."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Al menos 20 de cada categoría.** El modelo se actualizará en el próximo «Eliminar fotos»."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Au moins 20 de chaque catégorie.** Le modèle se mettra à jour au prochain « Supprimer des photos »."
+          }
+        }
+      }
+    },
+    "**Najpierw zapisujemy kopię.** O usunięciu oryginałów zdecydujesz potem.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**We save a copy first.** You decide about deleting the originals afterwards."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Zuerst speichern wir eine Kopie.** Über das Löschen der Originale entscheidest du danach."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Primero guardamos una copia.** Después decides si eliminar los originales."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Nous enregistrons d’abord une copie.** Vous déciderez ensuite de supprimer les originaux."
+          }
+        }
+      }
+    },
+    "**Pasek** pod zdjęciem pokazuje pewność modelu. Niepewne przejrzysz osobno.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The **bar** under a photo shows the model’s confidence. You can review uncertain ones separately."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Der **Balken** unter dem Foto zeigt, wie sicher das Modell ist. Unsichere prüfst du separat."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La **barra** bajo la foto muestra la confianza del modelo. Las dudosas las revisas aparte."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La **barre** sous la photo indique la confiance du modèle. Les incertaines se vérifient à part."
+          }
+        }
+      }
+    },
+    "**Pasek** pokazuje, jak bardzo zdjęcie jest rozmyte. Próg zmienisz w Ustawieniach.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The **bar** shows how blurry a photo is. You can change the threshold in Settings."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Der **Balken** zeigt, wie unscharf ein Foto ist. Den Schwellenwert änderst du in den Einstellungen."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La **barra** muestra lo borrosa que está la foto. Puedes cambiar el umbral en Ajustes."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La **barre** indique à quel point la photo est floue. Le seuil se règle dans les Réglages."
+          }
+        }
+      }
+    },
+    "**Po jednej grupie.** Domyślnie zostaje zdjęcie o najwyższej rozdzielczości.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**One group at a time.** By default the highest-resolution photo is kept."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Eine Gruppe nach der anderen.** Standardmäßig bleibt das Foto mit der höchsten Auflösung."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Un grupo cada vez.** Por defecto se conserva la foto de mayor resolución."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Un groupe à la fois.** Par défaut, la photo de plus haute résolution est conservée."
+          }
+        }
+      }
+    },
+    "**Przeciągnij w lewo**, żeby usunąć.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Swipe left** to delete."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Nach links wischen**, um zu löschen."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Desliza a la izquierda** para eliminar."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Balayez vers la gauche** pour supprimer."
+          }
+        }
+      }
+    },
+    "**Przeciągnij w prawo**, żeby zachować.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Swipe right** to keep."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Nach rechts wischen**, um zu behalten."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Desliza a la derecha** para conservar."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Balayez vers la droite** pour conserver."
+          }
+        }
+      }
+    },
+    "**Przytrzymaj**, by powiększyć i obejrzeć szczegóły.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Press and hold** to zoom in and see details."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Gedrückt halten**, um zu vergrößern und Details zu sehen."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Mantén pulsado** para ampliar y ver detalles."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Maintenez appuyé** pour agrandir et voir les détails."
+          }
+        }
+      }
+    },
+    "**Przytrzymaj**, by powiększyć i porównać szczegóły.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Press and hold** to zoom in and compare details."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Gedrückt halten**, um zu vergrößern und Details zu vergleichen."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Mantén pulsado** para ampliar y comparar detalles."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Maintenez appuyé** pour agrandir et comparer les détails."
+          }
+        }
+      }
+    },
+    "**Przytrzymaj**, by powiększyć lub oznaczyć wyjątek (np. zdjęcie licznika).": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Press and hold** to zoom in or mark an exception (e.g. a meter reading photo)."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Gedrückt halten**, um zu vergrößern oder eine Ausnahme zu markieren (z. B. Foto eines Zählerstands)."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Mantén pulsado** para ampliar o marcar una excepción (p. ej. la foto de un contador)."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Maintenez appuyé** pour agrandir ou marquer une exception (p. ex. la photo d’un compteur)."
+          }
+        }
+      }
+    },
+    "**Slow motion i tryb kinowy** pomijamy, żeby nie zepsuć efektów.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Slow motion and Cinematic** videos are skipped so their effects aren’t lost."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Zeitlupe und Kinomodus** werden übersprungen, damit die Effekte erhalten bleiben."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**La cámara lenta y el modo Cine** se omiten para no estropear los efectos."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Ralenti et mode Cinématique** sont ignorés pour ne pas abîmer les effets."
+          }
+        }
+      }
+    },
+    "**Stuknij film**, by go obejrzeć. W odtwarzaczu przytrzymaj „Usuń wideo”.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Tap a video** to watch it. In the player, hold “Delete video”."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Tippe auf ein Video**, um es anzusehen. Im Player „Video löschen“ gedrückt halten."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Toca un vídeo** para verlo. En el reproductor, mantén pulsado «Eliminar vídeo»."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Touchez une vidéo** pour la regarder. Dans le lecteur, maintenez « Supprimer la vidéo »."
+          }
+        }
+      }
+    },
+    "**Stuknij** zdjęcie, by zmienić: zostaw albo usuń.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Tap** a photo to switch between keep and delete."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Tippe** auf ein Foto, um zwischen Behalten und Löschen zu wechseln."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Toca** una foto para cambiar entre conservar y eliminar."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Touchez** une photo pour basculer entre conserver et supprimer."
+          }
+        }
+      }
+    },
+    "**Stuknij**, by przerzucić zdjęcie do drugiej grupy.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Tap** to move a photo to the other group."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Tippe**, um ein Foto in die andere Gruppe zu verschieben."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Toca** para pasar una foto al otro grupo."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Touchez** pour déplacer une photo dans l’autre groupe."
+          }
+        }
+      }
+    },
+    "**Stuknij**, by przerzucić zdjęcie między Rozmyte i Ostre.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Tap** to move a photo between Blurry and Sharp."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Tippe**, um ein Foto zwischen Unscharf und Scharf zu verschieben."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Toca** para mover una foto entre Borrosas y Nítidas."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Touchez** pour déplacer une photo entre Floues et Nettes."
+          }
+        }
+      }
+    },
+    "**Trudno ocenić?** Pomiń zdjęcie.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Hard to tell?** Skip the photo."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Schwer zu sagen?** Foto überspringen."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**¿Difícil de decidir?** Omite la foto."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Difficile à dire ?** Passez la photo."
+          }
+        }
+      }
+    },
+    "**Twoje decyzje** uczą model. Przed kolejną partią sam się douczy.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Your decisions** teach the model. It updates itself before the next batch."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Deine Entscheidungen** trainieren das Modell. Vor dem nächsten Stapel lernt es selbst dazu."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Tus decisiones** enseñan al modelo. Se actualizará solo antes del siguiente lote."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Vos décisions** entraînent le modèle. Il se met à jour tout seul avant le lot suivant."
+          }
+        }
+      }
+    },
+    "**Uwaga:** celowo rozmyte tło (np. portret) też może tu trafić.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Note:** an intentionally blurred background (e.g. Portrait) may end up here too."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Hinweis:** Ein absichtlich unscharfer Hintergrund (z. B. Porträt) kann auch hier landen."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Nota:** un fondo desenfocado a propósito (p. ej. Retrato) también puede aparecer aquí."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Attention :** un arrière-plan flou volontaire (p. ex. Portrait) peut aussi apparaître ici."
+          }
+        }
+      }
+    },
+    "**Zaznacz** filmy do kompresji (HEVC 1080p). Przy każdym widać szacowaną oszczędność.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Select** videos to compress (HEVC 1080p). Each shows the estimated savings."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Wähle** Videos zum Komprimieren aus (HEVC 1080p). Bei jedem siehst du die geschätzte Ersparnis."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Selecciona** vídeos para comprimir (HEVC 1080p). Cada uno muestra el ahorro estimado."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "**Sélectionnez** les vidéos à compresser (HEVC 1080p). Chacune affiche l’économie estimée."
+          }
+        }
+      }
+    },
+    "Doucz model": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Train more"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weiter trainieren"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seguir entrenando"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Entraîner davantage"
+          }
+        }
+      }
+    },
+    "Jak to działa": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "How it works"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "So funktioniert es"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cómo funciona"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comment ça marche"
+          }
+        }
+      }
+    },
+    "Mierzy ostrość każdego zdjęcia i proponuje usunięcie nieostrych.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Measures the sharpness of every photo and suggests deleting blurry ones."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Misst die Schärfe jedes Fotos und schlägt vor, unscharfe zu löschen."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mide la nitidez de cada foto y propone eliminar las borrosas."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mesure la netteté de chaque photo et propose de supprimer les floues."
+          }
+        }
+      }
+    },
+    "Model douczy się na tych decyzjach przed kolejną partią.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The model will learn from these decisions before the next batch."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Das Modell lernt vor dem nächsten Stapel aus diesen Entscheidungen."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El modelo aprenderá de estas decisiones antes del siguiente lote."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le modèle apprendra de ces décisions avant le lot suivant."
+          }
+        }
+      }
+    },
+    "Model nauczony na Twoich decyzjach dzieli zdjęcia na do usunięcia i do zachowania.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A model trained on your decisions splits photos into ones to delete and ones to keep."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ein Modell, das aus deinen Entscheidungen gelernt hat, teilt Fotos in Löschen und Behalten auf."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Un modelo entrenado con tus decisiones separa las fotos en eliminar y conservar."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Un modèle entraîné sur vos décisions répartit les photos entre à supprimer et à conserver."
+          }
+        }
+      }
+    },
+    "Model wytrenowany": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Model trained"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modell trainiert"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modelo entrenado"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modèle entraîné"
+          }
+        }
+      }
+    },
+    "Na początku przeglądaj małe partie. Model szybciej nauczy się Twoich wyborów.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start with small batches. The model will learn your choices faster."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beginne mit kleinen Stapeln. So lernt das Modell deine Auswahl schneller."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Empieza con lotes pequeños. El modelo aprenderá tus elecciones más rápido."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Commencez par de petits lots. Le modèle apprendra vos choix plus vite."
+          }
+        }
+      }
+    },
+    "Najpierw naucz model": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Train the model first"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trainiere zuerst das Modell"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Primero entrena el modelo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Entraînez d’abord le modèle"
+          }
+        }
+      }
+    },
+    "Naucz model, co chcesz usuwać": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Teach the model what you want to delete"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bring dem Modell bei, was du löschen willst"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enseña al modelo qué quieres eliminar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apprenez au modèle ce que vous voulez supprimer"
+          }
+        }
+      }
+    },
+    "Oznacz zdjęcia jako Zachowaj / Usuń. Potrzeba co najmniej 20 z każdej kategorii.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mark photos as Keep / Delete. At least 20 of each category are needed."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Markiere Fotos als Behalten / Löschen. Es braucht mindestens 20 pro Kategorie."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Marca fotos como Conservar / Eliminar. Se necesitan al menos 20 de cada categoría."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Marquez des photos comme Conserver / Supprimer. Il en faut au moins 20 de chaque catégorie."
+          }
+        }
+      }
+    },
+    "Pokazuje filmy od największych. Możesz je obejrzeć, usunąć albo skompresować.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Shows videos from largest to smallest. You can watch, delete or compress them."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zeigt Videos nach Größe sortiert. Du kannst sie ansehen, löschen oder komprimieren."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Muestra los vídeos de mayor a menor. Puedes verlos, eliminarlos o comprimirlos."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Affiche les vidéos de la plus grande à la plus petite. Vous pouvez les regarder, supprimer ou compresser."
+          }
+        }
+      }
+    },
+    "Pokaż filmy": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show videos"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Videos anzeigen"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostrar vídeos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Afficher les vidéos"
+          }
+        }
+      }
+    },
+    "Pokaż modelowi, które zdjęcia zachowujesz, a które usuwasz. Na tej podstawie zaproponuje sprzątanie.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show the model which photos you keep and which you delete. It will suggest a cleanup based on that."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zeig dem Modell, welche Fotos du behältst und welche du löschst. Darauf basierend schlägt es eine Bereinigung vor."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Muestra al modelo qué fotos conservas y cuáles eliminas. Con eso propondrá una limpieza."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Montrez au modèle les photos que vous gardez et celles que vous supprimez. Il proposera un nettoyage en conséquence."
+          }
+        }
+      }
+    },
+    "Przydaje się głównie na początku. Później model uczy się sam z Twoich decyzji w „Usuń zdjęcia”.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostly useful at the start. Later the model learns on its own from your decisions in “Delete Photos”."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vor allem am Anfang nützlich. Später lernt das Modell selbst aus deinen Entscheidungen in „Fotos löschen“."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Útil sobre todo al principio. Después el modelo aprende solo de tus decisiones en «Eliminar fotos»."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Utile surtout au début. Ensuite, le modèle apprend seul de vos décisions dans « Supprimer des photos »."
+          }
+        }
+      }
+    },
+    "Rozpocznij skanowanie": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start scan"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scan starten"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Iniciar escaneo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lancer l’analyse"
+          }
+        }
+      }
+    },
+    "Sprzątanie": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cleanup"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aufräumen"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Limpieza"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nettoyage"
+          }
+        }
+      }
+    },
+    "Tutaj nic nie jest usuwane, tylko uczysz model.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nothing is deleted here, you only teach the model."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hier wird nichts gelöscht, du trainierst nur das Modell."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aquí no se elimina nada, solo enseñas al modelo."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rien n’est supprimé ici, vous entraînez seulement le modèle."
+          }
+        }
+      }
+    },
+    "Twój model": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your model"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dein Modell"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tu modelo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Votre modèle"
+          }
+        }
+      }
+    },
+    "Uczy się z każdej Twojej decyzji": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Learns from every decision you make"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lernt aus jeder deiner Entscheidungen"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aprende de cada decisión que tomas"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apprend de chacune de vos décisions"
+          }
+        }
+      }
+    },
+    "Zachowaj": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Behalten"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Conservar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Conserver"
+          }
+        }
+      }
+    },
+    "Zacznij oznaczać": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start labeling"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Markieren starten"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Empezar a marcar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Commencer à marquer"
+          }
+        }
+      }
+    },
+    "Zacznij tutaj": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start here"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hier starten"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Empieza aquí"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Commencez ici"
+          }
+        }
+      }
+    },
+    "Znajduje serie niemal identycznych zdjęć zrobionych w krótkim odstępie, np. zdjęcia seryjne.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finds series of nearly identical photos taken moments apart, such as bursts."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Findet Serien fast identischer Fotos, die kurz nacheinander aufgenommen wurden, z. B. Serienbilder."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Encuentra series de fotos casi idénticas tomadas con poco intervalo, como las ráfagas."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trouve des séries de photos presque identiques prises à quelques instants d’écart, comme les rafales."
+          }
+        }
+      }
+    },
+    "zwolniono": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "freed"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "freigegeben"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "liberado"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "libéré"
+          }
+        }
+      }
+    },
+    "Łącznie oszczędzone: ~%@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saved in total: ~%@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Insgesamt gespart: ~%@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ahorrado en total: ~%@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Économisé au total : ~%@"
+          }
+        }
+      }
+    },
+    "%@ usuniętych": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ deleted"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ gelöscht"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ eliminadas"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ supprimées"
+          }
+        }
+      }
+    },
+    "%lld przykładów · %lld / %lld": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld examples · %2$lld / %3$lld"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld Beispiele · %2$lld / %3$lld"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld ejemplos · %2$lld / %3$lld"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld exemples · %2$lld / %3$lld"
+          }
+        }
+      }
+    },
+    "%lld przykładów · %lld Zachowaj / %lld Usuń": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld examples · %2$lld Keep / %3$lld Delete"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld Beispiele · %2$lld Behalten / %3$lld Löschen"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld ejemplos · %2$lld Conservar / %3$lld Eliminar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$lld exemples · %2$lld Conserver / %3$lld Supprimer"
+          }
+        }
+      }
+    },
+    "Zostało %lld nieprzejrzanych zdjęć.": {
+      "localizations": {
+        "de": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Es ist noch %lld ungeprüftes Foto übrig."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Es sind noch %lld ungeprüfte Fotos übrig."
+                }
+              }
+            }
+          }
+        },
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "There is %lld unreviewed photo left."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "There are %lld unreviewed photos left."
+                }
+              }
+            }
+          }
+        },
+        "es": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Queda %lld foto sin revisar."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Quedan %lld fotos sin revisar."
+                }
+              }
+            }
+          }
+        },
+        "fr": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Il reste %lld photo non examinée."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Il reste %lld photos non examinées."
+                }
+              }
+            }
+          }
+        },
+        "pl": {
+          "variations": {
+            "plural": {
+              "few": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Zostały %lld nieprzejrzane zdjęcia."
+                }
+              },
+              "many": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Zostało %lld nieprzejrzanych zdjęć."
+                }
+              },
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Zostało %lld nieprzejrzane zdjęcie."
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "Zostało %lld nieprzejrzanych zdjęć."
+                }
+              }
+            }
           }
         }
       }

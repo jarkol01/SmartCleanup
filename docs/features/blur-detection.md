@@ -57,7 +57,7 @@ risk of touching `ResultsView`/`DeleteFlow` while other work is in flight on tho
 
 - **Performance**: `PhotoLibraryService.requestImage` loads a full decoded image per asset,
   same constraint `ClassifierRunner` has — scoring is done in a fixed-size batch (picked via
-  the same batch-size picker UI as the delete flow) rather than the whole library at once,
+  the shared `BatchPicker` on the tool's intro screen, same as the delete flow) rather than the whole library at once,
   and requests are sequential to keep memory bounded (see the `ponytail:` comment in
   `BlurFlow.runScoring`).
 - **False positives on intentionally soft shots**: bokeh backgrounds, motion-blur art shots,

@@ -58,6 +58,7 @@ struct UncertainReviewView: View {
                     .padding(.horizontal)
             }
             .padding()
+            .screenBackground()
             .task(id: index) { await loadCurrentAndPreloadAhead() }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

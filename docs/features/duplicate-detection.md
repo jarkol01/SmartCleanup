@@ -1,7 +1,8 @@
 # Duplicate detection ("Usuń duplikaty")
 
 Finds near-duplicate photo clusters (typically burst shots) and lets the user review each
-group as a single gallery, deciding which of its photos to keep.
+group as a single gallery, deciding which of its photos to keep. The tool opens on its intro
+screen (`ToolIntroView`); the scan only starts when the user taps "Rozpocznij skanowanie".
 
 ## Files
 
@@ -44,9 +45,7 @@ O(n²) and would flag visually-similar-but-unrelated photos (e.g. two plain blue
 year apart) as "duplicates". Requiring temporal proximity restricts comparisons to a single
 linear pass and matches what a "duplicate" actually is in this app's context: burst shots.
 
-**Scan scope:** capped at `DuplicateDetector.maxScanCount` (4000, newest-first) per run — full
-thumbnail loads aren't free, and burst duplicates are rare far back in a huge library relative
-to the cost of scanning it all up front. Assets already resolved by a previous run are excluded
+**Scan scope:** the whole library, newest-first. Assets already resolved by a previous run are excluded
 via `DecisionStore.duplicates` (its own JSON file, separate from `DecisionStore.photos` used by the
 ML delete flow, so the two flows can't interfere with each other's state).
 
@@ -58,9 +57,10 @@ directly — no image decode needed — and resolution is a reasonable proxy for
 a downsized/re-encoded duplicate" without the cost of a real sharpness heuristic (e.g. Laplacian
 variance) over every asset in every group.
 
-The rest of the group starts unmarked ("delete"), but nothing is forced: any asset can be
-toggled to "keep", including all of them — the UI just disables the confirm button (and shows
-a hint) if the user ever unmarks the last "keep", so a group can never be fully deleted.
+The rest of the group starts unmarked ("delete"), but nothing is forced: any number of assets
+can be marked "keep", from all of them (the confirm button then just moves on, deleting nothing)
+to none of them (the whole group is deleted, behind the same hold-to-confirm button as any other
+deletion).
 
 ## Known tradeoffs / limitations
 
@@ -75,11 +75,8 @@ a hint) if the user ever unmarks the last "keep", so a group can never be fully 
 - **Large bursts (10-20+ photos)** are handled by the group view's adaptive `LazyVGrid`, not a
   fixed layout, but there's no explicit UI limit — an unusually large burst (50+) is still shown
   in one scrollable grid.
-- **Performance on big libraries:** hashing is sequential (one thumbnail request at a time) and
-  capped at `maxScanCount`; scanning 4000 assets takes noticeably longer than the ML classify
-  flow's batches. Not parallelized — ponytail: acceptable for a manual, user-triggered scan;
-  revisit with a concurrent `TaskGroup` if scan time becomes annoying in practice.
-- **No tunable threshold in Settings** — `hammingThreshold` and `timeWindow` are hardcoded
-  constants in `DuplicateDetector.swift` with comments explaining the choice, per the "nice to
-  have, not core ask" guidance; wiring one into `SettingsStore` (like `uncertaintyThreshold`) is
-  a small, additive follow-up if false positives/negatives turn out to matter in practice.
+- **Performance on big libraries:** hashing is sequential (one thumbnail request at a time) over
+  the whole library. Not parallelized — ponytail: fast enough in practice; revisit with a
+  concurrent `TaskGroup` if scan time becomes annoying.
+- **Only the similarity threshold is tunable** (Settings, `SettingsStore.duplicateHammingThreshold`);
+  `timeWindow` stays a hardcoded constant in `DuplicateDetector.swift`.

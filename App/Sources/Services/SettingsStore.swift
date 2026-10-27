@@ -6,10 +6,9 @@ enum AppColorScheme: String, CaseIterable, Identifiable {
 
     var id: String { rawValue }
 
-    /// nil lets SwiftUI fall back to the system setting, same as not applying the modifier at all.
-    var colorScheme: ColorScheme? {
+    var interfaceStyle: UIUserInterfaceStyle {
         switch self {
-        case .system: nil
+        case .system: .unspecified
         case .light: .light
         case .dark: .dark
         }

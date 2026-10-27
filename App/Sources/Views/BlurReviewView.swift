@@ -8,7 +8,7 @@ struct BlurReviewView: View {
     @State private var flow = BlurFlow()
 
     var body: some View {
-        NavigationStack {
+        Group {
             Group {
                 switch flow.stage {
                 case .checkingAccess:
@@ -29,10 +29,13 @@ struct BlurReviewView: View {
                     )
 
                 case .pickingBatchSize:
-                    BlurBatchSizePickerView(
-                        availableCount: flow.unhandledCount,
-                        onPick: { flow.scoreBatch(size: $0) }
-                    )
+                    ToolIntroView(intro: .blur) {
+                        BatchPicker(
+                            title: "Ile zdjęć przeanalizować teraz?",
+                            available: flow.unhandledCount,
+                            onPick: { flow.scoreBatch(size: $0) }
+                        )
+                    }
 
                 case .scoring(let done, let total):
                     VStack(spacing: 12) {
@@ -49,38 +52,21 @@ struct BlurReviewView: View {
                 case .deleting:
                     ProgressView("Usuwam zdjęcia…")
 
-                case .done(let count):
-                    ContentUnavailableView(
-                        "Gotowe",
-                        systemImage: "checkmark.circle",
-                        description: Text("Usunięto \(count) zdjęć.") + Text(verbatim: "\n\n") + .recentlyDeletedNote
+                case .done(let count, let freed):
+                    DoneView(
+                        message: Text("Usunięto \(count) zdjęć."),
+                        freedBytes: freed,
+                        infos: [
+                            InfoRow.recentlyDeleted(fill: .card),
+                        ],
+                        onNext: { flow.reset() },
+                        onMenu: { dismiss() }
                     )
-                    .safeAreaInset(edge: .bottom) {
-                        VStack(spacing: 12) {
-                            Button("Przetwórz kolejną partię") {
-                                Haptics.selection()
-                                flow.reset()
-                            }
-                            .buttonStyle(.borderedProminent)
-                            Button("Wróć do menu") {
-                                Haptics.selection()
-                                dismiss()
-                            }
-                        }
-                        .padding()
-                    }
                 }
             }
+            .screenBackground()
             .navigationTitle("Wykryj rozmycie")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Zamknij") {
-                        Haptics.selection()
-                        dismiss()
-                    }
-                }
-            }
             .alert("Błąd", isPresented: Binding(
                 get: { flow.errorMessage != nil },
                 set: { if !$0 { flow.errorMessage = nil } }
@@ -89,49 +75,6 @@ struct BlurReviewView: View {
             } message: {
                 Text(flow.errorMessage ?? "")
             }
-        }
-    }
-}
-
-private struct BlurBatchSizePickerView: View {
-    let availableCount: Int
-    let onPick: (Int) -> Void
-
-    private var options: [Int] { [50, 100, 250, 500].filter { $0 < availableCount } }
-
-    var body: some View {
-        VStack(spacing: 20) {
-            Spacer()
-            Image(systemName: "square.stack.3d.up")
-                .font(.system(size: 48))
-                .foregroundStyle(.tint)
-            Text("Ile zdjęć przeanalizować teraz?")
-                .font(.title2.bold())
-            Text("Zostało \(availableCount) nieprzejrzanych zdjęć. Możesz przerobić je partiami zamiast wszystkie naraz.")
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal, 32)
-
-            VStack(spacing: 12) {
-                ForEach(options, id: \.self) { count in
-                    Button("\(count) zdjęć") {
-                        Haptics.selection()
-                        onPick(count)
-                    }
-                    .buttonStyle(.bordered)
-                    .frame(maxWidth: .infinity)
-                }
-                Button("Wszystkie (\(availableCount))") {
-                    Haptics.selection()
-                    onPick(availableCount)
-                }
-                .buttonStyle(.borderedProminent)
-                .frame(maxWidth: .infinity)
-            }
-            .padding(.horizontal, 32)
-
-            Spacer()
         }
     }
 }
@@ -166,7 +109,7 @@ private struct BlurResultsView: View {
             .onChange(of: selectedTab) { _, _ in Haptics.selection() }
 
             ScrollView {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 100), spacing: 4)], spacing: 4) {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 100), spacing: 6)], spacing: 6) {
                     ForEach(selectedTab == .blurry ? blurryItems : sharpItems) { item in
                         BlurThumbnailCell(
                             item: item,
@@ -180,37 +123,26 @@ private struct BlurResultsView: View {
                         )
                     }
                 }
-                .padding(.horizontal, 4)
+                .padding(.horizontal, 12)
             }
+            .id(selectedTab)  // fresh scroll position per tab, so a short tab never opens scrolled past its end
 
             if blurryItems.isEmpty {
                 // Nothing to confirm-delete, same non-destructive path as ResultsView.
-                Button {
+                Button("Zakończ partię (wszystko zachowane)") {
                     Haptics.selection()
                     flow.confirmDeletion()
-                } label: {
-                    Text("Zakończ partię (wszystko zachowane)")
-                        .frame(maxWidth: .infinity)
-                        .padding()
                 }
-                .buttonStyle(.borderedProminent)
+                .buttonStyle(.primary)
                 .disabled(flow.scored.isEmpty)
                 .padding()
             } else {
                 // Same hold-to-confirm as ResultsView's destructive delete button.
-                HoldToConfirmButton(
-                    duration: 0.7,
-                    tint: .red,
-                    isDisabled: flow.scored.isEmpty,
-                    action: { flow.confirmDeletion() }
-                ) {
-                    Text("Usuń \(blurryItems.count) zdjęć")
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                }
+                HoldToConfirmButton(title: "Usuń \(blurryItems.count) zdjęć", isDisabled: flow.scored.isEmpty, action: { flow.confirmDeletion() })
                 .padding()
             }
         }
+        .screenBackground()
     }
 }
 
@@ -219,35 +151,21 @@ private struct BlurThumbnailCell: View {
     let isUncertain: Bool
     let onTapMove: () -> Void
 
-    @State private var image: UIImage?
-
     var body: some View {
-        Group {
-            if let image {
-                Image(uiImage: image).resizable().scaledToFill()
-            } else {
-                Rectangle().fill(.gray.opacity(0.2))
-            }
-        }
-        .frame(width: 100, height: 100)
-        .clipped()
+        AssetThumbnail(asset: item.asset)
         .overlay(alignment: .topLeading) {
             if isUncertain {
-                Image(systemName: "questionmark.circle.fill")
-                    .foregroundStyle(.white, .orange)
-                    .font(.caption)
-                    .padding(4)
+                UncertainChip().padding(6)
             }
         }
         .overlay(alignment: .bottomTrailing) {
-            Image(systemName: item.label == .blurry ? "arrow.uturn.backward.circle.fill" : "trash.circle.fill")
-                .font(.title3)
-                .foregroundStyle(.white, .black.opacity(0.6))
-                .padding(4)
+            IconCircle(systemImage: item.label == .blurry ? "arrow.uturn.backward" : "trash", size: 26, fill: .white, foreground: .black.opacity(0.75))
+                .padding(.trailing, 6)
+                .padding(.bottom, 16)
         }
         .overlay(alignment: .bottom) {
             if !item.isUserOverridden {
-                ScoreBar(value: item.blurScore, tint: item.label == .blurry ? .red : .green)
+                ScoreBar(value: item.blurScore, tint: item.label == .blurry ? .destructive : .accent)
             }
         }
         .onTapGesture {
@@ -270,10 +188,22 @@ private struct BlurThumbnailCell: View {
             // Same native long-press preview as ResultsView's ThumbnailCell.
             AssetPreview(asset: item.asset)
         }
-        .task {
-            image = await PhotoLibraryService.requestImage(
-                for: item.asset, targetSize: CGSize(width: 200, height: 200)
-            )
-        }
+    }
+}
+
+extension ToolIntro {
+    static var blur: ToolIntro {
+        ToolIntro(
+            title: "Wykryj rozmycie",
+            systemImage: "camera.aperture",
+            lead: "Mierzy ostrość każdego zdjęcia i proponuje usunięcie nieostrych.",
+            steps: [
+                ("rectangle.bottomthird.inset.filled", "**Pasek** pokazuje, jak bardzo zdjęcie jest rozmyte. Próg zmienisz w Ustawieniach."),
+                ("hand.tap", "**Stuknij**, by przerzucić zdjęcie między Rozmyte i Ostre."),
+                ("timer", "**Przytrzymaj**, by powiększyć i obejrzeć szczegóły."),
+                ("person.crop.rectangle", "**Uwaga:** celowo rozmyte tło (np. portret) też może tu trafić."),
+            ],
+            infos: [InfoRow.recentlyDeleted()]
+        )
     }
 }

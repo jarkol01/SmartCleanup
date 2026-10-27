@@ -22,7 +22,7 @@ enum BlurStage: Equatable {
     case scoring(done: Int, total: Int)
     case results
     case deleting
-    case done(deletedCount: Int)
+    case done(deletedCount: Int, freedBytes: Int64)
 }
 
 /// Mirrors DeleteFlow's shape (stages, batching, confirm-delete) but scores photos with
@@ -121,7 +121,7 @@ final class BlurFlow {
             }
             // Declining the system prompt leaves the delete picks in the pool for the next batch.
             DecisionStore.blur.markHandled(scored.filter { success || $0.label == .sharp }.map(\.id))
-            stage = .done(deletedCount: success ? toDelete.count : 0)
+            stage = .done(deletedCount: success ? toDelete.count : 0, freedBytes: success ? freed : 0)
         }
     }
 

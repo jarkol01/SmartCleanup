@@ -13,15 +13,15 @@ struct SwipeCard: View {
                 .scaledToFill()
                 .frame(width: geo.size.width, height: geo.size.height)
                 .clipped()
-                .clipShape(RoundedRectangle(cornerRadius: 20))
+                .clipShape(RoundedRectangle(cornerRadius: 26, style: .continuous))
                 .overlay(alignment: dragOffset.width > 0 ? .topLeading : .topTrailing) {
                     if abs(dragOffset.width) > 20 {
                         Text(dragOffset.width > 0 ? "ZACHOWAJ" : "USUŃ")
-                            .font(.title.bold())
-                            .padding(8)
-                            .background(dragOffset.width > 0 ? .green : .red)
-                            .foregroundStyle(.white)
-                            .clipShape(RoundedRectangle(cornerRadius: 8))
+                            .font(.title.weight(.heavy))
+                            .padding(.horizontal, 14)
+                            .padding(.vertical, 6)
+                            .background(dragOffset.width > 0 ? Color.accent : .destructive, in: Capsule())
+                            .foregroundStyle(dragOffset.width > 0 ? Color.onAccent : .onDestructive)
                             .padding(16)
                     }
                 }

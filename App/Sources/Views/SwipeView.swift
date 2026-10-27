@@ -40,7 +40,7 @@ struct SwipeView: View {
                 Spacer()
 
                 Text("Oznaczono: \(labeledCount)")
-                    .font(.headline)
+                    .font(.headline.monospacedDigit())
                     .foregroundStyle(.secondary)
 
                 Spacer()
@@ -49,6 +49,8 @@ struct SwipeView: View {
                     Haptics.selection()
                     onFinished()
                 }
+                .buttonStyle(.secondary)
+                .controlSize(.small)
             }
 
             GeometryReader { geo in
