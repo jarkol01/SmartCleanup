@@ -20,17 +20,12 @@ struct DuplicateReviewView: View {
             Group {
                 if !started {
                     ToolIntroView(intro: .duplicates) {
-                        VStack(spacing: 10) {
-                            Text("Sprawdzam do 4000 najnowszych zdjęć.")
-                                .font(.footnote)
-                                .foregroundStyle(.secondary)
-                            Button("Rozpocznij skanowanie") {
-                                Haptics.selection()
-                                started = true
-                                Task { await flow.start() }
-                            }
-                            .buttonStyle(.primary)
+                        Button("Rozpocznij skanowanie") {
+                            Haptics.selection()
+                            started = true
+                            Task { await flow.start() }
                         }
+                        .buttonStyle(.primary)
                     }
                 } else {
                     switch flow.stage {

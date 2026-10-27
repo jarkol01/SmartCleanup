@@ -4430,34 +4430,6 @@
         }
       }
     },
-    "Sprawdzam do 4000 najnowszych zdjęć.": {
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Checks up to 4000 most recent photos."
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Prüft bis zu 4000 der neuesten Fotos."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Revisa hasta las 4000 fotos más recientes."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vérifie jusqu’à 4000 photos les plus récentes."
-          }
-        }
-      }
-    },
     "Sprzątanie": {
       "localizations": {
         "en": {
