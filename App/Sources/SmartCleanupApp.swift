@@ -5,6 +5,10 @@ struct SmartCleanupApp: App {
     @AppStorage(SettingsStore.colorSchemeKey) private var colorSchemeRaw = AppColorScheme.system.rawValue
     @AppStorage(SettingsStore.languageKey) private var languageRaw = AppLanguage.system.rawValue
 
+    init() {
+        StatsStore.migrateToAppGroup()
+    }
+
     var body: some Scene {
         WindowGroup {
             HomeView()
