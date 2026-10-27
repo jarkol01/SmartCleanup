@@ -1,6 +1,34 @@
 {
   "sourceLanguage": "pl",
   "strings": {
+    "%@ od %@": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ seit %2$@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ since %2$@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ desde %2$@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ depuis %2$@"
+          }
+        }
+      }
+    },
     "Aktualizuję model o nowe dane…": {
       "extractionState": "stale",
       "localizations": {
