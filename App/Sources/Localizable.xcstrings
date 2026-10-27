@@ -3086,6 +3086,34 @@
         }
       }
     },
+    "Wolne, GB": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Frei, GB"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Free, GB"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Libre, GB"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Libre, Go"
+          }
+        }
+      }
+    },
     "Wolne: %@": {
       "localizations": {
         "de": {
