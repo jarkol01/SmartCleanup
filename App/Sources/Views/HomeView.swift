@@ -30,6 +30,21 @@ struct HomeView: View {
                 .navigationDestination(isPresented: $showDuplicates) { DuplicateReviewView() }
                 .navigationDestination(isPresented: $showVideos) { LargeVideosView() }
         }
+        .onOpenURL(perform: open)
+    }
+
+    /// Widget links only start a tool from the home screen: replacing an open one would drop its progress.
+    private func open(_ url: URL) {
+        guard url.scheme == "smartcleanup", let link = DeepLink(rawValue: url.host() ?? ""),
+              ![showTrain, showDelete, showBlur, showDuplicates, showVideos].contains(true) else { return }
+        showSettings = false
+        switch link {
+        case .delete where modelReady: showDelete = true
+        case .delete, .train: showTrain = true
+        case .blur: showBlur = true
+        case .duplicates: showDuplicates = true
+        case .videos: showVideos = true
+        }
     }
 
     private var home: some View {
@@ -177,6 +192,7 @@ struct HomeView: View {
 
     private func refreshStats() {
         (keepCount, deleteCount) = TrainingDataStore.sampleCounts()
+        ModelProgress.update(keep: keepCount, delete: deleteCount)
         totalDeleted = StatsStore.totalDeleted
         savedBytes = StatsStore.totalBytesFreedEstimate
         storage = StorageStore.recordSnapshot()

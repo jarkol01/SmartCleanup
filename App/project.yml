@@ -10,9 +10,17 @@ targets:
     platform: iOS
     sources:
       - path: Sources
+    dependencies:
+      - target: SmartCleanupWidget
+    entitlements:
+      path: Sources/SmartCleanup.entitlements
+      properties:
+        com.apple.security.application-groups: [group.com.jkoldun.smartcleanup]
     info:
       path: Sources/Info.plist
       properties:
+        CFBundleURLTypes:
+          - CFBundleURLSchemes: [smartcleanup]
         NSPhotoLibraryUsageDescription: "Aplikacja potrzebuje dostępu do zdjęć, żeby nauczyć się, które chcesz zachować, a które usunąć."
         UILaunchScreen: {}
         CFBundleLocalizations: [pl, en, de, fr, es]
@@ -20,6 +28,34 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.jkoldun.smartcleanup
+        DEVELOPMENT_TEAM: 4PNQYUCGMP
+        CODE_SIGN_IDENTITY: "iPhone Developer"
+        SWIFT_VERSION: "5.0"
+        TARGETED_DEVICE_FAMILY: "1"
+        ENABLE_PREVIEWS: "YES"
+  SmartCleanupWidget:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: Widget
+      - path: Sources/Shared
+      - path: Sources/Services/StorageStore.swift
+      - path: Sources/Localizable.xcstrings
+    entitlements:
+      path: Widget/SmartCleanupWidget.entitlements
+      properties:
+        com.apple.security.application-groups: [group.com.jkoldun.smartcleanup]
+    info:
+      path: Widget/Info.plist
+      properties:
+        CFBundleDisplayName: SmartCleanup
+        CFBundleLocalizations: [pl, en, de, fr, es]
+        CFBundleDevelopmentRegion: pl
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.jkoldun.smartcleanup.widget
         DEVELOPMENT_TEAM: 4PNQYUCGMP
         CODE_SIGN_IDENTITY: "iPhone Developer"
         SWIFT_VERSION: "5.0"

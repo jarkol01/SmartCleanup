@@ -58,7 +58,7 @@ enum ClassifierTrainer {
         return total - trainedSampleCount >= requiredGrowth
     }
 
-    static let minSamplesPerClass = 20
+    static let minSamplesPerClass = ModelProgress.minSamplesPerClass
     /// Below this many samples in either class the UI still nudges the user to train
     /// ("Doucz model", small-batch tip).
     static let matureSamplesPerClass = 200
