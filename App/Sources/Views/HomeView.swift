@@ -120,7 +120,7 @@ struct HomeView: View {
         VStack(alignment: .leading, spacing: 10) {
             Text("Zacznij tutaj").textCase(.uppercase).chip(.accent, .onAccent)
             Text("Naucz model, co chcesz usuwać").font(.title2.weight(.heavy))
-            Text("Oznacz kilka zdjęć jako Zachowaj / Usuń. Potrzeba co najmniej 3 z każdej kategorii.")
+            Text("Oznacz zdjęcia jako Zachowaj / Usuń. Potrzeba co najmniej 20 z każdej kategorii.")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
             HStack(spacing: 12) {

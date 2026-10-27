@@ -1197,30 +1197,30 @@
     "Oznacz do zachowania": {},
     "Oznacz jako ostre": {},
     "Oznacz jako rozmyte": {},
-    "Oznacz jeszcze kilka zdjęć w sekcji \"Ucz model\" na ekranie głównym — potrzeba co najmniej 3 z każdej kategorii.": {
+    "Oznacz jeszcze kilka zdjęć w sekcji \"Ucz model\" na ekranie głównym — potrzeba co najmniej 20 z każdej kategorii.": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Markiere noch ein paar Fotos im Bereich „Modell trainieren“ auf dem Startbildschirm — du brauchst mindestens 3 pro Kategorie."
+            "value": "Markiere noch ein paar Fotos im Bereich „Modell trainieren“ auf dem Startbildschirm — du brauchst mindestens 20 pro Kategorie."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Label a few more photos in \"Train Model\" on the home screen — you need at least 3 in each category."
+            "value": "Label a few more photos in \"Train Model\" on the home screen — you need at least 20 in each category."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Etiqueta unas cuantas fotos más en \"Entrenar modelo\" en la pantalla principal: necesitas al menos 3 de cada categoría."
+            "value": "Etiqueta unas cuantas fotos más en \"Entrenar modelo\" en la pantalla principal: necesitas al menos 20 de cada categoría."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Étiquetez encore quelques photos dans « Entraîner le modèle » sur l'écran d'accueil — il en faut au moins 3 par catégorie."
+            "value": "Étiquetez encore quelques photos dans « Entraîner le modèle » sur l'écran d'accueil — il en faut au moins 20 par catégorie."
           }
         }
       }
@@ -3478,30 +3478,30 @@
         }
       }
     },
-    "**Co najmniej 3 z każdej kategorii.** Model douczy się przy następnym „Usuń zdjęcia”.": {
+    "**Co najmniej 20 z każdej kategorii.** Model douczy się przy następnym „Usuń zdjęcia”.": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "**At least 3 of each category.** The model updates on your next “Delete Photos”."
+            "value": "**At least 20 of each category.** The model updates on your next “Delete Photos”."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "**Mindestens 3 pro Kategorie.** Das Modell lernt beim nächsten „Fotos löschen“ dazu."
+            "value": "**Mindestens 20 pro Kategorie.** Das Modell lernt beim nächsten „Fotos löschen“ dazu."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "**Al menos 3 de cada categoría.** El modelo se actualizará en el próximo «Eliminar fotos»."
+            "value": "**Al menos 20 de cada categoría.** El modelo se actualizará en el próximo «Eliminar fotos»."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "**Au moins 3 de chaque catégorie.** Le modèle se mettra à jour au prochain « Supprimer des photos »."
+            "value": "**Au moins 20 de chaque catégorie.** Le modèle se mettra à jour au prochain « Supprimer des photos »."
           }
         }
       }
@@ -4262,30 +4262,30 @@
         }
       }
     },
-    "Oznacz kilka zdjęć jako Zachowaj / Usuń. Potrzeba co najmniej 3 z każdej kategorii.": {
+    "Oznacz zdjęcia jako Zachowaj / Usuń. Potrzeba co najmniej 20 z każdej kategorii.": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Mark a few photos as Keep / Delete. At least 3 of each category are needed."
+            "value": "Mark photos as Keep / Delete. At least 20 of each category are needed."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Markiere einige Fotos als Behalten / Löschen. Es braucht mindestens 3 pro Kategorie."
+            "value": "Markiere Fotos als Behalten / Löschen. Es braucht mindestens 20 pro Kategorie."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Marca algunas fotos como Conservar / Eliminar. Se necesitan al menos 3 de cada categoría."
+            "value": "Marca fotos como Conservar / Eliminar. Se necesitan al menos 20 de cada categoría."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Marquez quelques photos comme Conserver / Supprimer. Il en faut au moins 3 de chaque catégorie."
+            "value": "Marquez des photos comme Conserver / Supprimer. Il en faut au moins 20 de chaque catégorie."
           }
         }
       }

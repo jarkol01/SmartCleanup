@@ -70,7 +70,7 @@ extension ToolIntro {
                 ("hand.point.right", "**Przeciągnij w prawo**, żeby zachować."),
                 ("hand.point.left", "**Przeciągnij w lewo**, żeby usunąć."),
                 ("forward", "**Trudno ocenić?** Pomiń zdjęcie."),
-                ("3.circle", "**Co najmniej 3 z każdej kategorii.** Model douczy się przy następnym „Usuń zdjęcia”."),
+                ("3.circle", "**Co najmniej 20 z każdej kategorii.** Model douczy się przy następnym „Usuń zdjęcia”."),
             ],
             infos: [
                 InfoRow(systemImage: "lightbulb", text: "Przydaje się głównie na początku. Później model uczy się sam z Twoich decyzji w „Usuń zdjęcia”.", fill: .card),

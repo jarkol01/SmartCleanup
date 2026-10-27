@@ -15,7 +15,7 @@ struct DeleteView: View {
                     ContentUnavailableView(
                         "Za mało oznaczonych zdjęć",
                         systemImage: "brain.head.profile",
-                        description: Text("Oznacz jeszcze kilka zdjęć w sekcji \"Ucz model\" na ekranie głównym — potrzeba co najmniej 3 z każdej kategorii.")
+                        description: Text("Oznacz jeszcze kilka zdjęć w sekcji \"Ucz model\" na ekranie głównym — potrzeba co najmniej 20 z każdej kategorii.")
                     )
 
                 case .accessDenied:
