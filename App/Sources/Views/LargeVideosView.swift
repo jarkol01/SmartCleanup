@@ -98,16 +98,6 @@ struct LargeVideosView: View {
             .screenBackground()
             .navigationTitle("Duże wideo")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                if flow.stage == .list, !flow.candidates.isEmpty {
-                    ToolbarItem(placement: .primaryAction) {
-                        Button(flow.selected.count == flow.candidates.count ? "Odznacz" : "Zaznacz wszystkie") {
-                            Haptics.selection()
-                            flow.toggleSelectAll()
-                        }
-                    }
-                }
-            }
             .sheet(item: $playing) { item in
                 VideoPlayerSheet(item: item) {
                     Task {

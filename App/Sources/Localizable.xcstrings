@@ -2910,35 +2910,6 @@
       }
     },
     "Zaznacz co najmniej jedno zdjęcie do zachowania.": {},
-    "Zaznacz wszystkie": {
-      "extractionState": "stale",
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Alle auswählen"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Select All"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Seleccionar todo"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tout sélectionner"
-          }
-        }
-      }
-    },
     "Znajdź nieostre zdjęcia i usuń je z galerii": {
       "extractionState": "stale",
       "localizations": {

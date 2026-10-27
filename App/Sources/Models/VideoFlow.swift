@@ -60,10 +60,6 @@ final class VideoFlow {
         if selected.remove(item.id) == nil { selected.insert(item.id) }
     }
 
-    func toggleSelectAll() {
-        selected = selected.count == candidates.count ? [] : Set(candidates.map(\.id))
-    }
-
     func delete(_ item: VideoItem) async {
         guard await PhotoLibraryService.delete([item.asset]) else { return }
         StatsStore.record(deletedCount: 1, bytesFreed: item.size)
