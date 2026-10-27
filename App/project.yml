@@ -20,6 +20,8 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.jkoldun.smartcleanup
+        DEVELOPMENT_TEAM: 4PNQYUCGMP
+        CODE_SIGN_IDENTITY: "iPhone Developer"
         SWIFT_VERSION: "5.0"
         TARGETED_DEVICE_FAMILY: "1"
         ENABLE_PREVIEWS: "YES"
