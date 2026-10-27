@@ -5,7 +5,7 @@ struct DeleteView: View {
     @State private var flow = DeleteFlow()
 
     var body: some View {
-        NavigationStack {
+        Group {
             Group {
                 switch flow.stage {
                 case .checkingModel:
@@ -84,14 +84,6 @@ struct DeleteView: View {
             .screenBackground()
             .navigationTitle("Usuń zdjęcia")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Zamknij") {
-                        Haptics.selection()
-                        dismiss()
-                    }
-                }
-            }
             .alert("Błąd", isPresented: Binding(
                 get: { flow.errorMessage != nil },
                 set: { if !$0 { flow.errorMessage = nil } }

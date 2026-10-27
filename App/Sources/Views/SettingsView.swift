@@ -57,14 +57,6 @@ struct SettingsView: View {
                 }
 
                 Section {
-                    Button("Przywróć domyślne (25)") {
-                        Haptics.selection()
-                        marginPercent = SettingsStore.defaultMarginPercent
-                        SettingsStore.uncertaintyMarginPercent = marginPercent
-                    }
-                }
-
-                Section {
                     Slider(value: $blurThresholdPercent, in: 75...95, step: 5) {
                         Text("Próg rozmycia")
                     }
@@ -79,12 +71,6 @@ struct SettingsView: View {
                         Spacer()
                         Text(Int(blurThresholdPercent), format: .number)
                             .font(.headline.monospacedDigit())
-                    }
-
-                    Button("Przywróć domyślne (85)") {
-                        Haptics.selection()
-                        blurThresholdPercent = SettingsStore.defaultBlurThresholdPercent
-                        SettingsStore.blurThresholdPercent = blurThresholdPercent
                     }
                 } header: {
                     Text("Próg rozmycia")
@@ -108,16 +94,20 @@ struct SettingsView: View {
                         Text(Int(duplicateHammingThreshold), format: .number)
                             .font(.headline.monospacedDigit())
                     }
-
-                    Button("Przywróć domyślne (25)") {
-                        Haptics.selection()
-                        duplicateHammingThreshold = Double(SettingsStore.defaultDuplicateHammingThreshold)
-                        SettingsStore.duplicateHammingThreshold = Int(duplicateHammingThreshold)
-                    }
                 } header: {
                     Text("Czułość dopasowania duplikatów")
                 } footer: {
                     Text("Wyższa wartość oznacza więcej zdjęć uznanych za duplikaty w „Usuń duplikaty” — nawet takich, które różnią się nieco bardziej.")
+                }
+
+                Section {
+                    // Sliders only; appearance and language are explicit choices, not tuning.
+                    Button("Przywróć domyślne ustawienia") {
+                        Haptics.selection()
+                        marginPercent = SettingsStore.defaultMarginPercent
+                        blurThresholdPercent = SettingsStore.defaultBlurThresholdPercent
+                        duplicateHammingThreshold = Double(SettingsStore.defaultDuplicateHammingThreshold)
+                    }
                 }
             }
             .scrollContentBackground(.hidden)
@@ -133,9 +123,5 @@ struct SettingsView: View {
                 }
             }
         }
-        // Re-applied here (not just at the app root) because a presented .sheet gets its own
-        // UIHostingController whose interface style is fixed at presentation time — the app-level
-        // .preferredColorScheme doesn't propagate live to it while already open.
-        .preferredColorScheme((AppColorScheme(rawValue: colorSchemeRaw) ?? .system).colorScheme)
     }
 }

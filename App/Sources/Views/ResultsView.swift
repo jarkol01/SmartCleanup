@@ -10,7 +10,6 @@ struct ResultsView: View {
     @Bindable var flow: DeleteFlow
     @State private var selectedTab: TrainingDataStore.Label = .delete
     @State private var uncertainReviewPayload: UncertainReviewPayload?
-    @State private var showHelp = false
 
     /// User-overridden items have a stale confidence (measured for their old label), so they're
     /// pushed to the end instead of being sorted in among the model's own predictions.
@@ -67,6 +66,7 @@ struct ResultsView: View {
                 }
                 .padding(.horizontal, 12)
             }
+            .id(selectedTab)  // fresh scroll position per tab, so a short tab never opens scrolled past its end
 
             if deleteItems.isEmpty {
                 // Nothing to confirm-delete, but the batch's Keep decisions still need to be
@@ -88,24 +88,6 @@ struct ResultsView: View {
         .screenBackground()
         .fullScreenCover(item: $uncertainReviewPayload) { payload in
             UncertainReviewView(flow: flow, items: payload.items)
-        }
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    Haptics.selection()
-                    showHelp = true
-                } label: {
-                    Text(verbatim: "?")
-                        .font(.headline.weight(.heavy))
-                        .foregroundStyle(.accent)
-                        .frame(width: 32, height: 32)
-                        .background(Color.card, in: Circle())
-                }
-                .accessibilityLabel(Text("Jak to działa"))
-            }
-        }
-        .sheet(isPresented: $showHelp) {
-            ToolIntroView(intro: .delete).presentationDragIndicator(.visible)
         }
     }
 }

@@ -5,7 +5,7 @@ struct TrainView: View {
     @State private var flow = TrainFlow()
 
     var body: some View {
-        NavigationStack {
+        Group {
             Group {
                 switch flow.stage {
                 case .requestingAccess:
@@ -46,14 +46,6 @@ struct TrainView: View {
             .screenBackground()
             .navigationTitle("Ucz model")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Zamknij") {
-                        Haptics.selection()
-                        dismiss()
-                    }
-                }
-            }
         }
     }
 }

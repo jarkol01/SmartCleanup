@@ -9,7 +9,7 @@ struct LargeVideosView: View {
     @State private var playing: VideoItem?
 
     var body: some View {
-        NavigationStack {
+        Group {
             Group {
                 switch flow.stage {
                 case .checkingAccess:
@@ -84,18 +84,21 @@ struct LargeVideosView: View {
 
                 case .deletingOriginals:
                     ProgressView("Usuwam oryginały…")
+
+                case .done(let count, let savedBytes):
+                    DoneView(
+                        message: Text("Skompresowane wideo: \(count)."),
+                        freedBytes: savedBytes,
+                        infos: [InfoRow(systemImage: "checkmark.shield", text: "Miejsce zwolni się dopiero po opróżnieniu albumu „Ostatnio usunięte”.", fill: .card)],
+                        onNext: { flow.stage = flow.videos.isEmpty ? .empty : .list },
+                        onMenu: { dismiss() }
+                    )
                 }
             }
             .screenBackground()
             .navigationTitle("Duże wideo")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Zamknij") {
-                        Haptics.selection()
-                        dismiss()
-                    }
-                }
                 if flow.stage == .list, !flow.candidates.isEmpty {
                     ToolbarItem(placement: .primaryAction) {
                         Button(flow.selected.count == flow.candidates.count ? "Odznacz" : "Zaznacz wszystkie") {
@@ -120,20 +123,6 @@ struct LargeVideosView: View {
                 Button("OK") { flow.errorMessage = nil }
             } message: {
                 Text(flow.errorMessage ?? "")
-            }
-            .alert("Gotowe", isPresented: Binding(
-                get: { flow.result != nil },
-                set: { if !$0 { flow.result = nil } }
-            )) {
-                Button("OK") { flow.result = nil }
-            } message: {
-                if let result = flow.result {
-                    if result.originalsDeleted {
-                        Text("Skompresowane wideo: \(result.compressedCount). Odzyskano \(ByteCountFormatter.string(fromByteCount: result.savedBytes, countStyle: .file)).")
-                    } else {
-                        Text("Zapisane skompresowane kopie: \(result.compressedCount). Oryginały zostały w bibliotece.")
-                    }
-                }
             }
         }
     }

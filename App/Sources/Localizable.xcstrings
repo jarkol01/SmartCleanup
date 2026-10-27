@@ -1,6 +1,62 @@
 {
   "sourceLanguage": "pl",
   "strings": {
+    "Skompresowane wideo: %lld.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Komprimierte Videos: %lld."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compressed videos: %lld."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vídeos comprimidos: %lld."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vidéos compressées : %lld."
+          }
+        }
+      }
+    },
+    "Przywróć domyślne ustawienia": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Standardeinstellungen wiederherstellen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restore default settings"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restaurar ajustes predeterminados"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rétablir les réglages par défaut"
+          }
+        }
+      }
+    },
     "%@ od %@": {
       "localizations": {
         "de": {
@@ -1545,64 +1601,6 @@
       }
     },
     "Przygotowuję skanowanie…": {},
-    "Przywróć domyślne (25)": {
-      "extractionState": "stale",
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Standard wiederherstellen (25)"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Restore default (25)"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Restaurar valor predeterminado (25)"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rétablir la valeur par défaut (25)"
-          }
-        }
-      }
-    },
-    "Przywróć domyślne (50)": {
-      "extractionState": "stale",
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Standard wiederherstellen (50)"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Restore default (50)"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Restaurar valor predeterminado (50)"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rétablir la valeur par défaut (50)"
-          }
-        }
-      }
-    },
     "Próg pewności": {
       "localizations": {
         "de": {
@@ -1690,35 +1688,6 @@
       }
     },
     "Skanuj ponownie": {},
-    "Skompresowane wideo: %lld. Odzyskano %@.": {
-      "extractionState": "stale",
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Komprimierte Videos: %lld. %@ freigegeben."
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Videos compressed: %lld. Freed %@."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vídeos comprimidos: %lld. Liberado %@."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vidéos compressées : %lld. %@ libérés."
-          }
-        }
-      }
-    },
     "Sprawdzam rozmiary wideo…": {
       "extractionState": "stale",
       "localizations": {
@@ -2878,35 +2847,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Fermer"
-          }
-        }
-      }
-    },
-    "Zapisane skompresowane kopie: %lld. Oryginały zostały w bibliotece.": {
-      "extractionState": "stale",
-      "localizations": {
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Gespeicherte komprimierte Kopien: %lld. Die Originale bleiben in der Mediathek."
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Compressed copies saved: %lld. The originals are still in your library."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Copias comprimidas guardadas: %lld. Los originales siguen en la fototeca."
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Copies compressées enregistrées : %lld. Les originaux restent dans la photothèque."
           }
         }
       }

@@ -245,6 +245,7 @@ struct ToolIntroView<Panel: View>: View {
             }
             .padding(18)
         }
+        .scrollBounceBehavior(.basedOnSize)
         .safeAreaInset(edge: .bottom) {
             if Panel.self != EmptyView.self {
                 panel

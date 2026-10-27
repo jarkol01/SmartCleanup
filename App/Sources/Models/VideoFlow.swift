@@ -21,12 +21,7 @@ enum VideoStage: Equatable {
     case compressing(index: Int, total: Int, phase: VideoCompressor.Phase)
     case copiesReady(count: Int, savedBytes: Int64)
     case deletingOriginals
-}
-
-struct CompressionResult {
-    let compressedCount: Int
-    let savedBytes: Int64
-    let originalsDeleted: Bool
+    case done(count: Int, savedBytes: Int64)
 }
 
 @MainActor
@@ -36,7 +31,6 @@ final class VideoFlow {
     var videos: [VideoItem] = []
     var selected: Set<String> = []
     var errorMessage: String?
-    var result: CompressionResult?
 
     private var stopRequested = false
     private var pendingOriginals: [PHAsset] = []
@@ -129,7 +123,7 @@ final class VideoFlow {
         pendingOriginals = originals
         pendingSavedBytes = savedBytes
         if originals.isEmpty {
-            await finish(deleted: false)
+            await finish()
         } else {
             // Pause so the user sees the copies are safely saved before the delete prompt appears.
             Haptics.notification(.success)
@@ -141,19 +135,20 @@ final class VideoFlow {
     func deleteOriginals() async {
         stage = .deletingOriginals
         let deleted = await PhotoLibraryService.delete(pendingOriginals)
-        if deleted {
-            StatsStore.record(deletedCount: 0, bytesFreed: pendingSavedBytes)
-            Haptics.notification(.success)
-        }
-        await finish(deleted: deleted)
+        guard deleted else { return await finish() }
+        StatsStore.record(deletedCount: 0, bytesFreed: pendingSavedBytes)
+        Haptics.notification(.success)
+        let done = VideoStage.done(count: pendingOriginals.count, savedBytes: pendingSavedBytes)
+        await finish()
+        stage = done
     }
 
+    /// Copies stay next to the originals; the copies-ready screen already said so, so straight back to the list.
     func keepOriginals() async {
-        await finish(deleted: false)
+        await finish()
     }
 
-    private func finish(deleted: Bool) async {
-        result = CompressionResult(compressedCount: pendingOriginals.count, savedBytes: pendingSavedBytes, originalsDeleted: deleted)
+    private func finish() async {
         pendingOriginals = []
         pendingSavedBytes = 0
         selected = []

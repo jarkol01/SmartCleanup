@@ -8,7 +8,7 @@ struct BlurReviewView: View {
     @State private var flow = BlurFlow()
 
     var body: some View {
-        NavigationStack {
+        Group {
             Group {
                 switch flow.stage {
                 case .checkingAccess:
@@ -67,14 +67,6 @@ struct BlurReviewView: View {
             .screenBackground()
             .navigationTitle("Wykryj rozmycie")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Zamknij") {
-                        Haptics.selection()
-                        dismiss()
-                    }
-                }
-            }
             .alert("Błąd", isPresented: Binding(
                 get: { flow.errorMessage != nil },
                 set: { if !$0 { flow.errorMessage = nil } }
@@ -90,7 +82,6 @@ struct BlurReviewView: View {
 private struct BlurResultsView: View {
     @Bindable var flow: BlurFlow
     @State private var selectedTab: BlurLabel = .blurry
-    @State private var showHelp = false
 
     /// Non-overridden items sorted by "how blurry"/"how sharp" they are, overrides pushed to
     /// the end since their score was measured for the label they no longer have.
@@ -134,6 +125,7 @@ private struct BlurResultsView: View {
                 }
                 .padding(.horizontal, 12)
             }
+            .id(selectedTab)  // fresh scroll position per tab, so a short tab never opens scrolled past its end
 
             if blurryItems.isEmpty {
                 // Nothing to confirm-delete, same non-destructive path as ResultsView.
@@ -151,24 +143,6 @@ private struct BlurResultsView: View {
             }
         }
         .screenBackground()
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    Haptics.selection()
-                    showHelp = true
-                } label: {
-                    Text(verbatim: "?")
-                        .font(.headline.weight(.heavy))
-                        .foregroundStyle(.accent)
-                        .frame(width: 32, height: 32)
-                        .background(Color.card, in: Circle())
-                }
-                .accessibilityLabel(Text("Jak to działa"))
-            }
-        }
-        .sheet(isPresented: $showHelp) {
-            ToolIntroView(intro: .blur).presentationDragIndicator(.visible)
-        }
     }
 }
 

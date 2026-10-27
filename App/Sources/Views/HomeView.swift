@@ -21,6 +21,18 @@ struct HomeView: View {
     }
 
     var body: some View {
+        NavigationStack {
+            home
+                .toolbar(.hidden, for: .navigationBar)
+                .navigationDestination(isPresented: $showTrain) { TrainView() }
+                .navigationDestination(isPresented: $showDelete) { DeleteView() }
+                .navigationDestination(isPresented: $showBlur) { BlurReviewView() }
+                .navigationDestination(isPresented: $showDuplicates) { DuplicateReviewView() }
+                .navigationDestination(isPresented: $showVideos) { LargeVideosView() }
+        }
+    }
+
+    private var home: some View {
         ScrollView {
             VStack(spacing: 12) {
                 header
@@ -78,14 +90,9 @@ struct HomeView: View {
             .padding(.bottom, 18)
         }
         .background(Color.appBackground)
-        .fullScreenCover(isPresented: $showTrain) { TrainView() }
-        .fullScreenCover(isPresented: $showDelete) { DeleteView() }
-        .fullScreenCover(isPresented: $showBlur) { BlurReviewView() }
-        .fullScreenCover(isPresented: $showDuplicates) { DuplicateReviewView() }
-        .fullScreenCover(isPresented: $showVideos) { LargeVideosView() }
         .sheet(isPresented: $showSettings) { SettingsView() }
-        // Refresh whenever this screen (re)appears, including right after a fullScreenCover
-        // dismisses, rather than trusting SwiftUI to re-run computed properties on its own.
+        // Refresh whenever this screen (re)appears, including right after a tool is popped,
+        // rather than trusting SwiftUI to re-run computed properties on its own.
         .onAppear(perform: refreshStats)
         .onChange(of: showTrain) { _, isShowing in if !isShowing { refreshStats() } }
         .onChange(of: showDelete) { _, isShowing in if !isShowing { refreshStats() } }

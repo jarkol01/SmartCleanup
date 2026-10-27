@@ -16,7 +16,7 @@ struct DuplicateReviewView: View {
     }
 
     var body: some View {
-        NavigationStack {
+        Group {
             Group {
                 if !started {
                     ToolIntroView(intro: .duplicates) {
@@ -81,12 +81,6 @@ struct DuplicateReviewView: View {
             .navigationTitle("Usuń duplikaty")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Zamknij") {
-                        Haptics.selection()
-                        dismiss()
-                    }
-                }
                 if started, canRescan {
                     ToolbarItem(placement: .topBarTrailing) {
                         Button("Skanuj ponownie") {
