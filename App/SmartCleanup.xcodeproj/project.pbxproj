@@ -16,6 +16,7 @@
 		1EA05CDBD737511E6ADE4EC9 /* VideoCompressor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19BBA1538798970B4483630 /* VideoCompressor.swift */; };
 		22C2A6C5BF9657B25E31FEAD /* BlurDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1422D5ED8ABEC64010BD49C7 /* BlurDetector.swift */; };
 		26C0F3ECA7059618E773D27C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8BCDAD5BA1D9D4FBD1113046 /* Assets.xcassets */; };
+		2BC42E3B424974329428C47D /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 7F53CACB32D7D12C1D6F0BA6 /* PrivacyInfo.xcprivacy */; };
 		2FE643CDF101926F7DC0FDBD /* SharedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A50E6690F25BF054685C90CB /* SharedStore.swift */; };
 		3443C84EFB0A122239AB2FB5 /* BlurReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01EB0303482ED8EA3658DC70 /* BlurReviewView.swift */; };
 		37018E212E2E3C20A530C5E1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7FB83A964388269671620D82 /* InfoPlist.strings */; };
@@ -43,6 +44,7 @@
 		975CC18EED88EB5D3BE9FC8A /* UncertainReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1C1130C739A99225A23DA4C /* UncertainReviewView.swift */; };
 		9C5B6FCCA95A8483FC2055DA /* ScoreBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEA8058631A5D011030DD5F4 /* ScoreBar.swift */; };
 		9D498020D5A629396F710F08 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 6EBDCC5306F4488A4A96C7EF /* Localizable.xcstrings */; };
+		A18EA8E28895121AEF8905C5 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 5156F839B01D7BC863E72D8D /* PrivacyInfo.xcprivacy */; };
 		A398BCA27E541582044A6826 /* BlurDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1422D5ED8ABEC64010BD49C7 /* BlurDetector.swift */; };
 		A3A89310FFFE367235102326 /* SmartCleanupWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = CF51B7E5A705AB99F75282B0 /* SmartCleanupWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		AD441220559A89BAE496F10C /* StorageStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38AC051DB74B3773BD6EAE43 /* StorageStore.swift */; };
@@ -108,6 +110,7 @@
 		3C4CF130126B60F3C9B285E0 /* DuplicateReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DuplicateReviewView.swift; sourceTree = "<group>"; };
 		3D8C5721A652396B0CA7F4C9 /* Reminders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reminders.swift; sourceTree = "<group>"; };
 		3E6F410F89F83AE038631B06 /* Haptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptics.swift; sourceTree = "<group>"; };
+		5156F839B01D7BC863E72D8D /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		5A51B787297DAD2441C9B6A5 /* PhotoLibraryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibraryService.swift; sourceTree = "<group>"; };
 		60F02CD499A20E6E7200342C /* DecisionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecisionStore.swift; sourceTree = "<group>"; };
 		69C6F186227447650E06722F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -117,6 +120,7 @@
 		6EBDCC5306F4488A4A96C7EF /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		780EB6DD2222744D29A962A8 /* DeleteFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteFlow.swift; sourceTree = "<group>"; };
 		792DD92311A7D2ACD0FC7D2B /* ResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsView.swift; sourceTree = "<group>"; };
+		7F53CACB32D7D12C1D6F0BA6 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		838EE0F484719F52215181C7 /* SmartCleanupWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmartCleanupWidget.entitlements; sourceTree = "<group>"; };
 		860C356787D9B2A1756DEE22 /* DuplicateReviewFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DuplicateReviewFlow.swift; sourceTree = "<group>"; };
 		8BCDAD5BA1D9D4FBD1113046 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -191,6 +195,7 @@
 			isa = PBXGroup;
 			children = (
 				0749C21F183C2AE31668C694 /* Info.plist */,
+				7F53CACB32D7D12C1D6F0BA6 /* PrivacyInfo.xcprivacy */,
 				838EE0F484719F52215181C7 /* SmartCleanupWidget.entitlements */,
 				D2528018AD64FC7751D70075 /* SmartCleanupWidget.swift */,
 			);
@@ -235,6 +240,7 @@
 				8BCDAD5BA1D9D4FBD1113046 /* Assets.xcassets */,
 				03814318A7123EB73753DA14 /* Info.plist */,
 				6EBDCC5306F4488A4A96C7EF /* Localizable.xcstrings */,
+				5156F839B01D7BC863E72D8D /* PrivacyInfo.xcprivacy */,
 				AC46E2D7CFF7BB9966597BBD /* SmartCleanup.entitlements */,
 				0376C12D3C2103A3D698713E /* SmartCleanupApp.swift */,
 				7FB83A964388269671620D82 /* InfoPlist.strings */,
@@ -377,6 +383,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E8BA9337D5C9956839995CE1 /* Localizable.xcstrings in Resources */,
+				2BC42E3B424974329428C47D /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -387,6 +394,7 @@
 				26C0F3ECA7059618E773D27C /* Assets.xcassets in Resources */,
 				37018E212E2E3C20A530C5E1 /* InfoPlist.strings in Resources */,
 				9D498020D5A629396F710F08 /* Localizable.xcstrings in Resources */,
+				A18EA8E28895121AEF8905C5 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
