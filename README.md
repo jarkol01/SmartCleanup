@@ -2,7 +2,7 @@
 
 An iOS app that learns which photos *you* would delete and helps you clean up your library. The classifier is trained **on the device** from your own swipe decisions; no photo, label or model ever leaves the phone.
 
-UI language: Polish.
+UI languages: Polish, English, German, French, Spanish.
 
 ## How it works
 
