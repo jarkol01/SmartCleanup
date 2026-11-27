@@ -21,7 +21,7 @@ Training cost is bounded on purpose: Create ML retrains from scratch, so each ru
 | Duplicates | Perceptual dHash with Hamming-distance grouping of time-adjacent shots (bursts), with a suggested photo to keep |
 | Large videos | Lists videos by real file size and compresses selected ones to HEVC 1080p |
 
-Plus: a storage indicator, home-screen widgets (WidgetKit), local reminder notifications with rotating copy, haptics and long-press previews. Design notes for each feature are in [`docs/features/`](docs/features).
+Plus: a storage indicator, home-screen widgets (WidgetKit), local reminder notifications with rotating copy, haptics and long-press previews.
 
 ## Privacy
 
@@ -30,6 +30,13 @@ No network calls, accounts, analytics or tracking. Photos are read through Photo
 ## Tech stack
 
 Swift, SwiftUI, PhotoKit, Create ML, Core ML, Vision, AVFoundation, WidgetKit, UserNotifications, XCTest. The Xcode project is generated from `App/project.yml` ([XcodeGen](https://github.com/yonaskolb/XcodeGen)).
+
+## How this was built
+
+I built this with an AI coding agent (Claude Code) writing most of the implementation.
+My part was the product and technical direction: steering the development, choosing the approach for each tool,
+setting constraints and criteria, reviewing every change, and testing on a real device
+with my own photo library.
 
 ## Build
 

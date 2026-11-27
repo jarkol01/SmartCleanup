@@ -2,8 +2,7 @@ import Accelerate
 import CoreGraphics
 import UIKit
 
-/// Pure signal-processing blur heuristic — no CoreML/Vision, no training data. See
-/// docs/features/blur-detection.md for the algorithm and normalization writeup.
+/// Pure signal-processing blur heuristic — no CoreML/Vision, no training data.
 enum BlurDetector {
     /// At 256px a full-res shake blur shrinks below one pixel and vanishes; 1024 keeps it visible.
     /// Smaller sources are analyzed at their own size, since upscaling would fake blur.

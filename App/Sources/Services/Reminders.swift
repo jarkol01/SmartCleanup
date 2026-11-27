@@ -2,7 +2,7 @@ import Photos
 import UIKit
 import UserNotifications
 
-/// Local reminders, see docs/features/notifications.md. Nothing is pending while the app is open;
+/// Local reminders. Nothing is pending while the app is open;
 /// each trip to the background schedules one chain, and an ignored chain ends in a goodbye.
 enum Reminders {
     static let enabledKey = "reminders.enabled"
